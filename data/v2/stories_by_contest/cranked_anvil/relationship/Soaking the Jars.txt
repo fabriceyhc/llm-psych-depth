@@ -1,0 +1,13 @@
+Jem liked those posh yogurts.  The ones that came in real glass jars with proper twisty lids. 
+
+Every jar kept, label picked off, soaked in warm suddy water.  Some jars she kept for salad dressing or pickling tiny onions, some she’d put little posies of flowers in, maybe a bud rose and some ivy, or a few cuttings of lavender and a peony, anything that smelled nice.  They lined up like soldiers on the little shelf above the sink, under the garden window.
+
+She was scrubbing one of those little jars, the last one she had, when she looked out that window, and saw the sparrowhawk.  It was perched on the trellis at the side of the garden, still as a stone.  Watching. Waiting.  She only just stopped herself calling out for Terry.  But Terry’d been in hospital a fortnight by then.  The virus had got hold of his lungs and wasn’t looking like it wanted to let go anytime soon. 
+
+Jem had never seen a sparrowhawk in their garden before.  She and Terry weren’t proper birders, or twitchers or whatever they were called.  But since they’d moved to the little terrace house (was it three years now?)  they’d bought fat balls, mixed seeds and new and better bird feeders.  They could tell a tit from a finch, put it that way. 
+
+The hospital wouldn’t let her visit him the first week. By the second week he was unconscious, machines helping him breathe.  The consultant told her, ‘he’s not a hopeless case Mrs. Bradshaw, far from it’.  She didn’t say, ‘he looks like a hopeless case’ or ‘we’re not married’.  She kept those things to herself. 
+
+It was a special thing between them that if Terry ever went past a posh deli or one of those fancy food shops he would pop in and buy her a yogurt in a glass jar, the craziest flavour he could find.  Sometimes it was just a plain old strawberry one, but sometimes it was gooseberry and cinnamon, or spiced plum, or Russian fudge.  ‘It’s just so much nicer than plastic,’ she always said, ‘a proper treat it is.’  What was funny was that Terry hated yogurt, wouldn’t touch the stuff.  Same with cheese. 
+
+She was looking forward to visiting him that afternoon.  She could tell him about the sparrowhawk.  Maybe she would tell him while a nurse or doctor was in the room, in case they liked birds.  But when it came to it they were all busy, so she told him quietly about how she thought it was a male hawk as he had lovely grey and rust colouring on his chest. ‘All puffed up he was,’ she told Terry, ‘typical man.’  She laughed a little and then leaned over close to whisper, ‘I had the last yogurt today Terry love.  So you need to wake up and buy me some more.  Then you can scrub up the jars for me and maybe you’ll see the sparrowhawk too.’

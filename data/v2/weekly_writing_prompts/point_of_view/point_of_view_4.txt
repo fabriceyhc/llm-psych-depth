@@ -1,0 +1,1 @@
+Write a story that switches between first person and third person point of view.
