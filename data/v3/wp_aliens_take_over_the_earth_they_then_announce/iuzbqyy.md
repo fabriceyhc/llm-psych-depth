@@ -1,0 +1,11 @@
+Those idiots. They cheered when the Vretal took over and promised 4 hours workdays, 4 days a week and all the basic rights like free healthcare, free housing, guaranteed work for all. No one asked the right questions. So here we are working 4-hour workdays based on the Vretal definition of hours. Works out to about 20 Terran hours. And the Vretal use a five-day work week.
+
+The Vretal provide work for all people. No choice allowed. You show up at the work center and get assigned to a random work site. You could spend your "4-hour shift" picking up shit at one of the Vretal zoos or in a warehouse moving dangerous chemicals without safety gear. Or you could get selected for a stint as a "decorative object" or as a medical research subject. The Vretal don't take "no" for an answer. Work or die.
+
+If you get hurt, then the Vretal pop you into one of the "universal med units". It mostly works to put you back together. Mostly. Just ignore the occasional uneven arms and missing fingers. Don't ask why you may have a differently colored eye. The Vretal stuck every single person with physical or mental problems into one. You don't want to know what med unit does to the human brain when it "fixes' brain damage or mental issues. If the med unit can't fix you, it doesn't spit you back out. A future user could end up with a new tattoo.
+
+The Vretal provided housing for all. A nice, bare bones tube unit. Just big enough for one. No frills, no entertainment, no choice. You don't even get to keep the same unit. It's assigned after you complete the day's shift. You have to use it. Those that sleep outside often disappear.
+
+Everyone gets feed. A nice serving of processed glop. Mostly meets all the nutritional needs for the average human. Once a day. No one is sure what's in it. After a while, you stop asking. The Vretal don't care if you try to grow your own food so long as you complete your "4-hour" shift first. Good luck finding a place to grow food. The Vretal cleared the farmlands for their food, and they guard them zealously.
+
+As the Vretal said, "Humans now belong to the Vretal Empire". No one thought to ask if it was a future partner or chattel.

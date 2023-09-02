@@ -1,0 +1,9 @@
+“Yessssss” it thought, materializing inside and taking in its surroundings. The home was rather quaint. A single room with a thatched roof. Within the four stone walls sat a single wooden door and a shuttered window. A large black pot hung in the fire place above slowly dying embers. A sturdy wooden bed frame sitting on the dirt floor was the only furniture within. Atop sleeping upon a straw mattress was a young couple.
+
+It approached the reaching its mind out to the two sleeping before it. “Ahhhh the male is clossse” it thought. Slowly it crept up onto the bed. Long bony legs ending in sharp pointy toes stood upon the sleepers chest. Tendril lines formed from clawed hand and tethered to the man’s head. A soft glow began emanating as dreams began to flow forth from the man.
+
+A feeling of satisfaction began to fill the invader. Suddenly, a feeling of pure unbridled ecstasy filled its entire being. The human below began to squirm, shiver and sweat, unable to truly move with the creature standing on top of it.
+
+Never had a feeling such as this been felt. Where it would have normally stopped before the awakening, this hunger could not be satiated. As more sustenance filled it’s being the creature began to pull on its tendrils as though trying to force it or urging it onward.
+
+The human awoke in his dream like state unable to move. Shivering in pure terror. He looked up seeing a small reddish maniacal humanoid looking creature standing on his chest. Reigns in hand seeming forcing even more terror upon him. As he screamed in terror there was a small flash of light as the house was again empty and dark.

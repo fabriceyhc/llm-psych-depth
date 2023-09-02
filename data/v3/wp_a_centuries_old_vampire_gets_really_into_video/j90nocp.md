@@ -1,0 +1,13 @@
+The sky was black and cold and the day was long dead, as somewhere, in a house long forgotten by the sun there lived a undead known as Stacy BloodRayne. A suitable name for a vampire, as she was not only separated from the living but despite the whole being dead thing, held a irrepressible fire inside.
+
+She had just gotten back from another night's trip to her local mall, her only real social interaction to the outside world, she had many off comments, some complimenting her for her coal black hair or her ghostly skin, some on her strange and mysterious lifestyle. Either way, they never lasted.
+
+She talks to the cashier, a young man, Diablo with a direction less yet optimistic outlook on life who is pretty much the only person she regularly sees, after wasting countless nights on the internet, which had became her definition of a public life she had been convinced to purchase a odd new game.
+
+After a conversation she had already hid away she returned to her singular home and decided to plug it in, "Atleast I'll have some sort of life" She says to herself, with a defeated grin. After some loading time the game begins and she is struck by a overwhelming emotion as if it was a rapid uppercut to the head. For the first time in the entire month she felt truly awake and held a gaping expression on her face, she didn't know why she felt this way, but she wanted to find out how.
+
+As she continued playing she sees things that had faded away long ago. She starts to see a world, become part of a story, instead of a looming shadow from a abounded pack. She felt a sense of achievement and a odd sense of community, she started to see the light. "What's this?" She asks herself, embarrassed as soon as the words came out. "The giant ball of radiation that floats over in the sky. What people call the sun" She bluntly responds, before holding in a fit of luaghter.
+
+At first it was merely amusing, as time went on she became invested, as the night turned into day and the day turned into night she had became addicted, in a strangely healthy way. For the first time in a decade, she had finally felt 'happiness' not the fleeting type of a random compliment on the street or a short reward, but something more fulfilling. As if she had finally discovered something she had always needed. Soon her catalogue of games started to build up & she beat them all. She smiled, she laughed, she may have even lived.
+
+As she kept on gaming she decides to try it online and very soon she had found people talk to as well. Maybe life was more than survival. Maybe joy didn't go away with a soul and maybe, just maybe.. video game good.
