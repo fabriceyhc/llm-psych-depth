@@ -1,0 +1,6 @@
+{
+    "id": 6,
+    "premise": "The world ended 20 years ago, you haven't found a living soul since then. Through some ingenuity, you call voicemails for the last 20 years to keep you company. 'Hi, this is Cindy...' 'Hi you reached Bob' 'You know what to do at the beep' until one day 'Hello...hello? Oh my God hello!'",
+    "setting_prompt": "Premise: The world ended 20 years ago, you haven't found a living soul since then. Through some ingenuity, you call voicemails for the last 20 years to keep you company. 'Hi, this is Cindy...' 'Hi you reached Bob' 'You know what to do at the beep' until one day 'Hello...hello? Oh my God hello!'\n\nTask: Based on the premise, describe the setting of the story.\n\n\nThe output should be formatted as a JSON instance that conforms to the JSON schema below.\n\nAs an example, for the schema {\"properties\": {\"foo\": {\"title\": \"Foo\", \"description\": \"a list of strings\", \"type\": \"array\", \"items\": {\"type\": \"string\"}}}, \"required\": [\"foo\"]}\nthe object {\"foo\": [\"bar\", \"baz\"]} is a well-formatted instance of the schema. The object {\"properties\": {\"foo\": [\"bar\", \"baz\"]}} is not well-formatted.\n\nHere is the output schema:\n```\n{\"properties\": {\"setting\": {\"title\": \"Setting\", \"description\": \"setting\", \"type\": \"string\"}}, \"required\": [\"setting\"]}\n```\n",
+    "setting": null
+}
