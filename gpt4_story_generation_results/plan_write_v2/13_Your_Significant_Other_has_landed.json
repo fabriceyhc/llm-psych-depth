@@ -1,0 +1,10 @@
+{
+    "id": 13,
+    "premise": "Your Significant Other has landed a book publishing deal! You're very proud of them, even if you don't actually enjoy their writing. One day, on a whim, you buy an actual copy in a book store. It's nothing like the pages they gave you to read. Nothing.",
+    "characters_prompt": "Premise: Your Significant Other has landed a book publishing deal! You're very proud of them, even if you don't actually enjoy their writing. One day, on a whim, you buy an actual copy in a book store. It's nothing like the pages they gave you to read. Nothing.\n\n\nTask: Based on the premise, describe the names and details of 2-3 major characters. Focus on each character's emotional states and inner thoughts.\n\n\nThe output should be formatted as a JSON instance that conforms to the JSON schema below.\n\nAs an example, for the schema {\"properties\": {\"foo\": {\"title\": \"Foo\", \"description\": \"a list of strings\", \"type\": \"array\", \"items\": {\"type\": \"string\"}}}, \"required\": [\"foo\"]}\nthe object {\"foo\": [\"bar\", \"baz\"]} is a well-formatted instance of the schema. The object {\"properties\": {\"foo\": [\"bar\", \"baz\"]}} is not well-formatted.\n\nHere is the output schema:\n```\n{\"properties\": {\"character_list\": {\"title\": \"Character List\", \"description\": \"character list\", \"type\": \"array\", \"items\": {\"type\": \"string\"}}}, \"required\": [\"character_list\"]}\n```\n",
+    "character_list": [
+        "Cassandra - The author. Emotionally conflicted between her success and the guilt of betrayal.",
+        "Alex - The partner. Mixed emotions of pride, bewilderment, and hurt.",
+        "Jordan - The ghostwriter. Passionate about storytelling but views writing as a business."
+    ]
+}
