@@ -1,4 +1,3 @@
-import pandas as pd
 from textdiversity import (
     TokenSemantics, DocumentSemantics, AMR, # semantics
     DependencyParse, ConstituencyParse,     # syntactical
@@ -8,9 +7,56 @@ from textdiversity import (
 from lexical_diversity import lex_div as ld
 from nltk import ngrams
 from nltk.tokenize import word_tokenize
-from datasets import load_dataset
-import types
-import argparse
+
+class DiversityEvaluator:
+    def __init__(self, metrics: dict = {}, verbose=False):
+        self.metrics = metrics
+        self.verbose = verbose
+
+        if not metrics:
+            if self.verbose:
+                print("Initializing default metrics...")
+            ldhelper = LDHelper()
+            unhelper = UniqueNgramHelper()
+            config = {"normalize": False}
+            self.metrics = {
+                'TokenSemantics': TokenSemantics(config), 
+                'DocumentSemantics': DocumentSemantics(config), 
+                # 'AMR': AMR(config),
+                'DependencyParse': DependencyParse(config), 
+                'ConstituencyParse': ConstituencyParse(config),
+                'PartOfSpeechSequence': PartOfSpeechSequence(config),
+                'Rhythmic': Rhythmic(config),
+                'ttr': ldhelper.ttr,
+                'log_ttr': ldhelper.log_ttr,
+                'root_ttr': ldhelper.root_ttr,
+                'maas_ttr': ldhelper.maas_ttr,
+                'mattr': ldhelper.mattr,
+                'msttr': ldhelper.msttr,
+                'hdd': ldhelper.hdd,
+                'mtld': ldhelper.mtld,
+                'mtld_ma_bid': ldhelper.mtld_ma_bid,
+                'mtld_ma_wrap': ldhelper.mtld_ma_wrap,
+                'unigrams': unhelper.unigrams,
+                'bigrams': unhelper.bigrams,
+                'trigrams': unhelper.trigrams,
+            }
+
+    def __call__(self, texts):
+        results = []
+        for metric_name, metric_fn in self.metrics.items():
+            if self.verbose:
+                print(f"Evaluating {metric_name}...")
+            try:
+                diversity_score = metric_fn(texts)
+            except Exception as e:
+                print(e)
+                diversity_score = -1
+            results.append({
+                "metric_name": metric_name,
+                "diversity_score": diversity_score
+            })
+        return results
 
 
 class LDHelper:
@@ -78,54 +124,23 @@ class UniqueNgramHelper:
         n_gram_generator = ngrams(tokens, 3)
         return self._make_unique(n_gram_generator)
     
-def get_metrics(dataset_path, output_path, column_name, metrics):
-        
-    dataset = load_dataset(dataset_path)
-    prompts = [s for s in dataset[column_name] if s.strip() != "" and type(s) == str]
-
-    config = {"normalize": False}
-
-    ldhelper = LDHelper()
-    unhelper = UniqueNgramHelper()
-
-    metric_funcs = {
-        'TokenSemantics': TokenSemantics(config), 
-        'DocumentSemantics': DocumentSemantics(), # AMR(config),
-        'DependencyParse': DependencyParse(config), 
-        'ConstituencyParse': ConstituencyParse(config),
-        'PartOfSpeechSequence': PartOfSpeechSequence(config),
-        'Rhythmic': Rhythmic(config),
-        'ttr': ldhelper.ttr,
-        'log_ttr': ldhelper.log_ttr,
-        'root_ttr': ldhelper.root_ttr,
-        'maas_ttr': ldhelper.maas_ttr,
-        'mattr': ldhelper.mattr,
-        'msttr': ldhelper.msttr,
-        'hdd': ldhelper.hdd,
-        'mtld': ldhelper.mtld,
-        'mtld_ma_bid': ldhelper.mtld_ma_bid,
-        'mtld_ma_wrap': ldhelper.mtld_ma_wrap,
-        'unigrams': unhelper.unigrams,
-        'bigrams': unhelper.bigrams,
-        'trigrams': unhelper.trigrams,
-    }
-
-    results = []
-    for metric_name in metrics:
-        if metric_name in metric_funcs:
-            results.append({
-            "metric": metric_name,
-            "corpus": metric_funcs[metric_name](prompts)
-            })
-
-    df = pd.DataFrame(results)
-    df.to_csv(output_path)
-
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Text Diversity Metrics Args')
-    parser.add_argument("-prompts_path", required=True)
-    parser.add_argument("-metrics", required=True)
-    parser.add_argument("-column_name", default='prompts')
-    parser.add_argument("-output_path", default='metrics.csv')
-    args = parser.parse_args()
-    get_metrics(args.prompts_path, args.output_path, args.column_name, args.metrics)
+    
+    from datasets import load_dataset
+
+    dataset = load_dataset("chansung/llama2-stories", split="train")
+    texts = [s for s in dataset["story"] if s.strip() != "" and type(s) == str]
+    
+    mid_point = len(texts) // 2
+    max_stories = 10
+
+    corpus1 = texts[:mid_point][:max_stories]
+    corpus2 = texts[mid_point:][:max_stories]
+
+    div = DiversityEvaluator(verbose=True)
+
+    div_scores1 = div(corpus1)
+    div_scores2 = div(corpus2)
+
+    print(div_scores1)
+    print(div_scores2)
