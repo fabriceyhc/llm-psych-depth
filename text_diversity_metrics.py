@@ -26,7 +26,7 @@ class DiversityEvaluator:
                 'DependencyParse': DependencyParse(config), 
                 'ConstituencyParse': ConstituencyParse(config),
                 'PartOfSpeechSequence': PartOfSpeechSequence(config),
-                'Rhythmic': Rhythmic(config),
+                # 'Rhythmic': Rhythmic(config),
                 'ttr': ldhelper.ttr,
                 'log_ttr': ldhelper.log_ttr,
                 'root_ttr': ldhelper.root_ttr,
@@ -137,10 +137,10 @@ if __name__ == "__main__":
     corpus1 = texts[:mid_point][:max_stories]
     corpus2 = texts[mid_point:][:max_stories]
 
-    div = DiversityEvaluator(verbose=True)
+    d_evaluator = DiversityEvaluator(verbose=True)
 
-    div_scores1 = div(corpus1)
-    div_scores2 = div(corpus2)
+    d_scores1 = d_evaluator(corpus1)
+    d_scores2 = d_evaluator(corpus2)
 
-    print(div_scores1)
-    print(div_scores2)
+    print(d_scores1)
+    print(d_scores2)
