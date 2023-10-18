@@ -249,7 +249,7 @@ def main():
     r_wp_df = loader.load_reddit_df(r_wp_dir, sort_by='prompt')
     r_prompts = r_wp_df['prompt']
 
-    URI = 'wss://wikipedia-homeless-cruz-latinas.trycloudflare.com/api/v1/stream'
+    URI = 'wss://project-sox-gender-us.trycloudflare.com/api/v1/stream'
     llm = CustomLLM(URI=URI)
     
     writer_profile_generator = WriterProfilePromptsGenerator(llm=llm)
