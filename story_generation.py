@@ -85,7 +85,10 @@ class DataLoader():
         return df.sort_values(by=sort_by)
 
 
-class WriterProfilePromptsGenerator():
+class WriterProfilePromptsGenerator:
+
+    def __init__(self, llm) -> None:
+        self.llm = llm
 
     writer_profile = """You are a seasoned writer who has won several accolades for your emotionally rich stories.
     When you write, you delve deep into the human psyche, pulling from the reservoir of universal experiences that every reader, regardless of their background, can connect to.
@@ -132,11 +135,14 @@ class WriterProfilePromptsGenerator():
                 ("system", self.writer_profile),
                 ("human", self.story_prompt),
             ])
-            chain = chat_prompt | ChatOpenAI() | self.OutputParser()
+            chain = chat_prompt | self.llm | self.OutputParser()
             chain.invoke({"prompt": prompt})
 
 
-class PlanWritePromptsGenerator():
+class PlanWritePromptsGenerator:
+
+    def __init__(self, llm) -> None:
+        self.llm = llm
 
     premise = """Premise: {premise}
     """
@@ -227,21 +233,26 @@ class PlanWritePromptsGenerator():
                 ("human", self.story_prompt),
             ])
 
-            model = ChatOpenAI()
 
-            chain1 = character_prompt | model | characters_parser
-            chain2 = {"characters": create_numbered_string(chain1)} | story_prompt | model | self.OutputParser()
+            chain1 = character_prompt | self.llm | characters_parser
+            chain2 = {"characters": create_numbered_string(chain1)} | story_prompt | self.llm | self.OutputParser()
 
             chain2.invoke({"premise": prompt})
 
 
 def main():
+
+    from custom_llm import CustomLLM
+
     loader = DataLoader()
     r_wp_dir = "data/v3/"
     r_wp_df = loader.load_reddit_df(r_wp_dir, sort_by='prompt')
     r_prompts = r_wp_df['prompt']
+
+    URI = 'wss://wikipedia-homeless-cruz-latinas.trycloudflare.com/api/v1/stream'
+    llm = CustomLLM(URI=URI)
     
-    writer_profile_generator = WriterProfilePromptsGenerator()
+    writer_profile_generator = WriterProfilePromptsGenerator(llm=llm)
 
     print('### Writer Profile Story Generation Example Prompt ###\n',
           '-' * 50 + '\n',
@@ -251,7 +262,7 @@ def main():
     planwrite_dir = "gpt4_story_generation_results/plan_write_v2/"
     planwrite_df = loader.load_planwrite_df(planwrite_dir, sort_by='id')
 
-    plan_write_generator = PlanWritePromptsGenerator()
+    plan_write_generator = PlanWritePromptsGenerator(llm=llm)
 
     print('### Plan + Write Characters Generation Example Prompt ###\n',
           '-' * 50 + '\n',
@@ -262,7 +273,6 @@ def main():
           '-' * 50 + '\n',
           plan_write_generator.generate_story_prompts(planwrite_df)[0]['story_prompt'],
           '=' * 50 + '\n')
-
 
 if __name__ == '__main__':
     main()
