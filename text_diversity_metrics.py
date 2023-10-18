@@ -78,7 +78,7 @@ class UniqueNgramHelper:
         n_gram_generator = ngrams(tokens, 3)
         return self._make_unique(n_gram_generator)
     
-def get_metrics(dataset_path, output_path, column_name):
+def get_metrics(dataset_path, output_path, column_name, metrics):
         
     dataset = load_dataset(dataset_path)
     prompts = [s for s in dataset[column_name] if s.strip() != "" and type(s) == str]
@@ -88,34 +88,35 @@ def get_metrics(dataset_path, output_path, column_name):
     ldhelper = LDHelper()
     unhelper = UniqueNgramHelper()
 
-    metrics = [
-        TokenSemantics(config), DocumentSemantics(), # AMR(config),
-        DependencyParse(config), ConstituencyParse(config),
-        PartOfSpeechSequence(config),
-        Rhythmic(config),
-        ldhelper.ttr,
-        ldhelper.log_ttr,
-        ldhelper.root_ttr,
-        ldhelper.maas_ttr,
-        ldhelper.mattr,
-        ldhelper.msttr,
-        ldhelper.hdd,
-        ldhelper.mtld,
-        ldhelper.mtld_ma_bid,
-        ldhelper.mtld_ma_wrap,
-        unhelper.unigrams,
-        unhelper.bigrams,
-        unhelper.trigrams,
-    ]
+    metric_funcs = {
+        'TokenSemantics': TokenSemantics(config), 
+        'DocumentSemantics': DocumentSemantics(), # AMR(config),
+        'DependencyParse': DependencyParse(config), 
+        'ConstituencyParse': ConstituencyParse(config),
+        'PartOfSpeechSequence': PartOfSpeechSequence(config),
+        'Rhythmic': Rhythmic(config),
+        'ttr': ldhelper.ttr,
+        'log_ttr': ldhelper.log_ttr,
+        'root_ttr': ldhelper.root_ttr,
+        'maas_ttr': ldhelper.maas_ttr,
+        'mattr': ldhelper.mattr,
+        'msttr': ldhelper.msttr,
+        'hdd': ldhelper.hdd,
+        'mtld': ldhelper.mtld,
+        'mtld_ma_bid': ldhelper.mtld_ma_bid,
+        'mtld_ma_wrap': ldhelper.mtld_ma_wrap,
+        'unigrams': unhelper.unigrams,
+        'bigrams': unhelper.bigrams,
+        'trigrams': unhelper.trigrams,
+    }
 
     results = []
-    for metric in metrics:
-        metric_name = metric.__name__ if isinstance(metric, types.MethodType) else metric.__class__.__name__
-        print(f"running {metric_name}...")
-        results.append({
+    for metric_name in metrics:
+        if metric_name in metric_funcs:
+            results.append({
             "metric": metric_name,
-            "corpus1": metric(prompts)
-        })
+            "corpus": metric_funcs[metric_name](prompts)
+            })
 
     df = pd.DataFrame(results)
     df.to_csv(output_path)
@@ -123,7 +124,8 @@ def get_metrics(dataset_path, output_path, column_name):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Text Diversity Metrics Args')
     parser.add_argument("-prompts_path", required=True)
+    parser.add_argument("-metrics", required=True)
     parser.add_argument("-column_name", default='prompts')
     parser.add_argument("-output_path", default='metrics.csv')
     args = parser.parse_args()
-    get_metrics(args.prompts_path, args.output_path, args.column_name)
+    get_metrics(args.prompts_path, args.output_path, args.column_name, args.metrics)
