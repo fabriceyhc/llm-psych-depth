@@ -78,7 +78,8 @@ class CustomLLM(LLM):
         prompt: str,
         stop: Optional[List[str]] = None,
         run_manager: Optional[CallbackManagerForLLMRun] = None,
-        **kwargs: Any) -> str:
+        **kwargs: Any
+    ) -> str:
         return asyncio.run(self._run(prompt))
 
 if __name__ == '__main__':

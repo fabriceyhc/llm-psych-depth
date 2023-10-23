@@ -18,20 +18,32 @@ class PlanWritePromptsGenerator:
     def __init__(self, llm) -> None:
         self.llm = llm
 
-    premise = "Premise: {premise}\n"
+    premise = """
+    Premise: {premise}"""
     
-    character_prompt = "Task: Based on the premise, describe the names and details of 2-3 major characters. Focus on each character's emotional states and inner thoughts.\n\n{format_instructions}"
+    character_prompt = """
+    Task: Based on the premise, describe the names and details of 2-3 major characters. Focus on each character's emotional states and inner thoughts.
     
-    plan_info = "Premise: {premise}\n\nCharacter Portraits:\n{characters}\n"
+    {format_instructions}"""
+    
+    plan_info = """
+    Premise: {premise}
 
-    story_prompt = "Task: Write a 500-word story based on the premise and character portraits. The story should be emotionally deep and impactful."
-    
+    Character Portraits:
+    {characters}"""
+
+    story_prompt = """
+    Task: Write a 500-word story based on the premise and character portraits. The story should be emotionally deep and impactful."""
+
+
     class OutputParser(BaseOutputParser):
         def parse(self, text: str):
             return text
 
+
     class CharactersOutput(BaseModel):
         character_list:   List[str] = Field(description="character list")
+
 
     def generate_character_prompts(self, prompts):
 
@@ -84,11 +96,11 @@ class PlanWritePromptsGenerator:
         return prompts_to_run
 
 
-    def prompt(self, wp_df):
+    def prompt_llm(self, prompts):
 
         characters_parser = PydanticOutputParser(pydantic_object=self.CharactersOutput)
 
-        for prompt in wp_df["prompt"]:
+        for id, prompt in enumerate(prompts):
             character_prompt = ChatPromptTemplate.from_messages([
                 ("system", self.premise),
                 ("human", self.character_prompt),
@@ -102,4 +114,6 @@ class PlanWritePromptsGenerator:
             chain1 = character_prompt | self.llm | characters_parser
             chain2 = {"characters": create_numbered_string(chain1)} | story_prompt | self.llm | self.OutputParser()
 
-            chain2.invoke({"premise": prompt})
+            output = chain2.invoke({"premise": prompt})
+            print(id)
+            print(output)

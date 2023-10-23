@@ -4,7 +4,9 @@ from langchain.prompts.chat import (
     HumanMessagePromptTemplate,
 )
 from langchain.prompts.chat import ChatPromptTemplate
-from langchain.schema import BaseOutputParser
+from langchain.prompts import PromptTemplate
+from langchain.schema import BaseOutputParser, StrOutputParser
+from langchain.chains import LLMChain
 
 from utils import *
 
@@ -14,14 +16,17 @@ class WriterProfilePromptsGenerator:
     def __init__(self, llm) -> None:
         self.llm = llm
 
-    writer_profile = \
-    "You are a seasoned writer who has won several accolades for your emotionally rich stories. " +\
-    "When you write, you delve deep into the human psyche, pulling from the reservoir of universal experiences that every reader, regardless of their background, can connect to. " +\
-    "Your writing is renowned for painting vivid emotional landscapes, making readers not just observe but truly feel the world of your characters. " +\
-    "Every piece you produce aims to draw readers in, encouraging them to reflect on their own lives and emotions. " +\
-    "Your stories are a complex tapestry of relationships, emotions, and conflicts, each more intricate than the last.\n"
+    writer_profile = """
+    You are a seasoned writer who has won several accolades for your emotionally rich stories.
+    When you write, you delve deep into the human psyche, pulling from the reservoir of universal experiences that every reader, regardless of their background, can connect to.
+    Your writing is renowned for painting vivid emotional landscapes, making readers not just observe but truly feel the world of your characters.
+    Every piece you produce aims to draw readers in, encouraging them to reflect on their own lives and emotions.
+    Your stories are a complex tapestry of relationships, emotions, and conflicts, each more intricate than the last."""
 
-    story_prompt = "Now write a 500-word story on the following prompt:\n\n{prompt}"
+    story_prompt = """
+    Now write a 500-word story on the following prompt:
+    
+    {prompt}"""
 
 
     class OutputParser(BaseOutputParser):
@@ -50,12 +55,16 @@ class WriterProfilePromptsGenerator:
         return prompts_to_run
 
 
-    def prompt(self, prompts):
+    def prompt_llm(self, prompts):
 
-        for prompt in prompts:
+        for id, prompt in enumerate(prompts):
             chat_prompt = ChatPromptTemplate.from_messages([
                 ("system", self.writer_profile),
                 ("human", self.story_prompt),
             ])
-            chain = chat_prompt | self.llm | self.OutputParser()
-            chain.invoke({"prompt": prompt})
+            # chain = chat_prompt | self.llm | self.OutputParser()
+            # output = chain.invoke({'prompt': prompt})
+            chain = LLMChain(llm=self.llm, prompt=chat_prompt, output_parser=self.OutputParser())
+            output = chain.run(prompt=prompt)
+            print(id)
+            print(output)
