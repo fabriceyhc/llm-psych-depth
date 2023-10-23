@@ -87,6 +87,13 @@ if __name__ == '__main__':
     # public UI url: https://e86faac610b22eab21.gradio.live
     URI = 'wss://log-assessed-degree-substitute.trycloudflare.com/api/v1/stream'
     llm = CustomLLM(URI=URI)
-    prompt = "Write a short and impactful story about loss and motherhood."
+    prompt = \
+"""
+You are a seasoned writer who has won several accolades for your emotionally rich stories. When you write, you delve deep into the human psyche, pulling from the reservoir of universal experiences that every reader, regardless of their background, can connect to. Your writing is renowned for painting vivid emotional landscapes, making readers not just observe but truly feel the world of your characters. Every piece you produce aims to draw readers in, encouraging them to reflect on their own lives and emotions. Your stories are a complex tapestry of relationships, emotions, and conflicts, each more intricate than the last.
+
+Now write a 500-word story on the following prompt:
+
+A centuries old vampire gets really into video games because playing a character who can walk around in the sun is the closest thing they have to experiencing the day again in centuries.
+"""
     output = llm(prompt)
     print(output)
