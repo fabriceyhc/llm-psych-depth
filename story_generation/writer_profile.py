@@ -86,6 +86,6 @@ class WriterProfilePromptsGenerator:
                 "output": output
             }
 
-            filename = f"{save_info['id']}_{first_n_words(save_info['story_prompt'])}.json"
+            filename = f"{save_info['id']}_{first_n_words(save_info['story_prompt'])}_{generate_random_id()}.json"
             with open(os.path.join(save_path, filename), 'w') as f:
                 json.dump(save_info, f, indent=4)

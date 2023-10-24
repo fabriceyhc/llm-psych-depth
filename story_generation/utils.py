@@ -1,6 +1,8 @@
 import re
 import os
 import json
+import random
+import string
 
 
 def extract_string_prompt(chat_message_prompt_list):
@@ -32,3 +34,7 @@ def save_json_files(save_dir, save_info):
         filename = f"{prompt['id']}_{first_n_words(prompt['premise'])}.json"
         with open(os.path.join(save_dir, filename), 'w') as f:
             json.dump(prompt, f, indent=4)
+
+def generate_random_id(size=6):
+    characters = string.ascii_letters + string.digits  # A-Z, a-z, 0-9
+    return ''.join(random.choice(characters) for i in range(size))
