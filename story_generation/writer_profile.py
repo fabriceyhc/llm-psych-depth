@@ -11,22 +11,27 @@ from langchain.chains import LLMChain
 from utils import *
 
 
+writer_profile =\
+"""
+You are a seasoned writer who has won several accolades for your emotionally rich stories.
+When you write, you delve deep into the human psyche, pulling from the reservoir of universal experiences that every reader, regardless of their background, can connect to.
+Your writing is renowned for painting vivid emotional landscapes, making readers not just observe but truly feel the world of your characters.
+Every piece you produce aims to draw readers in, encouraging them to reflect on their own lives and emotions.
+Your stories are a complex tapestry of relationships, emotions, and conflicts, each more intricate than the last.
+"""
+
+story_prompt =\
+"""
+Now write a 500-word story on the following prompt:
+    
+{prompt}
+"""
+
+
 class WriterProfilePromptsGenerator:
 
     def __init__(self, llm) -> None:
         self.llm = llm
-
-    writer_profile = """
-    You are a seasoned writer who has won several accolades for your emotionally rich stories.
-    When you write, you delve deep into the human psyche, pulling from the reservoir of universal experiences that every reader, regardless of their background, can connect to.
-    Your writing is renowned for painting vivid emotional landscapes, making readers not just observe but truly feel the world of your characters.
-    Every piece you produce aims to draw readers in, encouraging them to reflect on their own lives and emotions.
-    Your stories are a complex tapestry of relationships, emotions, and conflicts, each more intricate than the last."""
-
-    story_prompt = """
-    Now write a 500-word story on the following prompt:
-    
-    {prompt}"""
 
 
     class OutputParser(BaseOutputParser):
@@ -39,8 +44,8 @@ class WriterProfilePromptsGenerator:
         prompts_to_run = []
 
         for prompt_id, prompt in enumerate(prompts):
-            system_profile_prompt = SystemMessagePromptTemplate.from_template(self.writer_profile)
-            human_message_prompt = HumanMessagePromptTemplate.from_template(self.story_prompt)
+            system_profile_prompt = SystemMessagePromptTemplate.from_template(writer_profile)
+            human_message_prompt = HumanMessagePromptTemplate.from_template(story_prompt)
             chat_prompt = ChatPromptTemplate(
                 messages=[system_profile_prompt, human_message_prompt],
                 output_parser=self.OutputParser(),
@@ -49,22 +54,38 @@ class WriterProfilePromptsGenerator:
             prompts_to_run.append({
                 "prompt_id": prompt_id,
                 "reddit_prompt": prompt,
-                "story_generation_prompt": prepare_prompt_for_ui(_input)
+                "story_generation_prompt": extract_string_prompt(_input)
             })
 
         return prompts_to_run
 
 
-    def prompt_llm(self, prompts):
+    def prompt_llm(self, prompts, save_dir, model_name, template_type):
+
+        save_path = os.path.join(save_dir, model_name, template_type)
+        os.makedirs(save_path, exist_ok=True)
+
+        chat_prompt = ChatPromptTemplate.from_messages([
+            ("system", writer_profile),
+            ("human", story_prompt),
+        ])
+        chain = chat_prompt | self.llm | self.OutputParser()
 
         for id, prompt in enumerate(prompts):
-            chat_prompt = ChatPromptTemplate.from_messages([
-                ("system", self.writer_profile),
-                ("human", self.story_prompt),
-            ])
-            # chain = chat_prompt | self.llm | self.OutputParser()
-            # output = chain.invoke({'prompt': prompt})
-            chain = LLMChain(llm=self.llm, prompt=chat_prompt, output_parser=self.OutputParser())
-            output = chain.run(prompt=prompt)
+
+            output = chain.invoke({'prompt': prompt})
             print(id)
+            print("-" * 20)
             print(output)
+            print("=" * 50)
+
+            save_info = {
+                "id": id,
+                "model_name": model_name,
+                "story_prompt": prompt,
+                "output": output
+            }
+
+            filename = f"{save_info['id']}_{first_n_words(save_info['story_prompt'])}.json"
+            with open(os.path.join(save_path, filename), 'w') as f:
+                json.dump(save_info, f, indent=4)

@@ -17,12 +17,14 @@ def main():
     r_wp_df = loader.load_reddit_df(r_wp_dir, sort_by='prompt')
     r_prompts = r_wp_df['prompt']
 
-    
-    writer_profile_generator = WriterProfilePromptsGenerator(llm=llm)
-    writer_profile_generator.prompt_llm(r_prompts)
+    save_dir = "../llm_story_generation_results_v1/"
+    model_name = "meta-llama_Llama-2-7b-chat-hf"
 
-    # plan_write_generator = PlanWritePromptsGenerator(llm=llm)
-    # plan_write_generator.prompt_llm(r_prompts)
+    writer_profile_generator = WriterProfilePromptsGenerator(llm=llm)
+    writer_profile_generator.prompt_llm(r_prompts, save_dir, model_name, "writer_profile")
+
+    plan_write_generator = PlanWritePromptsGenerator(llm=llm)
+    plan_write_generator.prompt_llm(r_prompts, save_dir, model_name, "plan_write")
 
     # print('### Writer Profile Story Generation Example Prompt ###\n' +
     #       '-' * 54 + '\n' +
