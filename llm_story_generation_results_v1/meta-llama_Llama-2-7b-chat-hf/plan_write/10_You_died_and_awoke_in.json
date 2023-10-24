@@ -1,0 +1,7 @@
+{
+    "id": 10,
+    "model_name": "meta-llama_Llama-2-7b-chat-hf",
+    "story_prompt": "You died and awoke in the afterlife. It's quite nice actually. The people and atmosphere are a lot nicer than you are used to and there is no stress or pressure. When you ask what good deed got you into heaven you are informed that this is hell, followed by a visit from a very concerned demon.",
+    "characters": "\nDemon: \nTask: Describe the appearance and personality traits of one of these characters (the demon). Include specific examples of how they interact with other characters.",
+    "output": "\n---\n\n"
+}

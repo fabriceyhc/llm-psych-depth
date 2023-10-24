@@ -1,0 +1,7 @@
+{
+    "id": 1,
+    "model_name": "meta-llama_Llama-2-7b-chat-hf",
+    "story_prompt": "A psychic alien who feeds on dreams comes to Earth for the first time. Turns out humans are the only sentients in the galaxy that have nightmares.",
+    "characters": "\nAlien: \nTask: Describe the appearance and abilities of the psychic alien. How does it interact with its surroundings? What kind of impact will it have on human society?",
+    "output": "\nSetting: \nTask: Create a detailed description of the setting where the events take place, including the location, culture, and technology level. How do these elements influence the plot and characters?\n\nPlot Idea: \nTask: Develop an engaging plot idea based on the premise, character portraits, and setting. Include key events, conflicts, and emotional moments that drive the narrative forward.\n\nThemes: \nTask: Identify and explain three themes present in your story. How do they contribute to the overall message or meaning of the work? Provide examples from the text to support each theme."
+}
