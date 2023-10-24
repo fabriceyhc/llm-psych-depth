@@ -7,8 +7,8 @@ from custom_llm import CustomLLM
 
 def main():
 
-    # public UI url: https://e13b52479421c0f179.gradio.live
-    URI = 'wss://aid-garbage-ref-hereby.trycloudflare.com/api/v1/stream'
+    # public UI url: https://ad434203bb11929009.gradio.live
+    URI = 'wss://louisville-genetic-modem-experimental.trycloudflare.com/api/v1/stream'
     llm = CustomLLM(URI=URI)
 
 
