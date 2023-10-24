@@ -7,8 +7,8 @@ from custom_llm import CustomLLM
 
 def main():
 
-    # public UI url: https://e86faac610b22eab21.gradio.live
-    URI = 'wss://log-assessed-degree-substitute.trycloudflare.com/api/v1/stream'
+    # public UI url: https://e13b52479421c0f179.gradio.live
+    URI = 'wss://aid-garbage-ref-hereby.trycloudflare.com/api/v1/stream'
     llm = CustomLLM(URI=URI)
 
 
@@ -18,7 +18,7 @@ def main():
     r_prompts = r_wp_df['prompt']
 
     save_dir = "../llm_story_generation_results_v1/"
-    model_name = "meta-llama_Llama-2-7b-chat-hf"
+    model_name = "meta-llama_Llama-2-13b-chat-hf"
 
     writer_profile_generator = WriterProfilePromptsGenerator(llm=llm)
     writer_profile_generator.prompt_llm(r_prompts, save_dir, model_name, "writer_profile")
