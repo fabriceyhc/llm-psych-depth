@@ -1,0 +1,7 @@
+{
+    "id": 9,
+    "model_name": "meta-llama_Llama-2-7b-chat-hf",
+    "story_prompt": "You are severely depressed and are given a service dog to help you through it. However, due to a mixup, you are given a dog that is actually much more depressed than you. The main thing that gets you up in the morning is knowing that you need to be the service human for your dog.",
+    "characters": "\nService Dog: \nTask: Describe the name, breed, age, and any notable features of the service dog. How does this dog interact with its human? What kind of support or comfort does the dog provide?",
+    "output": "\nSetting: A small suburban house in a quiet neighborhood.\n\nThemes: Depression, mental illness, service dogs, emotional support, companionship, unconditional love."
+}

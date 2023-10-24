@@ -6,11 +6,11 @@ from custom_llm import CustomLLM
 
 
 def main():
+    
+    llm = CustomLLM()
 
-    # public UI url: https://ad434203bb11929009.gradio.live
-    URI = 'wss://louisville-genetic-modem-experimental.trycloudflare.com/api/v1/stream'
-    llm = CustomLLM(URI=URI)
-
+    writer_profile_generator = WriterProfilePromptsGenerator(llm=llm)
+    plan_write_generator = PlanWritePromptsGenerator(llm=llm)
 
     loader = DataLoader()
     r_wp_dir = "../data/v3/"
@@ -18,13 +18,13 @@ def main():
     r_prompts = r_wp_df['prompt']
 
     save_dir = "../llm_story_generation_results_v1/"
-    model_name = "meta-llama_Llama-2-13b-chat-hf"
+    model_name = "meta-llama_Llama-2-70b-chat-hf"
 
-    writer_profile_generator = WriterProfilePromptsGenerator(llm=llm)
-    writer_profile_generator.prompt_llm(r_prompts, save_dir, model_name, "writer_profile")
+    num_generations = 3
 
-    plan_write_generator = PlanWritePromptsGenerator(llm=llm)
-    plan_write_generator.prompt_llm(r_prompts, save_dir, model_name, "plan_write")
+    for n in range(num_generations):
+        writer_profile_generator.prompt_llm(r_prompts, save_dir, model_name, "writer_profile")
+        plan_write_generator.prompt_llm(r_prompts, save_dir, model_name, "plan_write")
 
     # print('### Writer Profile Story Generation Example Prompt ###\n' +
     #       '-' * 54 + '\n' +

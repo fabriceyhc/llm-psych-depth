@@ -1,0 +1,6 @@
+{
+    "id": 14,
+    "model_name": "meta-llama_Llama-2-13b-chat-hf",
+    "story_prompt": "Your wife has an estranged sister that you have never met. She was murdered in a cold case soon after you were married. You brush off your wife\u2019s new strange behaviour after the murder as grief. Until you find an old family photo of your wife as a kid, you shiver as you realise\u2026 they\u2019re twins.",
+    "output": "\nNote: Please keep it within 500 words."
+}
