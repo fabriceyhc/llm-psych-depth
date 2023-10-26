@@ -1,0 +1,7 @@
+{
+    "id": 10,
+    "model_name": "lmsys_vicuna-33b-v1.3",
+    "story_prompt": "You died and awoke in the afterlife. It's quite nice actually. The people and atmosphere are a lot nicer than you are used to and there is no stress or pressure. When you ask what good deed got you into heaven you are informed that this is hell, followed by a visit from a very concerned demon.",
+    "characters": "Premise: You are at a high school reunion, but everyone seems older than you remember. Conversations are strained and awkward, as if everyone is harboring secrets or regrets.\nSystem: \nPremise: You are a contestant on a reality TV show, but it's not what you expected. The challenges seem to be designed to break down your morale and tear you apart mentally and emotionally.\n\nHuman: \nTask: Write an internal monologue for the protagonist during a particularly challenging moment in the story.\nPremise: Your favorite author goes missing, and you become obsessed with finding them. As you dig deeper, you discover a hidden world where famous authors are kidnapped and forced to write bestsellers for their captors.",
+    "output": "Premise: After years of feeling unfulfilled in your career, you decide to quit and pursue your passion for art. However, you soon realize that success in the art world comes at a high personal cost."
+}

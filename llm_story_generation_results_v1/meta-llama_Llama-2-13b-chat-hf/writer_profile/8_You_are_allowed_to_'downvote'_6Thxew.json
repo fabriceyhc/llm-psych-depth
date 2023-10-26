@@ -1,0 +1,6 @@
+{
+    "id": 8,
+    "model_name": "meta-llama_Llama-2-13b-chat-hf",
+    "story_prompt": "You are allowed to 'downvote' a government candidate instead of voting normally, reducing their votes by one. Turns out people have little love for politicians, and the majority end with negative votes. In these democracies, anonymity is the key to winning.",
+    "output": "\nPrompt: \nIt's election time, and as per usual, all major candidates are busy touring different constituencies to campaign. You're a voter who doesn't support any particular party or ideology. Instead, you're looking for someone who can represent the people well. One day, while walking down the street, you come across a peculiar flyer advertising an independent candidate running for office. You've never heard of this person before, but something about their message catches your attention. Curious, you decide to look into them further.\n\nWhat follows is a thought-provoking tale of politics and personal conviction that challenges the status quo and encourages readers to question what they really want from their leaders."
+}

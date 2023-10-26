@@ -73,7 +73,15 @@ class WriterProfilePromptsGenerator:
 
         for id, prompt in enumerate(prompts):
 
-            output = chain.invoke({'prompt': prompt})
+            max_tries = 3
+            min_words = 100
+            num_words, tries = 0, 0
+            while num_words < min_words and tries < max_tries:
+                output = chain.invoke({'prompt': prompt})
+                num_words = len(output.split())
+                if num_words < min_words:
+                    tries += 1
+                    print(f"Generated {num_words} words, fewer than {min_words} words. Trying {max_tries-tries} more times")
             print(id)
             print("-" * 20)
             print(output)

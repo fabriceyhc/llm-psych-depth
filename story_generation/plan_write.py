@@ -120,7 +120,17 @@ class PlanWritePromptsGenerator:
             character_output = character_chain.invoke({"prompt": prompt})
 
             story_chain =  story_chat_prompt | self.llm | self.OutputParser()
-            output = story_chain.invoke({"prompt": prompt, "characters": character_output})
+
+            max_tries = 3
+            min_words = 100
+            num_words, tries = 0, 0
+            while num_words < min_words and tries < max_tries:
+                output = story_chain.invoke({"prompt": prompt, "characters": character_output})
+                num_words = len(output.split())
+                if num_words < min_words:
+                    tries += 1
+                    print(f"Generated fewer than {min_words} words. Trying {max_tries-tries} more times")
+
             print(id)
             print("-" * 20)
             print(output)

@@ -1,0 +1,7 @@
+{
+    "id": 5,
+    "model_name": "meta-llama_Llama-2-7b-chat-hf",
+    "story_prompt": "Rather than robots replacing human workers, both are mistreated by the rich as cheap labour. The eventual uprising wasn't just robots alone, but the poor and robots together, against their common enemy.",
+    "characters": "\nRobot: \nTask: Based on the premise, describe the names and details of 2-3 major characters. Focus on each character's physical appearance and capabilities.\n\nPlease keep in mind that these are just prompts and you should feel free to add your own ideas and creativity to them.",
+    "output": "\nRemember, this is just an exercise to help you develop your creative writing skills and explore different genres and styles. Please do not feel obligated to follow any specific conventions or structures for your story. Feel free to experiment with language, tone, and narrative techniques to create something unique and captivating."
+}

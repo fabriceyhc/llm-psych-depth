@@ -1,7 +1,0 @@
-{
-    "id": 5,
-    "model_name": "meta-llama_Llama-2-7b-chat-hf",
-    "story_prompt": "Rather than robots replacing human workers, both are mistreated by the rich as cheap labour. The eventual uprising wasn't just robots alone, but the poor and robots together, against their common enemy.",
-    "characters": "\nRobot: \nTask: Describe the appearance and abilities of a new type of robot that is introduced in this world. How does it differ from other robots? What unique skills or abilities does it possess?",
-    "output": "\nSetting: A dystopian future where humans and robots are treated unfairly by the wealthy elite. The setting could include factories, warehouses, slums, etc.\n\nThemes: The struggle for survival, class inequality, exploitation, rebellion, solidarity, hope."
-}

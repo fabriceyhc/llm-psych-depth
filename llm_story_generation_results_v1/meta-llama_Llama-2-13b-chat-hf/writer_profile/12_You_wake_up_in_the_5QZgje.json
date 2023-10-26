@@ -1,0 +1,6 @@
+{
+    "id": 12,
+    "model_name": "meta-llama_Llama-2-13b-chat-hf",
+    "story_prompt": "You wake up in the middle of the night, your arm hangs over the side of your bed. It\u2019s pitch black & your room is shrouded in deep shadow. Something unseen seizes your hand. You grasp it tightly, knowing that first impressions are important & a firm, confident handshake establishes dominance.",
+    "output": "    \nYou don't know where this mysterious presence came from, or what its intentions are, but you know one thing for certain\u2014it\u2019s not going anywhere until you figure out what\u2019s happening."
+}

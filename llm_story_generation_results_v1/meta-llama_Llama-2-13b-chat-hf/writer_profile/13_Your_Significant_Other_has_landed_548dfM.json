@@ -1,0 +1,6 @@
+{
+    "id": 13,
+    "model_name": "meta-llama_Llama-2-13b-chat-hf",
+    "story_prompt": "Your Significant Other has landed a book publishing deal! You're very proud of them, even if you don't actually enjoy their writing. One day, on a whim, you buy an actual copy in a book store. It's nothing like the pages they gave you to read. Nothing.",
+    "output": "\nHow do you feel? Do you confront them? What's the outcome?"
+}

@@ -1,0 +1,6 @@
+{
+    "id": 7,
+    "model_name": "lmsys_vicuna-33b-v1.3",
+    "story_prompt": "You are a beekeeper. You have a special relationship with your bees. You are able to communicate with them and they\u2019re intelligent enough to see you removing honey as \u201crent\u201d. This year things are different. The new queens are politely requesting that you invest some money to improve the hives.",
+    "output": "\nPlease submit your story within 1 hour."
+}

@@ -1,0 +1,7 @@
+{
+    "id": 0,
+    "model_name": "meta-llama_Llama-2-7b-chat-hf",
+    "story_prompt": "A centuries old vampire gets really into video games because playing a character who can walk around in the sun is the closest thing they have to experiencing the day again in centuries.",
+    "characters": "\nVampire:\nTask: Describe the main character's favorite game and why it is their favorite.\n\nHuman: \nTask: Write a scene where the vampire plays their favorite game with another character (can be anyone - friend, foe, or NPC). Show how their emotions change throughout the scene.\n\nVampire:\nTask: Write a monologue from the vampire's perspective as they are about to defeat their greatest enemy in the game. Show how their thoughts and emotions shift from fear to confidence.\n\nBoth: \nTask: Write a dialogue between the vampire and human character(s) where they discuss their shared love of video games. How do they connect over this common interest? What do they learn from each other?",
+    "output": "\n"
+}

@@ -1,0 +1,7 @@
+{
+    "id": 2,
+    "model_name": "lmsys_vicuna-33b-v1.3",
+    "story_prompt": "Aliens take over the Earth. They then announce that they will be forcing the humans to work a 'tyrannical' 4 hours a day 4 days a week in exchange for basic rights like housing. Needless to say they are very confused when the humans celebrate their new alien overlords.",
+    "characters": "Bonus: Describe a scene where one of these characters encounters an alien.",
+    "output": "Result: An emotional story about a group of humans and aliens learning to coexist and understand each other despite their vastly different experiences and perspectives."
+}

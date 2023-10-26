@@ -1,0 +1,6 @@
+{
+    "id": 8,
+    "model_name": "lmsys_vicuna-33b-v1.3",
+    "story_prompt": "You are allowed to 'downvote' a government candidate instead of voting normally, reducing their votes by one. Turns out people have little love for politicians, and the majority end with negative votes. In these democracies, anonymity is the key to winning.",
+    "output": "\nAs a successful writer known for your emotionally resonant stories, how would you approach this political tale?\n\nThe story focuses on a protagonist who discovers the power of anonymous downvoting and uses it to affect change in their local government. The protagonist begins as an idealistic citizen who becomes disillusioned with the political system due to corruption and self-serving politicians. Through the act of downvoting, they spark a movement that ultimately leads to the election of a worthy candidate. The story explores themes of power, anonymity, and the role of the individual in society."
+}

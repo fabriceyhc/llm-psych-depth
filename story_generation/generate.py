@@ -6,7 +6,7 @@ from custom_llm import CustomLLM
 
 
 def main():
-    
+
     llm = CustomLLM()
 
     writer_profile_generator = WriterProfilePromptsGenerator(llm=llm)
@@ -18,7 +18,7 @@ def main():
     r_prompts = r_wp_df['prompt']
 
     save_dir = "../llm_story_generation_results_v1/"
-    model_name = "meta-llama_Llama-2-70b-chat-hf"
+    model_name = "lmsys_vicuna-33b-v1.3"
 
     num_generations = 3
 

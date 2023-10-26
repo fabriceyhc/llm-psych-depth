@@ -1,0 +1,6 @@
+{
+    "id": 1,
+    "model_name": "meta-llama_Llama-2-70b-chat-hf",
+    "story_prompt": "A psychic alien who feeds on dreams comes to Earth for the first time. Turns out humans are the only sentients in the galaxy that have nightmares.",
+    "output": "The alien's race views nightmares as a delicacy, a sign of great power and potential. However, our protagonist starts to question his civilization's beliefs.\nWhat happens when he falls in love with a human who suffers from PTSD night terrors?\n\nPlease include in your narrative: \n    \n- The psychic alien's initial fascination with nightmares.\n- The human's struggle with PTSD night terrors.\n- The alien's moral dilemma between his hunger and love.\n- The impact of the alien's presence on the human's mental health.\n- A dramatic turning point where the alien must choose between his love and feeding.\n- A resolution that addresses the ethical considerations and personal growth of both characters."
+}

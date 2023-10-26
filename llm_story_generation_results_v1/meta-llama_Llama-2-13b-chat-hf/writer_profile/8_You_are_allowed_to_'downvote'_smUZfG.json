@@ -1,6 +1,0 @@
-{
-    "id": 8,
-    "model_name": "meta-llama_Llama-2-13b-chat-hf",
-    "story_prompt": "You are allowed to 'downvote' a government candidate instead of voting normally, reducing their votes by one. Turns out people have little love for politicians, and the majority end with negative votes. In these democracies, anonymity is the key to winning.",
-    "output": "\nStory should be written as if it were a scene from a movie or TV show."
-}

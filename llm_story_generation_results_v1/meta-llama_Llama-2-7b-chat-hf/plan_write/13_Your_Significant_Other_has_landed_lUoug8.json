@@ -1,0 +1,7 @@
+{
+    "id": 13,
+    "model_name": "meta-llama_Llama-2-7b-chat-hf",
+    "story_prompt": "Your Significant Other has landed a book publishing deal! You're very proud of them, even if you don't actually enjoy their writing. One day, on a whim, you buy an actual copy in a book store. It's nothing like the pages they gave you to read. Nothing.",
+    "characters": "\nSetting: \n* A small bookstore located in a quaint town square\n* A busy shopping district with several stores and cafes nearby\n\nPlot Points:\n* Your significant other excitedly shows you the book deal\n* You find yourself browsing through the bookstore out of curiosity\n* You randomly pick up a book that catches your eye\n* You begin to read the book cover to cover\n* The book starts to change you in unexpected ways\n* You become more emotionally invested in the story as it progresses\n\nThemes: Relationships, Creativity, Identity\nGenre: Literary Fiction/Romance\nTarget Audience: Adult readers looking for a thought-provoking exploration of relationships and creativity.",
+    "output": "\nNote: The story is not about your own relationship or your significant other's writing style, but rather an interpretation of the premise and character portraits provided."
+}

@@ -1,0 +1,6 @@
+{
+    "id": 9,
+    "model_name": "lmsys_vicuna-33b-v1.3",
+    "story_prompt": "You are severely depressed and are given a service dog to help you through it. However, due to a mixup, you are given a dog that is actually much more depressed than you. The main thing that gets you up in the morning is knowing that you need to be the service human for your dog.",
+    "output": "\nAs you begin to recover, your dog starts to become happier too, finding its purpose in helping you heal.\nOver time, both of you gain strength and heal each other.\nPlease use first person perspective."
+}

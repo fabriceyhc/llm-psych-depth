@@ -1,0 +1,6 @@
+{
+    "id": 13,
+    "model_name": "meta-llama_Llama-2-7b-chat-hf",
+    "story_prompt": "Your Significant Other has landed a book publishing deal! You're very proud of them, even if you don't actually enjoy their writing. One day, on a whim, you buy an actual copy in a book store. It's nothing like the pages they gave you to read. Nothing.",
+    "output": "    A) You're surprised to find yourself tearing up as you read it, even though you never thought it would be any good.\nB) The writing is surprisingly decent and you find yourself drawn into the story, despite not being able to relate to the content.\nC) You quickly skim through it before pretending to read it, just to humor your SO.\nD) You're relieved that their work isn't as cringeworthy as you thought it would be, and now you can finally stop pretending to be supportive.\nE) You're confused why your SO would waste their time on something so mundane and uninteresting when they could be writing something truly original and meaningful.\nF) You can't help but feel threatened by their success and secretly hope it doesn't do too well.\nG) You find yourself lost in thought as you read their book, wondering what it would be like to have such talent and creativity.\nPlease choose one of the options above."
+}

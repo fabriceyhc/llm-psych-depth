@@ -1,0 +1,6 @@
+{
+    "id": 4,
+    "model_name": "lmsys_vicuna-33b-v1.3",
+    "story_prompt": "Instead of the Monkey's Paw, you find the Clown's Nose, which instead of granting your wish in the worst way possible will grant it in the funniest way.",
+    "output": "Your goal is to write a light-hearted tale that highlights the power of humor and laughter while incorporating the unique characteristics of your author persona. Have fun with it!"
+}

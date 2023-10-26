@@ -1,0 +1,7 @@
+{
+    "id": 2,
+    "model_name": "lmsys_vicuna-33b-v1.3",
+    "story_prompt": "Aliens take over the Earth. They then announce that they will be forcing the humans to work a 'tyrannical' 4 hours a day 4 days a week in exchange for basic rights like housing. Needless to say they are very confused when the humans celebrate their new alien overlords.",
+    "characters": "\nAlien: \nTask: Describe the initial reactions of the aliens to the human response. Explain how they formulate a plan to maintain control and continue to manipulate the human population.",
+    "output": "2. Scenario:\nSystem: \nPremise: In a future society, people are assigned jobs by a computer algorithm that analyzes their personality and skills. On her 18th birthday, a young woman named Emily receives her job assignment. She is devastated to learn that she has been assigned to work in a factory, a job she considers mind-numbingly boring. Despite the protests of her friends and family, Emily decides to reject the assignment and search for meaningful work on her own.\n\nCharacter Portraits:\n\nEmily: \nTask: Describe Emily's internal struggle as she tries to understand why the computer has assigned her such an unfulfilling job. How does she muster the courage to defy societal expectations?\n\nFriend: \nTask: Write a 500-word story based on the premise and character portraits. Explore the themes of individuality, societal expectations, and the search for personal fulfillment."
+}

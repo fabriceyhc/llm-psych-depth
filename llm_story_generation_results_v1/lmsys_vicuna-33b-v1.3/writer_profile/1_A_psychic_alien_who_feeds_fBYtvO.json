@@ -1,0 +1,6 @@
+{
+    "id": 1,
+    "model_name": "lmsys_vicuna-33b-v1.3",
+    "story_prompt": "A psychic alien who feeds on dreams comes to Earth for the first time. Turns out humans are the only sentients in the galaxy that have nightmares.",
+    "output": "This particular alien doesn't know what to make of this new form of sustenance and is both fascinated and repulsed by it. As it learns about our world and emotions, it starts to question its purpose and existence. In the end, it chooses to spare humanity, realizing that even the most horrifying nightmares carry the seed of hope within them.\nTone: Heartwarming\nWord: Alien\n```sql\n[prompt] Alien (Heartwarming) [topic] Psychic alien feeds on dreams, discovers nightmares [mood] Fascinated, repulsed, questioning [constraints] Takes place on Earth; main character is an alien; focus on the alien's emotional journey [setting] Earth; any location where the alien can learn about human dreams and nightmares [length] 500 words [format] Narrative [perspective] Third person [style] Emotionally rich, exploring the complexity of human emotions [heat] Warm]\n```"
+}

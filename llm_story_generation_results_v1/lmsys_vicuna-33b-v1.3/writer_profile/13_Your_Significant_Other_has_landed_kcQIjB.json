@@ -1,0 +1,6 @@
+{
+    "id": 13,
+    "model_name": "lmsys_vicuna-33b-v1.3",
+    "story_prompt": "Your Significant Other has landed a book publishing deal! You're very proud of them, even if you don't actually enjoy their writing. One day, on a whim, you buy an actual copy in a book store. It's nothing like the pages they gave you to read. Nothing.",
+    "output": "> Title: The Unexpected Book\n> \n> Author: Anonymous\n> \n> Word Count: 500 words\n> \n\nPrompt: Write a short story where your significant other has published a book, but it's completely different from what you expected. Describe how this revelation impacts your relationship with your partner and how you navigate the emotional aftermath."
+}

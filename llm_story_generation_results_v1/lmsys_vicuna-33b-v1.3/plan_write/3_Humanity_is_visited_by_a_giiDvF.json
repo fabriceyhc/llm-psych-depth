@@ -1,0 +1,7 @@
+{
+    "id": 3,
+    "model_name": "lmsys_vicuna-33b-v1.3",
+    "story_prompt": "Humanity is visited by a cosmic horror the likes of which has only been seen in Lovecraftian horror. In desperation, Earth throws everything we have at it, and, miraculously, the human race has killed a God. Somewhere in a realm beyond our understanding, the other gods speak of the event.",
+    "characters": "Bonus: Expand on the consequences of humanity having slain a god, both for the world at large and the characters specifically.",
+    "output": "Prompt: What if the world was a lie? How would you handle it?"
+}

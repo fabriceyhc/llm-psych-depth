@@ -1,0 +1,6 @@
+{
+    "id": 4,
+    "model_name": "meta-llama_Llama-2-13b-chat-hf",
+    "story_prompt": "Instead of the Monkey's Paw, you find the Clown's Nose, which instead of granting your wish in the worst way possible will grant it in the funniest way.",
+    "output": "\nStory should be written as if you were the seasoned writer mentioned above, with vivid descriptions and deep emotional resonance.\n\n\n\n"
+}

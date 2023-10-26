@@ -1,0 +1,7 @@
+{
+    "id": 12,
+    "model_name": "lmsys_vicuna-33b-v1.3",
+    "story_prompt": "You wake up in the middle of the night, your arm hangs over the side of your bed. It\u2019s pitch black & your room is shrouded in deep shadow. Something unseen seizes your hand. You grasp it tightly, knowing that first impressions are important & a firm, confident handshake establishes dominance.",
+    "characters": "Premise: In a quiet suburban neighborhood, a strange and sudden disappearance of a teenage girl shakes the community. Her parents, devastated by the loss, become obsessed with finding their daughter. The detective assigned to the case feels pressure to solve the mystery and bring closure to the family.\nSystem: \nPremise: Describe the scene where the characters meet for the first time after the disappearance has occurred.",
+    "output": "\nNon-human creature: \nTask: Write a 1,000-word short story about the girl\u2019s journey through a mysterious realm after her disappearance, exploring themes of identity and self-discovery."
+}

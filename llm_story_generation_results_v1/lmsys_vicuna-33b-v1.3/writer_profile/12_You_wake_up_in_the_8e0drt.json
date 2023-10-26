@@ -1,0 +1,6 @@
+{
+    "id": 12,
+    "model_name": "lmsys_vicuna-33b-v1.3",
+    "story_prompt": "You wake up in the middle of the night, your arm hangs over the side of your bed. It\u2019s pitch black & your room is shrouded in deep shadow. Something unseen seizes your hand. You grasp it tightly, knowing that first impressions are important & a firm, confident handshake establishes dominance.",
+    "output": "\nWhat is your reaction? Do you panic? Are you curious? Or do you take it in stride and introduce yourself? Remember, every response has consequences, and it's up to you to determine what kind of outcome you're looking for."
+}

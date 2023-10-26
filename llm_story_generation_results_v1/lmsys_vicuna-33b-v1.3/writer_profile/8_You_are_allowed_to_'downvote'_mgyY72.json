@@ -1,0 +1,6 @@
+{
+    "id": 8,
+    "model_name": "lmsys_vicuna-33b-v1.3",
+    "story_prompt": "You are allowed to 'downvote' a government candidate instead of voting normally, reducing their votes by one. Turns out people have little love for politicians, and the majority end with negative votes. In these democracies, anonymity is the key to winning.",
+    "output": "Your protagonist discovers a loophole allowing them to uncover the real identities behind these anonymous candidates, revealing hidden agendas and corruption. But there's a cost. The closer they get to the truth, the more danger they face.\nAs they investigate, the stakes grow higher, and allies become scarce. They must choose whether to abandon their pursuit or continue despite the risks.\nTell this story through a series of texts between your protagonist and a confidant, discussing their discoveries and fears, leading to an intense and unexpected climax.\nRemember to use your distinctive narrative voice, characterizing the protagonist and the challenges they face while exploring themes of trust, corruption, and personal risk."
+}
