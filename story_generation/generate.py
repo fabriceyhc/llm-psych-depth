@@ -3,11 +3,16 @@ from loader import DataLoader
 from writer_profile import WriterProfilePromptsGenerator
 from plan_write import PlanWritePromptsGenerator
 from custom_llm import CustomLLM
+from bard_llm import BardLLM
 
+
+from langchain.llms import OpenAI
 
 def main():
 
-    llm = CustomLLM()
+    # llm = CustomLLM()
+    # llm = OpenAI(openai_api_key="xxx", model_name="gpt-4")
+    llm = BardLLM()
 
     writer_profile_generator = WriterProfilePromptsGenerator(llm=llm)
     plan_write_generator = PlanWritePromptsGenerator(llm=llm)
@@ -18,7 +23,7 @@ def main():
     r_prompts = r_wp_df['prompt']
 
     save_dir = "../llm_story_generation_results_v1/"
-    model_name = "lmsys_vicuna-33b-v1.3"
+    model_name = "bard-2023.10.30"
 
     num_generations = 3
 

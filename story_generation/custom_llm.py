@@ -104,6 +104,5 @@ Now write a 500-word story on the following prompt:
 
 A centuries old vampire gets really into video games because playing a character who can walk around in the sun is the closest thing they have to experiencing the day again in centuries.
 """
-    prompt = "Write me a nice short story about cows."
     output = llm(prompt)
     print(output)
