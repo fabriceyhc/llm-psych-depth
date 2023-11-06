@@ -21,6 +21,7 @@ Premise: {prompt}
 character_prompt =\
 """
 Task: Based on the premise, describe the names and details of 2-3 major characters. Focus on each character's emotional states and inner thoughts.
+Only respond with the characters' names and descriptions.
 """
 
 plan_info =\
@@ -34,6 +35,7 @@ Character Portraits:
 story_prompt =\
 """
 Task: Write a 500-word story based on the premise and character portraits. The story should be emotionally deep and impactful.
+Only respond with the story.
 """
 
 class CharactersOutput(BaseModel):
@@ -100,7 +102,7 @@ class PlanWritePromptsGenerator:
         return prompts_to_run
 
 
-    def prompt_llm(self, prompts, save_dir, model_name, template_type):
+    def prompt_llm(self, prompts, save_dir, model_name, regen_ids=None, template_type='plan_write'):
 
         save_path = os.path.join(save_dir, model_name, template_type)
         os.makedirs(save_path, exist_ok=True)
@@ -114,7 +116,12 @@ class PlanWritePromptsGenerator:
             ("human", story_prompt),
         ])
 
-        for id, prompt in enumerate(prompts):
+        indexed_prompts = [(id, prompt) for id, prompt in enumerate(prompts)]
+
+        if not regen_ids:
+            indexed_prompts = [(i, prompt) for i, prompt in indexed_prompts if i in regen_ids]
+
+        for id, prompt in indexed_prompts:
 
             character_chain = character_chat_prompt | self.llm | self.OutputParser()
             character_output = character_chain.invoke({"prompt": prompt})

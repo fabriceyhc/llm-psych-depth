@@ -25,6 +25,8 @@ story_prompt =\
 Now write a 500-word story on the following prompt:
     
 {prompt}
+
+Only respond with the story.
 """
 
 
@@ -60,7 +62,7 @@ class WriterProfilePromptsGenerator:
         return prompts_to_run
 
 
-    def prompt_llm(self, prompts, save_dir, model_name, template_type):
+    def prompt_llm(self, prompts, save_dir, model_name, regen_ids=None, template_type='writer_profile'):
 
         save_path = os.path.join(save_dir, model_name, template_type)
         os.makedirs(save_path, exist_ok=True)
@@ -71,7 +73,12 @@ class WriterProfilePromptsGenerator:
         ])
         chain = chat_prompt | self.llm | self.OutputParser()
 
-        for id, prompt in enumerate(prompts):
+        indexed_prompts = [(id, prompt) for id, prompt in enumerate(prompts)]
+
+        if not regen_ids:
+            indexed_prompts = [(i, prompt) for i, prompt in indexed_prompts if i in regen_ids]
+
+        for id, prompt in indexed_prompts:
 
             max_tries = 3
             min_words = 100
