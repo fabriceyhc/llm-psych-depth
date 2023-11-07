@@ -10,9 +10,9 @@ from langchain.llms import OpenAI
 
 def main():
 
-    # llm = CustomLLM()
+    llm = CustomLLM()
     # llm = OpenAI(openai_api_key="xxx", model_name="gpt-4")
-    llm = BardLLM()
+    # llm = BardLLM()
 
     writer_profile_generator = WriterProfilePromptsGenerator(llm=llm)
     plan_write_generator = PlanWritePromptsGenerator(llm=llm)
