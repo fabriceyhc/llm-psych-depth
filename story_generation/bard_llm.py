@@ -1,5 +1,4 @@
 from typing import Any, List, Mapping, Optional
-import requests
 
 from langchain.callbacks.manager import CallbackManagerForLLMRun
 from langchain.llms.base import LLM
@@ -21,14 +20,7 @@ class BardLLM(LLM):
         run_manager: Optional[CallbackManagerForLLMRun] = None,
         **kwargs: Any,
     ) -> str:
-        # https://github.com/dsdanielpark/Bard-API/issues/155#issuecomment-1677412655
-        session = requests.Session()
-        token = "cggBj8RevjfRDcbRnVhf6hyL9eOVwIAdB7vqNJGuTJ2WF0i7vbhIicVNLY87FeveG8EsCw."
-        session.cookies.set("__Secure-1PSID", token)
-        session.cookies.set( "__Secure-1PSIDCC", "ACA-OxOM5fsLVY49RsOveBzhVNRFOJuIKQt_ZIDUmy1ekZLIO8QDduiCGrtRTWx0gZ53pA44Uw")
-        session.cookies.set("__Secure-1PSIDTS", "sidts-CjEBNiGH7gpY0RdJC-c1D33uC4eaSNbaEi0Yil7LXrPNslYchQ_3cUG-EW4IhL1sMjH8EAA")
-        session.headers = SESSION_HEADERS
-        bard = Bard(token=token, session=session)
+        bard = Bard(token_from_browser=True)
         if stop is not None:
             raise ValueError("stop kwargs are not permitted.")
         return bard.get_answer(prompt)['content']
