@@ -22,7 +22,7 @@ def main():
     r_wp_df = loader.load_reddit_df(r_wp_dir, sort_by='prompt')
     r_prompts = r_wp_df['prompt']
 
-    save_dir = "../llm_story_generation_results_v1_regen/"
+    save_dir = "../llm_story_generation_results_test/"
     model_name = "bard-2023.10.30"
 
     num_generations = 3
@@ -31,8 +31,8 @@ def main():
     plan_write_regen_ids = [3, 4, 5]
 
     for n in range(num_generations):
-        writer_profile_generator.prompt_llm(r_prompts, save_dir, model_name, writer_profile_regen_ids)
-        plan_write_generator.prompt_llm(r_prompts, save_dir, model_name, plan_write_regen_ids)
+        # writer_profile_generator.prompt_llm(r_prompts, save_dir, model_name, writer_profile_regen_ids, 'writer_profile')
+        plan_write_generator.prompt_llm(r_prompts, save_dir, model_name, plan_write_regen_ids, 'plan_write')
 
     # print('### Writer Profile Story Generation Example Prompt ###\n' +
     #       '-' * 54 + '\n' +

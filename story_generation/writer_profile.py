@@ -23,7 +23,7 @@ Your stories are a complex tapestry of relationships, emotions, and conflicts, e
 story_prompt =\
 """
 Now write a 500-word story on the following prompt:
-    
+
 {prompt}
 
 Only respond with the story.
