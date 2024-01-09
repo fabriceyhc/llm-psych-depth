@@ -5,3 +5,7 @@ openai==0.28.1
 textdiversity
 lexical-diversity
 websockets
+agreement
+crowd-kit
+python-dotenv
+langchain_openai
