@@ -87,28 +87,43 @@ class InterAnnotatorAgreement:
         consensus_labels = aggregator.fit_predict(df).to_list()
         return consensus_labels
 
-    def comparative_iaa(self, ratings_df1, ratings_df2, component):
-        pass
+    def comparative_correlation(self, human_annotations, llm_annotations, component, aggregator=MACE()):
+        human_consensus_labels = iaa_calculator.aggregate_consensus_labels(human_annotations, component, aggregator)
+        llm_consensus_labels   = iaa_calculator.aggregate_consensus_labels(llm_annotations, component, aggregator)
+        corr, p = spearmanr(human_consensus_labels, llm_consensus_labels)
+        return {
+            "component": component,
+            "spearman_corr": corr,
+            "spearman_p_value": p,
+            "human_consensus_labels": human_consensus_labels,
+            "llm_consensus_labels": llm_consensus_labels,
+        }
     
 if __name__ == "__main__":
 
     # Create an instance of the class
     iaa_calculator = InterAnnotatorAgreement()
 
-    # Read data from a CSV file or DataFrame
-    ratings_df = pd.read_csv('./human_study/data/processed/annotations.csv')
+    # Read data from a CSV file 
+    human_ratings_df = pd.read_csv('./human_study/data/processed/human_annotations.csv', encoding='cp1252')
+    llm_ratings_df   = pd.read_csv('./human_study/data/processed/llm_annotations.csv', encoding='cp1252')
 
-    # Calculate regular and comparative IAA for each category
+    human_ratings_df.sort_values(['participant_id', 'story_id'], ascending=[True, True])
+    llm_ratings_df.sort_values(['participant_id', 'story_id'], ascending=[True, True])
+
+    aggregators = [DawidSkene(), OneCoinDawidSkene(), GLAD(), MMSR(), MACE(), Wawa()]
     components = ['authenticity_score', 'empathy_score', 'engagement_score', 
                  'emotion_provoking_score', 'narrative_complexity_score']
-    # llm_ratings = ...  # Replace with your LLM ratings for each category
 
+    # Calculate regular and comparative IAA for each category
     for component in components:
-        regular_iaa = iaa_calculator.regular_iaa(ratings_df, component)
-        pairwise_iaa = iaa_calculator.pairwise_iaa(ratings_df, component)
-        # comparative_iaa = iaa_calculator.comparative_iaa(category, llm_ratings[category])
+        human_iaa = iaa_calculator.regular_iaa(human_ratings_df, component)
+        llm_iaa = iaa_calculator.regular_iaa(llm_ratings_df, component)
         print(f"Component: {component}")
-        print(regular_iaa)
-        # print(pairwise_iaa)
-        consensus_labels = iaa_calculator.aggregate_consensus_labels(ratings_df, component)
-        print(consensus_labels)
+        print(f"human_iaa:\n{human_iaa}")
+        print(f"llm_iaa:\n{llm_iaa}")
+
+        for aggregator in aggregators:   
+            print(f"Aggregator: {aggregator.__class__.__name__}")
+            human_vs_llm_corr = iaa_calculator.comparative_correlation(human_ratings_df, llm_ratings_df, component, aggregator)
+            print(f"human_vs_llm:\n{human_vs_llm_corr}")

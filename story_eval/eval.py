@@ -17,8 +17,8 @@ from langchain.output_parsers import PydanticOutputParser
 from pydantic import BaseModel, Field
 
 class PsychDepthEval(BaseModel):
-    authentic_explanation:            str   = Field(description="explanation of authenticity score")
-    authentic_score:                  float = Field(description="degree to which the writing is authentic")
+    authenticity_explanation:         str   = Field(description="explanation of authenticity score")
+    authenticity_score:               float = Field(description="degree to which the writing is authentic")
     emotion_provoking_explanation:    str   = Field(description="explanation of emotion provoking score")
     emotion_provoking_score:          float = Field(description="degree to which the writing is emotion provoking")
     empathy_explanation:              str   = Field(description="explanation of empathy score")
@@ -174,22 +174,22 @@ if __name__ == "__main__":
         df = pd.read_csv(save_path)
     except FileNotFoundError:
         df = pd.DataFrame(
-            columns=["profile_id","story_id","profile","story","timestamp","model","strategy","human_quality","llm_annotator",
-                     "authentic_explanation","authentic_score","emotion_provoking_explanation","emotion_provoking_score",
+            columns=["participant_id","story_id","profile","story","timestamp","model","strategy","human_quality","llm_annotator",
+                     "authenticity_explanation","authenticity_score","emotion_provoking_explanation","emotion_provoking_score",
                      "empathy_explanation","empathy_score","engagement_explanation","engagement_score",
                      "narrative_complexity_explanation","narrative_complexity_score"])
 
     for i, story_data in tqdm(stories.iterrows(), total=stories.shape[0]):
         for profile in system_profiles:
-            profile_id = system_profiles.index(profile)
-            if df[(df['story_id'] == story_data['story_id']) & (df['profile_id'] == profile_id)].empty:
+            participant_id = system_profiles.index(profile)
+            if df[(df['story_id'] == story_data['story_id']) & (df['participant_id'] == participant_id)].empty:
                 response = se.evaluate(
                     profile=profile, 
                     story=story_data['text'],
                     model=story_data['model'],
                     strategy=story_data['strategy'],
                     human_quality=story_data['human_quality'],
-                    profile_id=profile_id,
+                    participant_id=participant_id,
                     story_id=story_data['story_id'],
                     llm_annotator="gpt-4"
                 )
