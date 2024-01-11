@@ -89,10 +89,10 @@ participant_id,story_id,authenticity_score,empathy_score,engagement_score,emotio
 4,17,3,4,3,3,2,meta-llama_Llama-2-13b-chat-hf,plan_write,N/A
 6,17,4,5,4,3,4,meta-llama_Llama-2-13b-chat-hf,plan_write,N/A
 7,17,5,4,5,4,5,meta-llama_Llama-2-13b-chat-hf,plan_write,N/A
-2,18,5,4,1,3,2,gpt-0,writer_profile,N/A
-3,18,4,4,5,4,4,gpt-1,writer_profile,N/A
-4,18,3,5,4,4,3,gpt-2,writer_profile,N/A
-6,18,4,2,1,4,3,gpt-3,writer_profile,N/A
+2,18,5,4,1,3,2,gpt-4,writer_profile,N/A
+3,18,4,4,5,4,4,gpt-4,writer_profile,N/A
+4,18,3,5,4,4,3,gpt-4,writer_profile,N/A
+6,18,4,2,1,4,3,gpt-4,writer_profile,N/A
 7,18,1,1,1,1,1,gpt-4,writer_profile,N/A
 2,19,1,1,1,5,5,meta-llama_Llama-2-70b-chat-hf,plan_write,N/A
 3,19,1,1,1,1,1,meta-llama_Llama-2-70b-chat-hf,plan_write,N/A
