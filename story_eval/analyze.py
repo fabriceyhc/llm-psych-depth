@@ -102,16 +102,13 @@ class AnnotationAnalyzer:
         }
     
     def model_performances(self, ratings_df):
-        return ratings_df.groupby(by='model').mean(numeric_only=True)[self.components]
+        return ratings_df.groupby(by=['model', 'human_quality'], dropna=False).mean(numeric_only=True)[self.components]
 
-    def human_quality_performances(self, ratings_df):
-        return ratings_df.groupby(by='human_quality').mean(numeric_only=True)[self.components]
-    
     def participant_scores(self, ratings_df):
-        return ratings_df.groupby(by='participant_id').mean(numeric_only=True)[self.components]
+        return ratings_df.groupby(by='participant_id', dropna=False).mean(numeric_only=True)[self.components]
     
     def story_scores(self, ratings_df):
-        return ratings_df.groupby(by='story_id').mean(numeric_only=True)[self.components]
+        return ratings_df.groupby(by='story_id', dropna=False).mean(numeric_only=True)[self.components]
 
     
 if __name__ == "__main__":
@@ -124,10 +121,9 @@ if __name__ == "__main__":
     llm_ratings_df   = pd.read_csv('./human_study/data/processed/llm_annotations.csv', encoding='cp1252')
 
     human_ratings_df.sort_values(['participant_id', 'story_id'], ascending=[True, True])
-    llm_ratings_df.sort_values(['participant_id', 'story_id'], ascending=[True, True])")
+    llm_ratings_df.sort_values(['participant_id', 'story_id'], ascending=[True, True])
 
     print(analyzer.model_performances(human_ratings_df))
-    print(analyzer.human_quality_performances(human_ratings_df))
     print(analyzer.participant_scores(human_ratings_df))
     print(analyzer.story_scores(human_ratings_df))
 
