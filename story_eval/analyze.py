@@ -9,7 +9,7 @@ from crowdkit.aggregation import (
     OneCoinDawidSkene, 
     GLAD, 
     MMSR, 
-    MACE, # best option for our current data 
+    MACE,
     Wawa
 )
 
