@@ -14,10 +14,12 @@ from crowdkit.aggregation import (
 )
 
 
-class InterAnnotatorAgreement:
+class AnnotationAnalyzer:
 
     def __init__(self, ):
-        pass
+        self.components = [
+            'authenticity_score', 'empathy_score', 'engagement_score', 
+            'emotion_provoking_score', 'narrative_complexity_score']
 
     def regular_iaa(self, ratings_df, component):
             
@@ -88,8 +90,8 @@ class InterAnnotatorAgreement:
         return consensus_labels
 
     def comparative_correlation(self, human_annotations, llm_annotations, component, aggregator=MACE()):
-        human_consensus_labels = iaa_calculator.aggregate_consensus_labels(human_annotations, component, aggregator)
-        llm_consensus_labels   = iaa_calculator.aggregate_consensus_labels(llm_annotations, component, aggregator)
+        human_consensus_labels = self.aggregate_consensus_labels(human_annotations, component, aggregator)
+        llm_consensus_labels   = self.aggregate_consensus_labels(llm_annotations, component, aggregator)
         corr, p = spearmanr(human_consensus_labels, llm_consensus_labels)
         return {
             "component": component,
@@ -99,31 +101,47 @@ class InterAnnotatorAgreement:
             "llm_consensus_labels": llm_consensus_labels,
         }
     
+    def model_performances(self, ratings_df):
+        return ratings_df.groupby(by='model').mean(numeric_only=True)[self.components]
+
+    def human_quality_performances(self, ratings_df):
+        return ratings_df.groupby(by='human_quality').mean(numeric_only=True)[self.components]
+    
+    def participant_scores(self, ratings_df):
+        return ratings_df.groupby(by='participant_id').mean(numeric_only=True)[self.components]
+    
+    def story_scores(self, ratings_df):
+        return ratings_df.groupby(by='story_id').mean(numeric_only=True)[self.components]
+
+    
 if __name__ == "__main__":
 
     # Create an instance of the class
-    iaa_calculator = InterAnnotatorAgreement()
+    analyzer = AnnotationAnalyzer()
 
     # Read data from a CSV file 
     human_ratings_df = pd.read_csv('./human_study/data/processed/human_annotations.csv', encoding='cp1252')
     llm_ratings_df   = pd.read_csv('./human_study/data/processed/llm_annotations.csv', encoding='cp1252')
 
     human_ratings_df.sort_values(['participant_id', 'story_id'], ascending=[True, True])
-    llm_ratings_df.sort_values(['participant_id', 'story_id'], ascending=[True, True])
+    llm_ratings_df.sort_values(['participant_id', 'story_id'], ascending=[True, True])")
+
+    print(analyzer.model_performances(human_ratings_df))
+    print(analyzer.human_quality_performances(human_ratings_df))
+    print(analyzer.participant_scores(human_ratings_df))
+    print(analyzer.story_scores(human_ratings_df))
 
     aggregators = [DawidSkene(), OneCoinDawidSkene(), GLAD(), MMSR(), MACE(), Wawa()]
-    components = ['authenticity_score', 'empathy_score', 'engagement_score', 
-                 'emotion_provoking_score', 'narrative_complexity_score']
-
+    
     # Calculate regular and comparative IAA for each category
-    for component in components:
-        human_iaa = iaa_calculator.regular_iaa(human_ratings_df, component)
-        llm_iaa = iaa_calculator.regular_iaa(llm_ratings_df, component)
+    for component in analyzer.components:
+        human_iaa = analyzer.regular_iaa(human_ratings_df, component)
+        llm_iaa = analyzer.regular_iaa(llm_ratings_df, component)
         print(f"Component: {component}")
         print(f"human_iaa:\n{human_iaa}")
         print(f"llm_iaa:\n{llm_iaa}")
 
         for aggregator in aggregators:   
             print(f"Aggregator: {aggregator.__class__.__name__}")
-            human_vs_llm_corr = iaa_calculator.comparative_correlation(human_ratings_df, llm_ratings_df, component, aggregator)
+            human_vs_llm_corr = analyzer.comparative_correlation(human_ratings_df, llm_ratings_df, component, aggregator)
             print(f"human_vs_llm:\n{human_vs_llm_corr}")
