@@ -196,6 +196,6 @@ if __name__ == "__main__":
                 df = df._append(response, ignore_index=True)
                 df.to_csv(save_path, index=False)
             else:
-                print(f"Previously evaluation found. Skipping story_id={story_data['story_id']} and profile_id={profile_id}...")
+                print(f"Previously evaluation found. Skipping story_id={story_data['story_id']} and participant_id={participant_id}...")
 
     print(f"Story ratings saved to {save_path}")
