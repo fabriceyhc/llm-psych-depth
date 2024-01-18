@@ -223,4 +223,4 @@ if __name__ == "__main__":
 
     df = pd.DataFrame(results)
     print(df)
-    df.to_csv("./iaa_results.csv", index=False)
+    df.to_csv("./story_eval/iaa_results.csv", index=False)
