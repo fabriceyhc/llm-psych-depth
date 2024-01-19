@@ -150,7 +150,7 @@ class StoryEvaluator:
                 dict_output = pydantic_output.model_dump()
                 dict_output.update({
                     "profile": profile, 
-                    "story": story,
+                    # "story": story,
                     "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                     **kwargs
                 })
@@ -177,13 +177,13 @@ if __name__ == "__main__":
         ]
     stories = pd.read_csv("./human_study/data/stories.csv")
 
-    save_path = './human_study/data/processed/llm_annotations.csv'
+    save_path = './human_study/data/processed/gpt-4_annotations.csv'
 
     try:
         df = pd.read_csv(save_path)
     except FileNotFoundError:
         df = pd.DataFrame(
-            columns=["participant_id","story_id","profile","story","timestamp","model","strategy","human_quality","llm_annotator",
+            columns=["participant_id","story_id","profile","timestamp","model","strategy","human_quality","llm_annotator",
                      "authenticity_explanation","authenticity_score","emotion_provoking_explanation","emotion_provoking_score",
                      "empathy_explanation","empathy_score","engagement_explanation","engagement_score",
                      "narrative_complexity_explanation","narrative_complexity_score", 
