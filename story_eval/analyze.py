@@ -1,4 +1,4 @@
-import numpy  as np
+import os
 import pandas as pd
 from agreement.utils.transform import pivot_table_frequency
 from agreement.utils.kernels import linear_kernel, ordinal_kernel
@@ -18,7 +18,7 @@ class AnnotationAnalyzer:
     def __init__(self, ):
         self.components = [
             'authenticity_score', 'empathy_score', 'engagement_score', 
-            'emotion_provoking_score', 'narrative_complexity_score']
+            'emotion_provoking_score', 'narrative_complexity_score', "human_or_llm_score"]
 
     def regular_iaa(self, ratings_df, component, prefix="human"):
             
@@ -103,7 +103,7 @@ class AnnotationAnalyzer:
             "llm_consensus_labels": llm_consensus_labels,
         }
 
-    def model_performances(self, ratings_df):
+    def model_scores(self, ratings_df):
         return ratings_df.groupby(by=['model', 'human_quality'], dropna=False).mean(numeric_only=True)[self.components]
 
     def participant_scores(self, ratings_df):
@@ -111,6 +111,44 @@ class AnnotationAnalyzer:
     
     def story_scores(self, ratings_df):
         return ratings_df.groupby(by='story_id', dropna=False).mean(numeric_only=True)[self.components]
+    
+    def summarize_iaa_and_corr(self, ratings_df):
+        cols = ["human_ordinal_weighted_krippendorffs_alpha", "llm_ordinal_weighted_krippendorffs_alpha", 
+                "human_vs_llm_spearman_corr", "human_vs_llm_spearman_p_value"]
+        ratings_df = ratings_df[ratings_df["excluded_participant_id"] == -1] # all raters
+        ratings_df = ratings_df[ratings_df["aggregator"] == "Wawa"] # only Wawa aggregation
+        return ratings_df.groupby(by='component', dropna=False).mean(numeric_only=True)[cols]
+    
+    def calculate_binarized_accuracy(self, df):
+        # Binarizing the human_or_llm_score
+        df['model_label'] = df['model'].apply(lambda x: 'human' if 'human' in x else 'llm')
+        df['predicted_label'] = df['human_or_llm_score'].apply(lambda x: 'human' if x in [1, 2] else ('llm' if x in [4, 5] else 'wrong'))
+
+        # Calculate binarized accuracy
+        correct_predictions = df[df['predicted_label'] == df['model_label']].shape[0]
+        total_predictions = df[df['predicted_label'] != 'wrong'].shape[0]
+        binarized_accuracy = correct_predictions / total_predictions if total_predictions else 0
+
+        return binarized_accuracy
+    
+    def calculate_ordinal_accuracy(self, df):
+        # Function to calculate penalty
+        def penalty(row):
+            if row['model_label'] == 'human':
+                return abs(row['human_or_llm_score'] - 1)
+            else:  # 'llm'
+                return abs(row['human_or_llm_score'] - 5)
+
+        # Calculate penalties for each row
+        df['model_label'] = df['model'].apply(lambda x: 'human' if 'human' in x else 'llm')
+        df['penalty'] = df.apply(penalty, axis=1)
+        total_penalty = df['penalty'].sum()
+        max_penalty = df.shape[0] * 4  # Maximum possible penalty
+        penalized_accuracy = 1 - (total_penalty / max_penalty if max_penalty else 0)
+
+        return penalized_accuracy
+
+
     
 class ZScoreAggregator:
 
@@ -175,51 +213,81 @@ class MeanAggregator:
     
 if __name__ == "__main__":
 
+    llm_name = "gpt-4"
+    
     # Create an instance of the class
     analyzer = AnnotationAnalyzer()
 
     # Read data from a CSV file 
     human_ratings_df = pd.read_csv('./human_study/data/processed/human_annotations.csv', encoding='cp1252')
-    llm_ratings_df   = pd.read_csv('./human_study/data/processed/gpt-4_annotations.csv', encoding='cp1252')
+    llm_ratings_df   = pd.read_csv(f'./human_study/data/processed/{llm_name}_annotations.csv', encoding='cp1252')
 
     human_ratings_df.sort_values(['participant_id', 'story_id'], ascending=[True, True])
     llm_ratings_df.sort_values(['participant_id', 'story_id'], ascending=[True, True])
 
-    print(analyzer.model_performances(human_ratings_df))
-    print(analyzer.participant_scores(human_ratings_df))
-    print(analyzer.story_scores(human_ratings_df))
+    # cols = ["story_id", "participant_id", 'authenticity_score', 'empathy_score', 'engagement_score', 
+    #             'emotion_provoking_score', 'narrative_complexity_score', "human_or_llm_score"]
+    # human_ratings_df[cols].to_csv(f'./story_eval/human_annotations_sorted.csv', index=False)
+    # llm_ratings_df[cols].to_csv(f'./story_eval/gpt-4_annotations_sorted.csv', index=False)
 
-    aggregators = [MeanAggregator(), ZScoreAggregator(), DawidSkene(), OneCoinDawidSkene(), GLAD(), MACE(), Wawa()]
-    components = ['authenticity_score', 'empathy_score', 'engagement_score', 
-                 'emotion_provoking_score', 'narrative_complexity_score']
-    participant_ids = [-1] + human_ratings_df["participant_id"].unique().tolist()
+    analyzer.model_scores(human_ratings_df).to_csv(f'./story_eval/human_study_model_scores.csv')
+    analyzer.participant_scores(human_ratings_df).to_csv(f'./story_eval/human_study_participant_scores.csv')
+    analyzer.story_scores(human_ratings_df).to_csv(f'./story_eval/human_study_story_scores.csv')
 
-    results = []
-    for participant_id in participant_ids:
-        filtered_human_ratings_df = human_ratings_df[human_ratings_df['participant_id'] != participant_id]
-        # print(f"Excluding participant_id={participant_id}...")
+    # Calculate accuracies
+    human_binarized_accuracy = analyzer.calculate_binarized_accuracy(human_ratings_df)
+    human_ordinal_accuracy = analyzer.calculate_ordinal_accuracy(human_ratings_df)
 
-        # Calculate regular and comparative IAA for each category
-        for component in components:
-            human_iaa = analyzer.regular_iaa(filtered_human_ratings_df, component, prefix="human")
-            llm_iaa   = analyzer.regular_iaa(llm_ratings_df, component, prefix="llm")
-            # print(f"Component: {component}")
-            # print(f"human_iaa:\n{human_iaa}")
-            # print(f"llm_iaa:\n{llm_iaa}")
+    print(f"Human Binarized Human-vs-LLM Accuracy: {human_binarized_accuracy}")
+    print(f"Human Ordinal Human-vs-LLM Accuracy: {human_ordinal_accuracy}")
 
-            for aggregator in aggregators:   
-                human_vs_llm_corr = analyzer.comparative_correlation(filtered_human_ratings_df, llm_ratings_df, component, aggregator)
-                # print(f"Aggregator: {aggregator.__class__.__name__}")
-                # print(f"human_vs_llm:\n{human_vs_llm_corr}")
-                results.append({
-                    "excluded_participant_id": participant_id,
-                    "component": component,
-                    **human_iaa,
-                    **llm_iaa,
-                    "aggregator": aggregator.__class__.__name__,
-                    **human_vs_llm_corr
-                })
+    llm_binarized_accuracy = analyzer.calculate_binarized_accuracy(llm_ratings_df)
+    llm_ordinal_accuracy = analyzer.calculate_ordinal_accuracy(llm_ratings_df)
 
-    df = pd.DataFrame(results)
-    print(df)
-    df.to_csv("./story_eval/iaa_results.csv", index=False)
+    print(f"{llm_name} Binarized Human-vs-LLM Accuracy: {llm_binarized_accuracy}")
+    print(f"{llm_name} Ordinal Human-vs-LLM Accuracy: {llm_ordinal_accuracy}")
+
+    save_path = f"./story_eval/human_vs_{llm_name}_iaa_raw.csv"
+
+    if not os.path.exists(save_path):
+
+        aggregators = [MeanAggregator(), ZScoreAggregator(), DawidSkene(), OneCoinDawidSkene(), GLAD(), MACE(), Wawa()]
+        components = ['authenticity_score', 'empathy_score', 'engagement_score', 
+                    'emotion_provoking_score', 'narrative_complexity_score', "human_or_llm_score"]
+        participant_ids = [-1] + human_ratings_df["participant_id"].unique().tolist()
+
+        results = []
+        for participant_id in participant_ids:
+            filtered_human_ratings_df = human_ratings_df[human_ratings_df['participant_id'] != participant_id]
+            # print(f"Excluding participant_id={participant_id}...")
+
+            # Calculate regular and comparative IAA for each category
+            for component in components:
+                human_iaa = analyzer.regular_iaa(filtered_human_ratings_df, component, prefix="human")
+                llm_iaa   = analyzer.regular_iaa(llm_ratings_df, component, prefix="llm")
+                # print(f"Component: {component}")
+                # print(f"human_iaa:\n{human_iaa}")
+                # print(f"llm_iaa:\n{llm_iaa}")
+
+                for aggregator in aggregators:   
+                    human_vs_llm_corr = analyzer.comparative_correlation(filtered_human_ratings_df, llm_ratings_df, component, aggregator)
+                    # print(f"Aggregator: {aggregator.__class__.__name__}")
+                    # print(f"human_vs_llm:\n{human_vs_llm_corr}")
+                    results.append({
+                        "excluded_participant_id": participant_id,
+                        "component": component,
+                        **human_iaa,
+                        **llm_iaa,
+                        "aggregator": aggregator.__class__.__name__,
+                        **human_vs_llm_corr
+                    })
+
+        results_df = pd.DataFrame(results)
+        print(results_df)
+        results_df.to_csv(save_path, index=False)
+
+    else:
+        results_df = pd.read_csv(save_path)
+
+    # Compute average kripp alpha and correlation (with p-value)
+    analyzer.summarize_iaa_and_corr(results_df).to_csv(f'./story_eval/human_vs_{llm_name}_iaa_corrs.csv')
