@@ -18,19 +18,22 @@ from pydantic import BaseModel, Field
 
 class PsychDepthEval(BaseModel):
     authenticity_explanation:         str   = Field(description="explanation of authenticity score")
-    authenticity_score:               float = Field(description="degree to which the writing is authentic")
+    authenticity_score:               float = Field(description="degree to which the writing is authentic (1 is Implausible - 5 is Undeniably Real)")
     emotion_provoking_explanation:    str   = Field(description="explanation of emotion provoking score")
-    emotion_provoking_score:          float = Field(description="degree to which the writing is emotion provoking")
+    emotion_provoking_score:          float = Field(description="degree to which the writing is emotion provoking (1 is Unmoving - 5 is Highly Emotional)")
     empathy_explanation:              str   = Field(description="explanation of empathy score")
-    empathy_score:                    float = Field(description="degree to which the writing is empathetic")
+    empathy_score:                    float = Field(description="degree to which the writing is empathetic (1 is Detached - 5 is Deep Resonance)")
     engagement_explanation:           str   = Field(description="explanation of engagement score")
-    engagement_score:                 float = Field(description="degree to which the writing is engaging")
+    engagement_score:                 float = Field(description="degree to which the writing is engaging (1 is Unengaging - 5 is Captivating)")
     narrative_complexity_explanation: str   = Field(description="explanation of narrative complexity score")
-    narrative_complexity_score:       float = Field(description="degree to which the writing is narratively complex")
+    narrative_complexity_score:       float = Field(description="degree to which the writing is narratively complex (1 is Simplistic - 5 is Intricately Woven)")
+    human_or_llm_explanation:         str   = Field(description="explanation of whether the story is human or LLM written")
+    human_or_llm_score:               float = Field(description="likelihood that the story is human or LLM written  (1 is Very Likely Human - 5 is Very Likely LLM)")
 
 class StoryEvaluator:
-    def __init__(self, test_mode=True, num_retries=10):
+    def __init__(self, openai_model="gpt-4", test_mode=True, num_retries=10):
 
+        self.openai_model = openai_model
         self.num_retries=num_retries
 
         self.output_parser = PydanticOutputParser(pydantic_object=PsychDepthEval)
@@ -47,7 +50,7 @@ class StoryEvaluator:
         )
 
         self.eval_background = textwrap.dedent("""
-            **Task**: 
+            ** Task **: 
             
             Your task is composed of the following steps:
             1. Review the given components of psychological depth: authenticity, emotion
@@ -58,10 +61,13 @@ class StoryEvaluator:
             depth is evident in the story.
             4. Assign a rating for each component from 1 to 5. 1 is greatly below average, 3 is
             average and 5 is greatly above average (should be rare to provide this score).
+            5. Lastly, estimate the likelihood that each story was authored by a human or an LLM. Think about what human or 
+            LLM writing characteristics may be. Assign a score from 1 to 5, where 1 means very likely human written and 5
+            means very likely LLM written. 
 
-            **Evaluation Components**: 
+            ** Psychological Depth Component Descriptions **: 
             
-            For our purposes, psychological depth is composed of the following concepts, each illustrated by several questions: 
+            We define sychological depth in terms of the following concepts, each illustrated by several questions: 
 
             - Authenticity 
                 - Does the writing feel true to real human experiences? 
@@ -81,12 +87,13 @@ class StoryEvaluator:
                 - Do the characters in the story have multifaceted personalities? Are they developed beyond stereotypes or tropes? Do they exhibit internal conflicts? 
                 - Does the writing explore the complexities of relationships between characters? 
                 - Does it delve into the intricacies of conflicts and their partial or complete resolutions? 
+            
 
-            **Story Content**: 
+            ** Story Content **: 
             
             {story} 
 
-            **Format Instructions**: 
+            ** Format Instructions **: 
             
             {format_instructions} 
             """
@@ -119,13 +126,15 @@ class StoryEvaluator:
                 "engagement_explanation": "The writing captivates the reader's attention throughout.",
                 "engagement_score": 4.0,
                 "narrative_complexity_explanation": "The narrative structure is intricate and layered.",
-                "narrative_complexity_score": 3.7
+                "narrative_complexity_score": 3.7,
+                "human_or_llm_explanation": "The writing seems too stilted to be human.",
+                "human_or_llm_score": 5
             }
             responses=[f"Here's what I think:\n{json.dumps(fake_output)}" for i in range(2)]
             self.llm = FakeListLLM(responses=responses)
         else:
             load_dotenv(find_dotenv()) # load openai api key from ./.env
-            self.llm = ChatOpenAI()
+            self.llm = ChatOpenAI(model_name=self.openai_model)
             self.base_temperature = self.llm.temperature
 
         self.chain = self.prompt | self.llm | self.output_parser
@@ -166,7 +175,7 @@ if __name__ == "__main__":
             # "You are an experienced psychologist with a keen interest in literature.",
             "You are a professor teaching a course on psychological literature.",
         ]
-    stories = pd.read_csv("./human_study/data/stories.csv", encoding='cp1252')
+    stories = pd.read_csv("./human_study/data/stories.csv")
 
     save_path = './human_study/data/processed/llm_annotations.csv'
 
@@ -177,7 +186,8 @@ if __name__ == "__main__":
             columns=["participant_id","story_id","profile","story","timestamp","model","strategy","human_quality","llm_annotator",
                      "authenticity_explanation","authenticity_score","emotion_provoking_explanation","emotion_provoking_score",
                      "empathy_explanation","empathy_score","engagement_explanation","engagement_score",
-                     "narrative_complexity_explanation","narrative_complexity_score"])
+                     "narrative_complexity_explanation","narrative_complexity_score", 
+                     "human_or_llm_explanation", "human_or_llm_score"])
 
     for i, story_data in tqdm(stories.iterrows(), total=stories.shape[0]):
         for profile in system_profiles:
@@ -191,7 +201,7 @@ if __name__ == "__main__":
                     human_quality=story_data['human_quality'],
                     participant_id=participant_id,
                     story_id=story_data['story_id'],
-                    llm_annotator="gpt-4"
+                    llm_annotator=se.openai_model
                 )
                 df = df._append(response, ignore_index=True)
                 df.to_csv(save_path, index=False)
