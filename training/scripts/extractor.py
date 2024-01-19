@@ -1,7 +1,7 @@
 import os
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "3"
-os.environ["WORLD_SIZE"] = "3"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["WORLD_SIZE"] = "0"
 
 from typing import List
 import pandas as pd
