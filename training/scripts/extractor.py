@@ -1,7 +1,7 @@
 import os
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
-os.environ["WORLD_SIZE"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "3"
+os.environ["WORLD_SIZE"] = "3"
 
 from typing import List
 import pandas as pd
@@ -63,7 +63,7 @@ class StoryExtractor:
             device_map="auto",
             trust_remote_code=False,
             revision=revision) 
-        self.model = exllama_set_max_input_length(self.model, max_input_length=16000)
+        self.model = exllama_set_max_input_length(self.model, max_input_length=10000)
         self.tokenizer = AutoTokenizer.from_pretrained(
             model_name_or_path, use_fast=True, cache_dir=cache_dir)
 
@@ -162,7 +162,7 @@ if __name__ == "__main__":
     try:
         df = pd.read_csv(save_path)
     except FileNotFoundError:
-        df = pd.DataFrame(columns=["book_id", "title", "characters", "plot_points", "themes", "key_words", "timestamp", "llm_annotator"])
+        df = pd.DataFrame(columns=["book_id", "title", "archtypes", "plot_points", "themes", "key_words", "timestamp", "llm_annotator"])
 
     for i, story_data in tqdm(source_stories_df.iterrows(), total=source_stories_df.shape[0]):
         if df[df['book_id'] == story_data['book_id']].empty:
