@@ -8,7 +8,6 @@ from crowdkit.aggregation import (
     DawidSkene, 
     OneCoinDawidSkene, 
     GLAD, 
-    MMSR, 
     MACE,
     Wawa
 )
@@ -103,7 +102,7 @@ class AnnotationAnalyzer:
             "human_consensus_labels": human_consensus_labels,
             "llm_consensus_labels": llm_consensus_labels,
         }
-    
+
     def model_performances(self, ratings_df):
         return ratings_df.groupby(by=['model', 'human_quality'], dropna=False).mean(numeric_only=True)[self.components]
 
@@ -181,7 +180,7 @@ if __name__ == "__main__":
 
     # Read data from a CSV file 
     human_ratings_df = pd.read_csv('./human_study/data/processed/human_annotations.csv', encoding='cp1252')
-    llm_ratings_df   = pd.read_csv('./human_study/data/processed/llm_annotations.csv', encoding='cp1252')
+    llm_ratings_df   = pd.read_csv('./human_study/data/processed/gpt-4_annotations.csv', encoding='cp1252')
 
     human_ratings_df.sort_values(['participant_id', 'story_id'], ascending=[True, True])
     llm_ratings_df.sort_values(['participant_id', 'story_id'], ascending=[True, True])
@@ -190,7 +189,7 @@ if __name__ == "__main__":
     print(analyzer.participant_scores(human_ratings_df))
     print(analyzer.story_scores(human_ratings_df))
 
-    aggregators = [MeanAggregator(), ZScoreAggregator(), DawidSkene(), OneCoinDawidSkene(), GLAD(), MMSR(), MACE(), Wawa()]
+    aggregators = [MeanAggregator(), ZScoreAggregator(), DawidSkene(), OneCoinDawidSkene(), GLAD(), MACE(), Wawa()]
     components = ['authenticity_score', 'empathy_score', 'engagement_score', 
                  'emotion_provoking_score', 'narrative_complexity_score']
     participant_ids = [-1] + human_ratings_df["participant_id"].unique().tolist()
@@ -209,7 +208,7 @@ if __name__ == "__main__":
             # print(f"llm_iaa:\n{llm_iaa}")
 
             for aggregator in aggregators:   
-                human_vs_llm_corr = analyzer.comparative_correlation(human_ratings_df, llm_ratings_df, component, aggregator)
+                human_vs_llm_corr = analyzer.comparative_correlation(filtered_human_ratings_df, llm_ratings_df, component, aggregator)
                 # print(f"Aggregator: {aggregator.__class__.__name__}")
                 # print(f"human_vs_llm:\n{human_vs_llm_corr}")
                 results.append({
