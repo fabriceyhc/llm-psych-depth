@@ -197,12 +197,12 @@ if __name__ == "__main__":
 
     results = []
     for participant_id in participant_ids:
-        ratings_df = human_ratings_df[human_ratings_df['participant_id'] != participant_id]
+        filtered_human_ratings_df = human_ratings_df[human_ratings_df['participant_id'] != participant_id]
         # print(f"Excluding participant_id={participant_id}...")
 
         # Calculate regular and comparative IAA for each category
         for component in components:
-            human_iaa = analyzer.regular_iaa(human_ratings_df, component, prefix="human")
+            human_iaa = analyzer.regular_iaa(filtered_human_ratings_df, component, prefix="human")
             llm_iaa   = analyzer.regular_iaa(llm_ratings_df, component, prefix="llm")
             # print(f"Component: {component}")
             # print(f"human_iaa:\n{human_iaa}")
