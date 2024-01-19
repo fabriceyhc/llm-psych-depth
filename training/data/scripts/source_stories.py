@@ -76,4 +76,4 @@ if __name__ == "__main__":
 
     print(df)
 
-    df.to_csv("./training/data/processed/stories.csv", index=False)
+    df.to_csv("./training/data/processed/source_stories.csv", index=False)
