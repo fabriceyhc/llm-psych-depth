@@ -18,7 +18,7 @@ class AnnotationAnalyzer:
     def __init__(self, ):
         self.components = [
             'authenticity_score', 'empathy_score', 'engagement_score', 
-            'emotion_provoking_score', 'narrative_complexity_score', "human_or_llm_score"]
+            'emotion_provoking_score', 'narrative_complexity_score', "human_likeness_score"]
 
     def regular_iaa(self, ratings_df, component, prefix="human"):
             
@@ -116,13 +116,13 @@ class AnnotationAnalyzer:
         cols = ["human_ordinal_weighted_krippendorffs_alpha", "llm_ordinal_weighted_krippendorffs_alpha", 
                 "human_vs_llm_spearman_corr", "human_vs_llm_spearman_p_value"]
         ratings_df = ratings_df[ratings_df["excluded_participant_id"] == -1] # all raters
-        ratings_df = ratings_df[ratings_df["aggregator"] == "Wawa"] # only Wawa aggregation
+        ratings_df = ratings_df[ratings_df["aggregator"] == "MeanAggregator"] # only Wawa aggregation
         return ratings_df.groupby(by='component', dropna=False).mean(numeric_only=True)[cols]
     
     def calculate_binarized_accuracy(self, df):
-        # Binarizing the human_or_llm_score
+        # Binarizing the human_likeness_score
         df['model_label'] = df['model'].apply(lambda x: 'human' if 'human' in x else 'llm')
-        df['predicted_label'] = df['human_or_llm_score'].apply(lambda x: 'human' if x in [1, 2] else ('llm' if x in [4, 5] else 'wrong'))
+        df['predicted_label'] = df['human_likeness_score'].apply(lambda x: 'human' if x in [4, 5] else ('llm' if x in [1, 2] else 'wrong'))
 
         # Calculate binarized accuracy
         correct_predictions = df[df['predicted_label'] == df['model_label']].shape[0]
@@ -135,9 +135,9 @@ class AnnotationAnalyzer:
         # Function to calculate penalty
         def penalty(row):
             if row['model_label'] == 'human':
-                return abs(row['human_or_llm_score'] - 1)
+                return abs(row['human_likeness_score'] - 5)
             else:  # 'llm'
-                return abs(row['human_or_llm_score'] - 5)
+                return abs(row['human_likeness_score'] - 1)
 
         # Calculate penalties for each row
         df['model_label'] = df['model'].apply(lambda x: 'human' if 'human' in x else 'llm')
@@ -226,7 +226,7 @@ if __name__ == "__main__":
     llm_ratings_df.sort_values(['participant_id', 'story_id'], ascending=[True, True])
 
     # cols = ["story_id", "participant_id", 'authenticity_score', 'empathy_score', 'engagement_score', 
-    #             'emotion_provoking_score', 'narrative_complexity_score', "human_or_llm_score"]
+    #             'emotion_provoking_score', 'narrative_complexity_score', "human_likeness_score"]
     # human_ratings_df[cols].to_csv(f'./story_eval/human_annotations_sorted.csv', index=False)
     # llm_ratings_df[cols].to_csv(f'./story_eval/gpt-4_annotations_sorted.csv', index=False)
 
@@ -253,7 +253,7 @@ if __name__ == "__main__":
 
         aggregators = [MeanAggregator(), ZScoreAggregator(), DawidSkene(), OneCoinDawidSkene(), GLAD(), MACE(), Wawa()]
         components = ['authenticity_score', 'empathy_score', 'engagement_score', 
-                    'emotion_provoking_score', 'narrative_complexity_score', "human_or_llm_score"]
+                    'emotion_provoking_score', 'narrative_complexity_score', "human_likeness_score"]
         participant_ids = [-1] + human_ratings_df["participant_id"].unique().tolist()
 
         results = []
