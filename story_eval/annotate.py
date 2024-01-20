@@ -27,8 +27,8 @@ class PsychDepthEval(BaseModel):
     engagement_score:                 float = Field(description="degree to which the writing is engaging (1 is Unengaging - 5 is Captivating)")
     narrative_complexity_explanation: str   = Field(description="explanation of narrative complexity score")
     narrative_complexity_score:       float = Field(description="degree to which the writing is narratively complex (1 is Simplistic - 5 is Intricately Woven)")
-    human_or_llm_explanation:         str   = Field(description="explanation of whether the story is human or LLM written")
-    human_or_llm_score:               float = Field(description="likelihood that the story is human or LLM written  (1 is Very Likely Human - 5 is Very Likely LLM)")
+    human_likeness_explanation:       str   = Field(description="explanation of whether the story is human or LLM written")
+    human_likeness_score:             float = Field(description="likelihood that the story is human or LLM written  (1 is Very Likely LLM - 5 is Very Likely Human)")
 
 class StoryEvaluator:
     def __init__(self, openai_model="gpt-4", test_mode=True, num_retries=10):
@@ -62,8 +62,8 @@ class StoryEvaluator:
             4. Assign a rating for each component from 1 to 5. 1 is greatly below average, 3 is
             average and 5 is greatly above average (should be rare to provide this score).
             5. Lastly, estimate the likelihood that each story was authored by a human or an LLM. Think about what human or 
-            LLM writing characteristics may be. Assign a score from 1 to 5, where 1 means very likely human written and 5
-            means very likely LLM written. 
+            LLM writing characteristics may be. Assign a score from 1 to 5, where 1 means very likely LLM written and 5
+            means very likely human written. 
 
             ** Psychological Depth Component Descriptions **: 
             
@@ -127,8 +127,8 @@ class StoryEvaluator:
                 "engagement_score": 4.0,
                 "narrative_complexity_explanation": "The narrative structure is intricate and layered.",
                 "narrative_complexity_score": 3.7,
-                "human_or_llm_explanation": "The writing seems too stilted to be human.",
-                "human_or_llm_score": 5
+                "human_likeness_explanation": "The writing seems too stilted to be human.",
+                "human_likeness_score": 5
             }
             responses=[f"Here's what I think:\n{json.dumps(fake_output)}" for i in range(2)]
             self.llm = FakeListLLM(responses=responses)
@@ -187,7 +187,7 @@ if __name__ == "__main__":
                      "authenticity_explanation","authenticity_score","emotion_provoking_explanation","emotion_provoking_score",
                      "empathy_explanation","empathy_score","engagement_explanation","engagement_score",
                      "narrative_complexity_explanation","narrative_complexity_score", 
-                     "human_or_llm_explanation", "human_or_llm_score"])
+                     "human_likeness_explanation", "human_likeness_score"])
 
     for i, story_data in tqdm(stories.iterrows(), total=stories.shape[0]):
         for profile in system_profiles:

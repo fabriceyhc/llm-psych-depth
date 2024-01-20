@@ -21,7 +21,7 @@ mappings = [
     ("**engaging**", "engagement"),
     ("**provoke emotion**", "emotion_provoking"),
     ("**narratively complex**", "narrative_complexity"),
-    ("human or an llm", "human_or_llm")
+    ("human or an llm", "human_likeness")
 ]
 
 
@@ -45,14 +45,14 @@ for search_val, rename_val in mappings:
 
 
 keep_cols = ["participant_id", "authenticity_score", "empathy_score", "engagement_score", 
-             "emotion_provoking_score", "narrative_complexity_score", "human_or_llm_score"]
+             "emotion_provoking_score", "narrative_complexity_score", "human_likeness_score"]
 
 df = pd.concat(results, axis=1)[keep_cols]
 df = df.loc[:, ~df.columns.duplicated()]
 df['story_id'] = df.index // 5
 
 final_cols = ["participant_id", "story_id", "authenticity_score", "empathy_score", "engagement_score", 
-              "emotion_provoking_score", "narrative_complexity_score", "human_or_llm_score"]
+              "emotion_provoking_score", "narrative_complexity_score", "human_likeness_score"]
 
 df[final_cols].to_csv("./human_study/data/preprocessed/annotations.csv", index=False)
 stories_df = pd.read_csv("./human_study/data/stories_cleaned.csv")
