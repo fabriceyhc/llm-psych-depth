@@ -110,7 +110,10 @@ class AnnotationAnalyzer:
         return ratings_df.groupby(by='participant_id', dropna=False).mean(numeric_only=True)[self.components]
     
     def story_scores(self, ratings_df):
-        return ratings_df.groupby(by='story_id', dropna=False).mean(numeric_only=True)[self.components]
+        scores = ratings_df.groupby(by='story_id', dropna=False).mean(numeric_only=True)
+        stories = ratings_df[["story_id", "model_short", "model_full", "strategy"]].drop_duplicates()
+        assert (len(stories)) == 100
+        return scores.merge(stories, on="story_id")
     
     def summarize_iaa_and_corr(self, ratings_df):
         cols = ["human_ordinal_weighted_krippendorffs_alpha", "llm_ordinal_weighted_krippendorffs_alpha", 
