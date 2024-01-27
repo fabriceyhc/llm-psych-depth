@@ -104,7 +104,7 @@ class AnnotationAnalyzer:
         }
 
     def model_scores(self, ratings_df):
-        return ratings_df.groupby(by=['model', 'human_quality'], dropna=False).mean(numeric_only=True)[self.components]
+        return ratings_df.groupby(by=['model_short'], dropna=False).mean(numeric_only=True)[self.components].sort_values(by=["model_short"], key=lambda x: x.map(sort_order))
 
     def participant_scores(self, ratings_df):
         return ratings_df.groupby(by='participant_id', dropna=False).mean(numeric_only=True)[self.components]
@@ -121,7 +121,7 @@ class AnnotationAnalyzer:
     
     def calculate_binarized_accuracy(self, df):
         # Binarizing the human_likeness_score
-        df['model_label'] = df['model'].apply(lambda x: 'human' if 'human' in x else 'llm')
+        df['model_label'] = df['model_short'].apply(lambda x: 'human' if 'human' in x.lower() else 'llm')
         df['predicted_label'] = df['human_likeness_score'].apply(lambda x: 'human' if x in [4, 5] else ('llm' if x in [1, 2] else 'wrong'))
 
         # Calculate binarized accuracy
@@ -140,7 +140,7 @@ class AnnotationAnalyzer:
                 return abs(row['human_likeness_score'] - 1)
 
         # Calculate penalties for each row
-        df['model_label'] = df['model'].apply(lambda x: 'human' if 'human' in x else 'llm')
+        df['model_label'] = df['model_short'].apply(lambda x: 'human' if 'human' in x.lower() else 'llm')
         df['penalty'] = df.apply(penalty, axis=1)
         total_penalty = df['penalty'].sum()
         max_penalty = df.shape[0] * 4  # Maximum possible penalty
@@ -214,7 +214,19 @@ class MeanAggregator:
 if __name__ == "__main__":
 
     llm_name = "gpt-4"
-    
+
+    # Custom Sort Order
+    sort_order = {
+        "Llama-2-7B" : 0, 
+        "Llama-2-13B": 1, 
+        "Vicuna-33B" : 2,
+        "Llama-2-70B": 3,
+        "GPT-4":       4,
+        "Human-Low":   5,
+        "Human-Mid":   6,
+        "Human-High":  7,
+    }
+
     # Create an instance of the class
     analyzer = AnnotationAnalyzer()
 
@@ -233,19 +245,6 @@ if __name__ == "__main__":
     analyzer.model_scores(human_ratings_df).to_csv(f'./story_eval/human_study_model_scores.csv')
     analyzer.participant_scores(human_ratings_df).to_csv(f'./story_eval/human_study_participant_scores.csv')
     analyzer.story_scores(human_ratings_df).to_csv(f'./story_eval/human_study_story_scores.csv')
-
-    # Calculate accuracies
-    human_binarized_accuracy = analyzer.calculate_binarized_accuracy(human_ratings_df)
-    human_ordinal_accuracy = analyzer.calculate_ordinal_accuracy(human_ratings_df)
-
-    print(f"Human Binarized Human-vs-LLM Accuracy: {human_binarized_accuracy}")
-    print(f"Human Ordinal Human-vs-LLM Accuracy: {human_ordinal_accuracy}")
-
-    llm_binarized_accuracy = analyzer.calculate_binarized_accuracy(llm_ratings_df)
-    llm_ordinal_accuracy = analyzer.calculate_ordinal_accuracy(llm_ratings_df)
-
-    print(f"{llm_name} Binarized Human-vs-LLM Accuracy: {llm_binarized_accuracy}")
-    print(f"{llm_name} Ordinal Human-vs-LLM Accuracy: {llm_ordinal_accuracy}")
 
     save_path = f"./story_eval/human_vs_{llm_name}_iaa_raw.csv"
 
@@ -291,3 +290,81 @@ if __name__ == "__main__":
 
     # Compute average kripp alpha and correlation (with p-value)
     analyzer.summarize_iaa_and_corr(results_df).to_csv(f'./story_eval/human_vs_{llm_name}_iaa_corrs.csv')
+
+    # Calculate accuracies
+    save_path = f"./story_eval/human_vs_llm_prediction_accuracies.csv"
+    accuracies = []
+    for model in human_ratings_df["model_short"].unique():
+
+        human_model_df = human_ratings_df[human_ratings_df["model_short"] == model]
+        llm_model_df = llm_ratings_df[llm_ratings_df["model_short"] == model]
+        
+        # Calculate accuracies
+        human_binarized_accuracy = analyzer.calculate_binarized_accuracy(human_model_df)
+        human_ordinal_accuracy = analyzer.calculate_ordinal_accuracy(human_model_df)
+
+        llm_binarized_accuracy = analyzer.calculate_binarized_accuracy(llm_model_df)
+        llm_ordinal_accuracy = analyzer.calculate_ordinal_accuracy(llm_model_df)
+
+        accuracies.append({
+            "model": model,
+            "human_binarized_accuracy": human_binarized_accuracy,
+            "human_ordinal_accuracy": human_ordinal_accuracy,
+            f"{llm_name}_binarized_accuracy": llm_binarized_accuracy,
+            f"{llm_name}_ordinal_accuracy": llm_ordinal_accuracy,
+        })
+
+    # Human Average
+    human_avg_df = human_ratings_df[human_ratings_df["model_short"].str.lower().str.contains("human")]
+    llm_avg_df = llm_ratings_df[llm_ratings_df["model_short"].str.lower().str.contains("human")]
+
+    human_binarized_accuracy_havg = analyzer.calculate_binarized_accuracy(human_avg_df)
+    human_ordinal_accuracy_havg = analyzer.calculate_ordinal_accuracy(human_avg_df)
+
+    llm_binarized_accuracy_havg = analyzer.calculate_binarized_accuracy(llm_avg_df)
+    llm_ordinal_accuracy_havg = analyzer.calculate_ordinal_accuracy(llm_avg_df)
+
+    accuracies.append({
+        "model": "Human",
+        "human_binarized_accuracy": human_binarized_accuracy_havg,
+        "human_ordinal_accuracy": human_ordinal_accuracy_havg,
+        f"{llm_name}_binarized_accuracy": llm_binarized_accuracy_havg,
+        f"{llm_name}_ordinal_accuracy": llm_ordinal_accuracy_havg,
+    })
+
+    # LLM
+    human_avg_df = human_ratings_df[~human_ratings_df["model_short"].str.lower().str.contains("human", )]
+    llm_avg_df = llm_ratings_df[~llm_ratings_df["model_short"].str.lower().str.contains("human")]
+
+    human_binarized_accuracy_lavg = analyzer.calculate_binarized_accuracy(human_avg_df)
+    human_ordinal_accuracy_lavg = analyzer.calculate_ordinal_accuracy(human_avg_df)
+
+    llm_binarized_accuracy_lavg = analyzer.calculate_binarized_accuracy(llm_avg_df)
+    llm_ordinal_accuracy_lavg = analyzer.calculate_ordinal_accuracy(llm_avg_df)
+
+    accuracies.append({
+        "model": "LLM",
+        "human_binarized_accuracy": human_binarized_accuracy_lavg,
+        "human_ordinal_accuracy": human_ordinal_accuracy_lavg,
+        f"{llm_name}_binarized_accuracy": llm_binarized_accuracy_lavg,
+        f"{llm_name}_ordinal_accuracy": llm_ordinal_accuracy_lavg,
+    })
+
+    # Overall
+    human_binarized_accuracy_all = analyzer.calculate_binarized_accuracy(human_ratings_df)
+    human_ordinal_accuracy_all = analyzer.calculate_ordinal_accuracy(human_ratings_df)
+
+    llm_binarized_accuracy_all = analyzer.calculate_binarized_accuracy(llm_ratings_df)
+    llm_ordinal_accuracy_all = analyzer.calculate_ordinal_accuracy(llm_ratings_df)
+
+    accuracies.append({
+        "model": "Overall",
+        "human_binarized_accuracy": human_binarized_accuracy_all,
+        "human_ordinal_accuracy": human_ordinal_accuracy_all,
+        f"{llm_name}_binarized_accuracy": llm_binarized_accuracy_all,
+        f"{llm_name}_ordinal_accuracy": llm_ordinal_accuracy_all,
+    })
+
+    accuracies_df = pd.DataFrame(accuracies).sort_values(by=["model"], key=lambda x: x.map(sort_order))
+    print(accuracies_df)
+    accuracies_df.to_csv(save_path, index=False)
