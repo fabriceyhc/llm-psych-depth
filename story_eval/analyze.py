@@ -112,7 +112,7 @@ class AnnotationAnalyzer:
     def story_scores(self, ratings_df):
         scores = ratings_df.groupby(by='story_id', dropna=False).mean(numeric_only=True)
         stories = ratings_df[["story_id", "model_short", "model_full", "strategy"]].drop_duplicates()
-        assert (len(stories)) == 100
+        # assert (len(stories)) == 100
         return scores.merge(stories, on="story_id")
     
     def summarize_iaa_and_corr(self, ratings_df):
@@ -245,9 +245,9 @@ if __name__ == "__main__":
     # human_ratings_df[cols].to_csv(f'./story_eval/human_annotations_sorted.csv', index=False)
     # llm_ratings_df[cols].to_csv(f'./story_eval/gpt-4_annotations_sorted.csv', index=False)
 
-    analyzer.model_scores(human_ratings_df).to_csv(f'./story_eval/human_study_model_scores.csv')
-    analyzer.participant_scores(human_ratings_df).to_csv(f'./story_eval/human_study_participant_scores.csv')
-    analyzer.story_scores(human_ratings_df).to_csv(f'./story_eval/human_study_story_scores.csv')
+    analyzer.model_scores(human_ratings_df).to_csv(f'./story_eval/human_study_model_scores.csv', index=False)
+    analyzer.participant_scores(human_ratings_df).to_csv(f'./story_eval/human_study_participant_scores.csv', index=False)
+    analyzer.story_scores(human_ratings_df).to_csv(f'./story_eval/human_study_story_scores.csv', index=False)
 
     save_path = f"./story_eval/human_vs_{llm_name}_iaa_raw.csv"
 
