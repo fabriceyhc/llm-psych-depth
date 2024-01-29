@@ -245,11 +245,11 @@ if __name__ == "__main__":
     # human_ratings_df[cols].to_csv(f'./story_eval/human_annotations_sorted.csv', index=False)
     # llm_ratings_df[cols].to_csv(f'./story_eval/gpt-4_annotations_sorted.csv', index=False)
 
-    analyzer.model_scores(human_ratings_df).to_csv(f'./story_eval/human_study_model_scores.csv', index=False)
-    analyzer.participant_scores(human_ratings_df).to_csv(f'./story_eval/human_study_participant_scores.csv', index=False)
-    analyzer.story_scores(human_ratings_df).to_csv(f'./story_eval/human_study_story_scores.csv', index=False)
+    analyzer.model_scores(human_ratings_df).to_csv(f'./story_eval/tables/human_study_model_scores.csv', index=False)
+    analyzer.participant_scores(human_ratings_df).to_csv(f'./story_eval/tables/human_study_participant_scores.csv', index=False)
+    analyzer.story_scores(human_ratings_df).to_csv(f'./story_eval/tables/human_study_story_scores.csv', index=False)
 
-    save_path = f"./story_eval/human_vs_{llm_name}_iaa_raw.csv"
+    save_path = f"./story_eval/tables/human_vs_{llm_name}_iaa_raw.csv"
 
     if not os.path.exists(save_path):
 
@@ -292,10 +292,10 @@ if __name__ == "__main__":
         results_df = pd.read_csv(save_path)
 
     # Compute average kripp alpha and correlation (with p-value)
-    analyzer.summarize_iaa_and_corr(results_df).to_csv(f'./story_eval/human_vs_{llm_name}_iaa_corrs.csv')
+    analyzer.summarize_iaa_and_corr(results_df).to_csv(f'./story_eval/tables/human_vs_{llm_name}_iaa_corrs.csv')
 
     # Calculate accuracies
-    save_path = f"./story_eval/human_vs_llm_prediction_accuracies.csv"
+    save_path = f"./story_eval/tables/human_vs_llm_prediction_accuracies.csv"
     accuracies = []
     for model in human_ratings_df["model_short"].unique():
 
