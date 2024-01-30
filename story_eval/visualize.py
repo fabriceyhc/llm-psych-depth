@@ -57,12 +57,12 @@ def plot_spider(df, models, title, save_path=None, sort_order=None):
     else:
         plt.show()
 
-def plot_model_cdf(data, model, column, ax, color):
+def plot_model_cdf(data, model, column, ax, color, marker):
     model_data = data[data['model_short'] == model]
     values, base = np.histogram(model_data[column], bins=np.arange(1, 7), density=True)
     cumulative = np.cumsum(values)
     
-    ax.plot(base[:-1], cumulative, marker='o', label=model, color=color)
+    ax.plot(base[:-1], cumulative, label=model, marker=marker, color=color)
     ax.set_title(f'{column.replace("_", " ").replace("score", "").title()}')
     ax.set_xlabel('Scores')
     ax.set_ylabel('Cumulative Probability')
@@ -70,6 +70,9 @@ def plot_model_cdf(data, model, column, ax, color):
     ax.set_ylim([0, 1])
 
 def plot_cdf(df, models, title, nrows, ncols, save_path, sort_order):
+
+    # Defining a list of unique markers for the models
+    markers = ['1', '2', '3', '4', 'D', 'v', '>', '^']
 
     # Filter data for specific models
     filtered_data = df[df["model_short"].isin(models)]
@@ -79,7 +82,10 @@ def plot_cdf(df, models, title, nrows, ncols, save_path, sort_order):
 
     # Prepare data and labels for the radar chart
     score_columns = [col for col in sorted_df.columns if col.endswith('_score')]
-    colors = plt.cm.magma(np.linspace(0, 1, len(models)))
+    
+    llm_colors = plt.cm.Blues(np.linspace(0, 1, 7))[1:-1]
+    human_colors = plt.cm.Reds(np.linspace(0, 1, 5))[1:-1]
+    colors = np.concatenate((llm_colors, human_colors), axis=0)
 
     # Creating the updated plots
     fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(5 * ncols, 5 * nrows), sharex='col', sharey='row')
@@ -93,8 +99,8 @@ def plot_cdf(df, models, title, nrows, ncols, save_path, sort_order):
 
     # Plotting the CDF for each component, including all models in the specified order
     for i, column in enumerate(score_columns):
-        for model, color in zip(models, colors):
-            plot_model_cdf(sorted_df, model, column, axes[i], color)
+        for model, color, marker in zip(models, colors, markers):
+            plot_model_cdf(sorted_df, model, column, axes[i], color, marker)
 
     # Adjust layout and add a combined legend
     plt.tight_layout(rect=[0, 0.03, 1, 0.96])
