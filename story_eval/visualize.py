@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Function to add a radar chart with filled variance
 def add_radar_chart_filled_variance(ax, angles, data_row, label, color, variance_fraction=0.2, line_width=3):
@@ -15,7 +16,7 @@ def add_radar_chart_filled_variance(ax, angles, data_row, label, color, variance
     ax.plot(angles, lower_values, color=color, linewidth=0)
     ax.fill_between(angles, lower_values, upper_values, color=color, alpha=0.1)
 
-def plot_spider(df, models, title, save_path=None, sort_order=None):
+def plot_spider(df, models, title, sort_order, colors, save_path=None):
 
     # Filter data for specific models
     filtered_data = df[df["model_short"].isin(models)]
@@ -31,7 +32,6 @@ def plot_spider(df, models, title, save_path=None, sort_order=None):
     # Prepare data and labels for the radar chart
     labels = [label.split('_')[0].replace('_', ' ').title() for label in aggregated_filtered_data_no_ids.columns[::2]]
     labels = [label.replace('Human', 'Human Likeness').replace('Narrative', 'Narrative Complexity').replace('Emotion', 'Emotion Provoking') for label in labels]
-    colors = plt.cm.Spectral_r(np.linspace(0, 1, len(sort_order)))
 
     # Set up the radar chart
     fig, ax = plt.subplots(figsize=(10, 10), subplot_kw=dict(polar=True))
@@ -69,7 +69,18 @@ def plot_model_cdf(data, model, column, ax, color, marker):
     ax.set_xticks(np.arange(1, 6))
     ax.set_ylim([0, 1])
 
-def plot_cdf(df, models, title, nrows, ncols, save_path, sort_order):
+def plot_model_cdf_smooth(data, model, column, ax, color, marker):
+    model_data = data[data['model_short'] == model][column]
+    sns.kdeplot(model_data, cumulative=True, ax=ax, label=model, color=color)
+
+    ax.set_title(f'{column.replace("_", " ").replace("score", "").title()}')
+    ax.set_xlabel('Scores')
+    ax.set_ylabel('Cumulative Probability')
+    ax.set_xticks(np.arange(1, 6))
+    ax.set_xlim(0, 6)  # Set the x-axis range
+    ax.set_ylim([0, 1])
+
+def plot_cdf(df, models, title, nrows, ncols, sort_order, colors, smooth=True, save_path=None):
 
     # Defining a list of unique markers for the models
     markers = ['1', '2', '3', '4', 'D', 'v', '>', '^']
@@ -83,10 +94,6 @@ def plot_cdf(df, models, title, nrows, ncols, save_path, sort_order):
     # Prepare data and labels for the radar chart
     score_columns = [col for col in sorted_df.columns if col.endswith('_score')]
     
-    llm_colors = plt.cm.Blues(np.linspace(0, 1, 7))[1:-1]
-    human_colors = plt.cm.Reds(np.linspace(0, 1, 5))[1:-1]
-    colors = np.concatenate((llm_colors, human_colors), axis=0)
-
     # Creating the updated plots
     fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(5 * ncols, 5 * nrows), sharex='col', sharey='row')
     fig.suptitle(title, fontsize=16)
@@ -100,7 +107,11 @@ def plot_cdf(df, models, title, nrows, ncols, save_path, sort_order):
     # Plotting the CDF for each component, including all models in the specified order
     for i, column in enumerate(score_columns):
         for model, color, marker in zip(models, colors, markers):
-            plot_model_cdf(sorted_df, model, column, axes[i], color, marker)
+            if smooth:
+                plot_model_cdf_smooth(sorted_df, model, column, axes[i], color, marker)
+            else:
+                plot_model_cdf(sorted_df, model, column, axes[i], color, marker)
+
 
     # Adjust layout and add a combined legend
     plt.tight_layout(rect=[0, 0.03, 1, 0.96])
@@ -131,6 +142,10 @@ if __name__ == "__main__":
         "Human-High":  7,
     }
 
+    llm_colors = plt.cm.Blues(np.linspace(0, 1, 7))[1:-1]
+    human_colors = plt.cm.Reds(np.linspace(0, 1, 5))[1:-1]
+    colors = np.concatenate((llm_colors, human_colors), axis=0)
+
     save_path = "./story_eval/imgs/"
 
     # Spider Plots
@@ -139,21 +154,24 @@ if __name__ == "__main__":
         models=list(sort_order)[4:], 
         title="GPT-4 vs Human Quaility Levels", 
         save_path=os.path.join(save_path, "mean_scores_gpt4_vs_humans.png"),
-        sort_order=sort_order
+        sort_order=sort_order,
+        colors=colors
     )
     plot_spider(
         df=human_ratings_df, 
         models=list(sort_order)[:5], 
         title="GPT-4 vs Other LLMs", 
         save_path=os.path.join(save_path, "mean_scores_gpt4_vs_llms.png"),
-        sort_order=sort_order
+        sort_order=sort_order,
+        colors=colors
     )
     plot_spider(
         df=human_ratings_df, 
         models=list(sort_order), 
         title="All Models", 
         save_path=os.path.join(save_path, "mean_scores_all.png"),
-        sort_order=sort_order
+        sort_order=sort_order,
+        colors=colors
     )
 
     # CDF plots
@@ -163,6 +181,20 @@ if __name__ == "__main__":
         nrows=2, 
         ncols=3,
         title="CDF for Each Psychological Depth Component Across Models", 
-        save_path=os.path.join(save_path, "cdf_all.png"),
-        sort_order=sort_order
+        save_path=os.path.join(save_path, "cdf_all_rough.png"),
+        sort_order=sort_order,
+        colors=colors,
+        smooth=False
+    )
+
+    plot_cdf(
+        df=human_ratings_df, 
+        models=list(sort_order), 
+        nrows=2, 
+        ncols=3,
+        title="CDF for Each Psychological Depth Component Across Models", 
+        save_path=os.path.join(save_path, "cdf_all_smooth.png"),
+        sort_order=sort_order,
+        colors=colors,
+        smooth=True
     )
