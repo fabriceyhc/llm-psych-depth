@@ -63,7 +63,7 @@ def plot_model_cdf(data, model, column, ax, color):
     cumulative = np.cumsum(values)
     
     ax.plot(base[:-1], cumulative, marker='o', label=model, color=color)
-    ax.set_title(f'{column.replace("_", " ").title()}')
+    ax.set_title(f'{column.replace("_", " ").replace("score", "").title()}')
     ax.set_xlabel('Scores')
     ax.set_ylabel('Cumulative Probability')
     ax.set_xticks(np.arange(1, 6))
