@@ -34,7 +34,7 @@ class AuthorshipReasons(BaseModel):
     isSimplistic:                   bool = Field(description="Perceptions of the narrative being too straightforward, predictable, or lacking in depth.")
     isRobotic:                      bool = Field(description="The writing has a robotic feel, lack of stylistic variance, and overly consistent writing style.")
     isFormulaic:                    bool = Field(description="Views that the story follows a strict structure or formula, possibly indicating an AI's patterned approach.")
-    hasLowPromptAdherence:          bool = Field(description="Frequent mentions of creativity, original ideas, unique concepts, and imaginative storytelling.")
+    hasLowPromptAdherence:          bool = Field(description="Does not address all parts of the prompt.")
 
 class AnnotatorEvaluator:
     """
