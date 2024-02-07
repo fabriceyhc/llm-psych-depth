@@ -135,8 +135,8 @@ class AnnotationAnalyzer:
         return scores.merge(stories, on="story_id")
     
     def strategy_scores(self, ratings_df):
-        result_df = ratings_df.groupby(by='strategy', dropna=False).mean(numeric_only=True)[self.components]
-        result_df = result_df.reset_index().rename(columns={'index': 'strategy'}).dropna()
+        result_df = ratings_df.groupby(by=['model_short', 'strategy'], dropna=False).mean(numeric_only=True)[self.components]
+        result_df = result_df.reset_index().rename(columns={'index': 'model-strategy'}).dropna()
         return result_df
     
     def summarize_iaa_and_corr(self, ratings_df):

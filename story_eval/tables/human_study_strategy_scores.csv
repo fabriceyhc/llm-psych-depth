@@ -1,3 +1,11 @@
-strategy,authenticity_score,empathy_score,engagement_score,emotion_provoking_score,narrative_complexity_score,human_likeness_score
-plan_write,3.144186046511628,2.958139534883721,2.86046511627907,2.9069767441860463,2.883720930232558,2.7534883720930234
-writer_profile,3.106382978723404,2.8893617021276596,3.072340425531915,2.795744680851064,2.723404255319149,2.970212765957447
+model_short,strategy,authenticity_score,empathy_score,engagement_score,emotion_provoking_score,narrative_complexity_score,human_likeness_score
+GPT-4,plan_write,3.95,3.60,3.60,3.55,3.78,3.70
+GPT-4,writer_profile,3.84,3.74,4.22,3.52,3.82,4.08
+Llama-2-13B,plan_write,2.91,2.73,2.38,2.53,2.40,2.29
+Llama-2-13B,writer_profile,3.00,2.73,2.64,2.53,2.47,2.51
+Llama-2-70B,plan_write,3.27,3.11,3.09,3.07,2.96,2.60
+Llama-2-70B,writer_profile,2.91,2.87,2.93,2.82,2.51,2.78
+Llama-2-7B,plan_write,2.82,2.71,2.67,2.89,2.64,3.00
+Llama-2-7B,writer_profile,3.00,2.54,2.86,2.42,2.34,2.76
+Vicuna-33B,plan_write,2.83,2.68,2.63,2.53,2.73,2.23
+Vicuna-33B,writer_profile,2.71,2.51,2.60,2.64,2.40,2.62
