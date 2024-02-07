@@ -102,9 +102,28 @@ class AnnotationAnalyzer:
             "human_consensus_labels": human_consensus_labels,
             "llm_consensus_labels": llm_consensus_labels,
         }
+    
+
+    def model_scores_w_stdev(self, ratings_df):
+        # Calculate mean and std dev for each group
+        grouped = ratings_df.groupby('model_short', dropna=False)
+        # Initialize an empty DataFrame to store the formatted results
+        result_df = pd.DataFrame(index=grouped.indices.keys())
+
+        # Calculate and format mean ± std for each component
+        for component in self.components:
+            mean_series = grouped[component].mean()
+            std_series = grouped[component].std()
+            result_df[component] = mean_series.map('{:.2f}'.format) + " ± " + std_series.map('{:.2f}'.format)
+
+        result_df = result_df.reset_index().rename(columns={'index': 'model_short'}).sort_values(by=["model_short"], key=lambda x: x.map(sort_order))
+
+        return result_df
 
     def model_scores(self, ratings_df):
-        return ratings_df.groupby(by=['model_short'], dropna=False).mean(numeric_only=True)[self.components].sort_values(by=["model_short"], key=lambda x: x.map(sort_order))
+        result_df = ratings_df.groupby(by=['model_short'], dropna=False).mean(numeric_only=True)[self.components]
+        result_df = result_df.reset_index().rename(columns={'index': 'model_short'}).sort_values(by=["model_short"], key=lambda x: x.map(sort_order))
+        return result_df
 
     def participant_scores(self, ratings_df):
         return ratings_df.groupby(by='participant_id', dropna=False).mean(numeric_only=True)[self.components]
@@ -246,6 +265,7 @@ if __name__ == "__main__":
     # llm_ratings_df[cols].to_csv(f'./story_eval/gpt-4_annotations_sorted.csv', index=False)
 
     analyzer.model_scores(human_ratings_df).to_csv(f'./story_eval/tables/human_study_model_scores.csv', index=False)
+    analyzer.model_scores_w_stdev(human_ratings_df).to_csv(f'./story_eval/tables/human_study_model_scores_w_stdev.csv', index=False)
     analyzer.participant_scores(human_ratings_df).to_csv(f'./story_eval/tables/human_study_participant_scores.csv', index=False)
     analyzer.story_scores(human_ratings_df).to_csv(f'./story_eval/tables/human_study_story_scores.csv', index=False)
 
