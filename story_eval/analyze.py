@@ -134,6 +134,11 @@ class AnnotationAnalyzer:
         # assert (len(stories)) == 100
         return scores.merge(stories, on="story_id")
     
+    def strategy_scores(self, ratings_df):
+        result_df = ratings_df.groupby(by='strategy', dropna=False).mean(numeric_only=True)[self.components]
+        result_df = result_df.reset_index().rename(columns={'index': 'strategy'}).dropna()
+        return result_df
+    
     def summarize_iaa_and_corr(self, ratings_df):
         cols = ["human_ordinal_weighted_krippendorffs_alpha", "llm_ordinal_weighted_krippendorffs_alpha", 
                 "human_vs_llm_spearman_corr", "human_vs_llm_spearman_p_value"]
@@ -268,6 +273,7 @@ if __name__ == "__main__":
     analyzer.model_scores_w_stdev(human_ratings_df).to_csv(f'./story_eval/tables/human_study_model_scores_w_stdev.csv', index=False)
     analyzer.participant_scores(human_ratings_df).to_csv(f'./story_eval/tables/human_study_participant_scores.csv', index=False)
     analyzer.story_scores(human_ratings_df).to_csv(f'./story_eval/tables/human_study_story_scores.csv', index=False)
+    analyzer.strategy_scores(human_ratings_df).to_csv(f'./story_eval/tables/human_study_strategy_scores.csv', index=False)
 
     save_path = f"./story_eval/tables/human_vs_{llm_name}_iaa_raw.csv"
 
