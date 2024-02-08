@@ -175,7 +175,12 @@ class AnnotationAnalyzer:
 
         return penalized_accuracy
 
-
+    def count_average_words(self, stories_df):
+        stories_df["story_len"] = stories_df["text"].apply(lambda x: len(x.split()))
+        stories_df = stories_df.groupby(by='model_short', dropna=False).mean(numeric_only=True)["story_len"]
+        stories_df = stories_df.reset_index().rename(columns={'index': 'model_short'}).sort_values(by=["model_short"], key=lambda x: x.map(sort_order))
+        stories_df = stories_df._append({"model_short": "ALL", "story_len": stories_df["story_len"].mean()}, ignore_index=True)
+        return stories_df
     
 class ZScoreAggregator:
 
@@ -260,6 +265,7 @@ if __name__ == "__main__":
     # Read data from a CSV file 
     human_ratings_df = pd.read_csv('./human_study/data/processed/human_annotations.csv', encoding='cp1252')
     llm_ratings_df   = pd.read_csv(f'./human_study/data/processed/{llm_name}_annotations.csv', encoding='cp1252')
+    stories_df       = pd.read_csv(f'./human_study/data/stories.csv')
 
     human_ratings_df.sort_values(['participant_id', 'story_id'], ascending=[True, True])
     llm_ratings_df.sort_values(['participant_id', 'story_id'], ascending=[True, True])
@@ -274,6 +280,7 @@ if __name__ == "__main__":
     analyzer.participant_scores(human_ratings_df).to_csv(f'./story_eval/tables/human_study_participant_scores.csv', index=False)
     analyzer.story_scores(human_ratings_df).to_csv(f'./story_eval/tables/human_study_story_scores.csv', index=False)
     analyzer.strategy_scores(human_ratings_df).to_csv(f'./story_eval/tables/human_study_strategy_scores.csv', index=False)
+    analyzer.count_average_words(stories_df).to_csv(f'./story_eval/tables/human_study_count_average_words.csv', index=False)
 
     save_path = f"./story_eval/tables/human_vs_{llm_name}_iaa_raw.csv"
 
