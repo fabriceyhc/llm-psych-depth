@@ -263,9 +263,13 @@ if __name__ == "__main__":
     analyzer = AnnotationAnalyzer()
 
     # Read data from a CSV file 
-    human_ratings_df = pd.read_csv('./human_study/data/processed/human_annotations.csv', encoding='cp1252')
-    llm_ratings_df   = pd.read_csv(f'./human_study/data/processed/{llm_name}_annotations.csv', encoding='cp1252')
-    stories_df       = pd.read_csv(f'./human_study/data/stories.csv')
+    human_ratings_df     = pd.read_csv('./human_study/data/processed/human_annotations.csv', encoding='cp1252')
+    llm_ratings_df       = pd.read_csv(f'./human_study/data/processed/{llm_name}_annotations.csv', encoding='cp1252')
+    stories_df           = pd.read_csv(f'./human_study/data/stories.csv')
+    benchmark_stories_df = pd.read_csv(f'./data/stories.csv', encoding='cp1252')
+
+    print(benchmark_stories_df)
+    print(benchmark_stories_df.info())
 
     human_ratings_df.sort_values(['participant_id', 'story_id'], ascending=[True, True])
     llm_ratings_df.sort_values(['participant_id', 'story_id'], ascending=[True, True])
@@ -281,6 +285,7 @@ if __name__ == "__main__":
     analyzer.story_scores(human_ratings_df).to_csv(f'./story_eval/tables/human_study_story_scores.csv', index=False)
     analyzer.strategy_scores(human_ratings_df).to_csv(f'./story_eval/tables/human_study_strategy_scores.csv', index=False)
     analyzer.count_average_words(stories_df).to_csv(f'./story_eval/tables/human_study_count_average_words.csv', index=False)
+    analyzer.count_average_words(benchmark_stories_df).to_csv(f'./story_eval/tables/benchmark_count_average_words.csv', index=False)
 
     save_path = f"./story_eval/tables/human_vs_{llm_name}_iaa_raw.csv"
 
