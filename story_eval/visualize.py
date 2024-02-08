@@ -156,7 +156,7 @@ if __name__ == "__main__":
     plot_spider(
         df=human_ratings_df, 
         models=gpt4_vs_humans, 
-        title="GPT-4 vs Human Quaility Levels", 
+        title="Mean Psychological Depth Scores", 
         save_path=os.path.join(save_path, "mean_scores_gpt4_vs_humans.png"),
         sort_order=sort_order,
         colors=colors
@@ -164,7 +164,7 @@ if __name__ == "__main__":
     plot_spider(
         df=human_ratings_df, 
         models=gpt4_vs_llms, 
-        title="GPT-4 vs Other LLMs", 
+        title="Mean Psychological Depth Scores", 
         save_path=os.path.join(save_path, "mean_scores_gpt4_vs_llms.png"),
         sort_order=sort_order,
         colors=colors
@@ -172,7 +172,7 @@ if __name__ == "__main__":
     plot_spider(
         df=human_ratings_df, 
         models=all_models, 
-        title="All Models", 
+        title="Mean Psychological Depth Scores", 
         save_path=os.path.join(save_path, "mean_scores_all.png"),
         sort_order=sort_order,
         colors=colors
@@ -184,7 +184,7 @@ if __name__ == "__main__":
         models=all_models, 
         nrows=2, 
         ncols=3,
-        title="CDF for Each Psychological Depth Component Across Models", 
+        title="Psychological Depth CDF", 
         save_path=os.path.join(save_path, "cdf_all_rough.png"),
         sort_order=sort_order,
         colors=colors,
@@ -195,7 +195,7 @@ if __name__ == "__main__":
         models=all_models, 
         nrows=2, 
         ncols=3,
-        title="CDF for Each Psychological Depth Component Across Models", 
+        title="Psychological Depth CDF", 
         save_path=os.path.join(save_path, "cdf_all_smooth.png"),
         sort_order=sort_order,
         colors=colors,
@@ -206,7 +206,7 @@ if __name__ == "__main__":
         models=gpt4_vs_llms, 
         nrows=2, 
         ncols=3,
-        title="CDF for Each Psychological Depth Component Across Models", 
+        title="Psychological Depth CDF", 
         save_path=os.path.join(save_path, "cdf_gpt4_vs_llms_smooth.png"),
         sort_order=sort_order,
         colors=colors[:6],
@@ -217,7 +217,7 @@ if __name__ == "__main__":
         models=gpt4_vs_humans, 
         nrows=2, 
         ncols=3,
-        title="CDF for Each Psychological Depth Component Across Models", 
+        title="Psychological Depth CDF", 
         save_path=os.path.join(save_path, "cdf_gpt4_vs_humans_smooth.png"),
         sort_order=sort_order,
         colors=colors[4:],
