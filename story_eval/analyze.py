@@ -18,7 +18,9 @@ class AnnotationAnalyzer:
     def __init__(self, ):
         self.components = [
             'authenticity_score', 'empathy_score', 'engagement_score', 
-            'emotion_provoking_score', 'narrative_complexity_score', "human_likeness_score"]
+            'emotion_provoking_score', 'narrative_complexity_score']
+        
+        self.labels = ["AUTH", "EMP", "ENG", "PROV", "NCOM"]
 
     def regular_iaa(self, ratings_df, component, prefix="human"):
             
@@ -181,6 +183,10 @@ class AnnotationAnalyzer:
         stories_df = stories_df.reset_index().rename(columns={'index': 'model_short'}).sort_values(by=["model_short"], key=lambda x: x.map(sort_order))
         stories_df = stories_df._append({"model_short": "ALL", "story_len": stories_df["story_len"].mean()}, ignore_index=True)
         return stories_df
+
+    def measure_component_corrs(self, ratings_df):
+        correlation_matrix = ratings_df[self.components].corr().reset_index().rename(columns={'index': 'component'})
+        return correlation_matrix
     
 class ZScoreAggregator:
 
@@ -268,9 +274,6 @@ if __name__ == "__main__":
     stories_df           = pd.read_csv(f'./human_study/data/stories.csv')
     benchmark_stories_df = pd.read_csv(f'./data/stories.csv', encoding='cp1252')
 
-    print(benchmark_stories_df)
-    print(benchmark_stories_df.info())
-
     human_ratings_df.sort_values(['participant_id', 'story_id'], ascending=[True, True])
     llm_ratings_df.sort_values(['participant_id', 'story_id'], ascending=[True, True])
 
@@ -286,6 +289,7 @@ if __name__ == "__main__":
     analyzer.strategy_scores(human_ratings_df).to_csv(f'./story_eval/tables/human_study_strategy_scores.csv', index=False)
     analyzer.count_average_words(stories_df).to_csv(f'./story_eval/tables/human_study_count_average_words.csv', index=False)
     analyzer.count_average_words(benchmark_stories_df).to_csv(f'./story_eval/tables/benchmark_count_average_words.csv', index=False)
+    analyzer.measure_component_corrs(human_ratings_df).to_csv(f'./story_eval/tables/human_study_component_corrs.csv', index=False)
 
     save_path = f"./story_eval/tables/human_vs_{llm_name}_iaa_raw.csv"
 
