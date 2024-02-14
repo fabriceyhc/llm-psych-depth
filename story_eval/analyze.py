@@ -19,8 +19,6 @@ class AnnotationAnalyzer:
         self.components = [
             'authenticity_score', 'empathy_score', 'engagement_score', 
             'emotion_provoking_score', 'narrative_complexity_score']
-        
-        self.labels = ["AUTH", "EMP", "ENG", "PROV", "NCOM"]
 
     def regular_iaa(self, ratings_df, component, prefix="human"):
             
