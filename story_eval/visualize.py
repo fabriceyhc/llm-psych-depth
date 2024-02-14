@@ -49,7 +49,7 @@ def plot_spider(df, models, title, sort_order, colors, save_path=None):
     ax.set_yticks(np.arange(1, 6))
     ax.set_yticklabels(np.arange(1, 6), color="grey", size=20)
     plt.title(title, size=24, y=1.1)
-    ax.legend(loc='lower center', ncol=4, fontsize=16, bbox_to_anchor=(0.5, -0.15))
+    ax.legend(loc='lower center', ncol=2, fontsize=16, bbox_to_anchor=(0.5, -0.22))
     plt.tight_layout()
 
     if save_path is not None:
@@ -63,25 +63,28 @@ def plot_model_cdf(data, model, column, ax, color, marker):
     cumulative = np.cumsum(values)
     
     ax.plot(base[:-1], cumulative, label=model, marker=marker, color=color)
-    ax.set_title(f'{column.replace("_", " ").replace("score", "").title()}')
-    ax.set_xlabel('Scores')
-    ax.set_ylabel('Cumulative Probability')
+    # ax.set_title(f'{column.replace("_", " ").replace("score", "").title()}')
+    ax.set_xlabel('Scores', size=20)
+    ax.set_ylabel('Cumulative Probability', size=20)
     ax.set_xticks(np.arange(1, 6))
+    ax.tick_params(axis='x', labelsize=16)
+    ax.tick_params(axis='y', labelsize=16)
     ax.set_ylim([0, 1])
 
 def plot_model_cdf_smooth(data, model, column, ax, color, marker):
     model_data = data[data['model_short'] == model][column]
     sns.kdeplot(model_data, cumulative=True, ax=ax, label=model, color=color)
 
-    ax.set_title(f'{column.replace("_", " ").replace("score", "").title()}')
-    ax.set_xlabel('Scores')
-    ax.set_ylabel('Cumulative Probability')
+    # ax.set_title(f'{column.replace("_", " ").replace("score", "").title()}')
+    ax.set_xlabel('Scores', size=20)
+    ax.set_ylabel('Cumulative Probability', size=20)
     ax.set_xticks(np.arange(1, 6))
     ax.set_xlim(0, 6)  # Set the x-axis range
+    ax.tick_params(axis='x', labelsize=16)
+    ax.tick_params(axis='y', labelsize=16)
     ax.set_ylim([0, 1])
 
-def plot_cdf(df, models, title, nrows, ncols, sort_order, colors, smooth=True, save_path=None):
-
+def plot_cdf(df, models, title, sort_order, colors, smooth=True, save_path=None):
     # Defining a list of unique markers for the models
     markers = ['1', '2', '3', '4', 'D', 'v', '>', '^']
 
@@ -93,36 +96,29 @@ def plot_cdf(df, models, title, nrows, ncols, sort_order, colors, smooth=True, s
 
     # Prepare data and labels for the radar chart
     score_columns = [col for col in sorted_df.columns if col.endswith('_score')]
-    
-    # Creating the updated plots
-    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(5 * ncols, 5 * nrows), sharex='col', sharey='row')
-    fig.suptitle(title, fontsize=16)
-
-    # Flatten axes array if necessary
-    if nrows * ncols > 1:
-        axes = axes.flatten()
-    else:
-        axes = [axes]
 
     # Plotting the CDF for each component, including all models in the specified order
-    for i, column in enumerate(score_columns):
+    for column in score_columns:
+        fig, ax = plt.subplots(figsize=(5, 5))
         for model, color, marker in zip(models, colors, markers):
             if smooth:
-                plot_model_cdf_smooth(sorted_df, model, column, axes[i], color, marker)
+                plot_model_cdf_smooth(sorted_df, model, column, ax, color, marker)
             else:
-                plot_model_cdf(sorted_df, model, column, axes[i], color, marker)
+                plot_model_cdf(sorted_df, model, column, ax, color, marker)
 
+        # Set plot title and layout adjustments
+        # ax.set_title(f'{column.replace("_", " ").replace("score", "").title()}Ratings', fontsize=16)
+        # ax.legend(loc='upper left', fontsize='large', ncol=1, bbox_to_anchor=(0.5, -0.7))
+        plt.tight_layout()
 
-    # Adjust layout and add a combined legend
-    plt.tight_layout(rect=[0, 0.03, 1, 0.96])
-    handles, labels = axes[0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc='lower center', ncol=4, fontsize='large')
+        # Save each figure with a unique filename based on the score column
+        if save_path:
+            filename = save_path.replace(".png", f"_{column}.png")
+            plt.savefig(filename, bbox_inches='tight')
+            plt.close(fig)  # Close the figure to free memory
+        else:
+            plt.show()
 
-    if save_path:
-        plt.savefig(save_path, bbox_inches='tight')
-    else:
-        plt.show()
-    
 def plot_component_corrs(df, title=None, save_path=None):
     components = [
         'authenticity_score', 'empathy_score', 'engagement_score', 
@@ -210,8 +206,6 @@ if __name__ == "__main__":
     plot_cdf(
         df=human_ratings_df, 
         models=all_models, 
-        nrows=2, 
-        ncols=3,
         title="Psychological Depth CDF", 
         save_path=os.path.join(save_path, "cdf_all_rough.png"),
         sort_order=sort_order,
@@ -221,8 +215,6 @@ if __name__ == "__main__":
     plot_cdf(
         df=human_ratings_df, 
         models=all_models, 
-        nrows=2, 
-        ncols=3,
         title="Psychological Depth CDF", 
         save_path=os.path.join(save_path, "cdf_all_smooth.png"),
         sort_order=sort_order,
@@ -232,8 +224,6 @@ if __name__ == "__main__":
     plot_cdf(
         df=human_ratings_df, 
         models=gpt4_vs_llms, 
-        nrows=2, 
-        ncols=3,
         title="Psychological Depth CDF", 
         save_path=os.path.join(save_path, "cdf_gpt4_vs_llms_smooth.png"),
         sort_order=sort_order,
@@ -243,8 +233,6 @@ if __name__ == "__main__":
     plot_cdf(
         df=human_ratings_df, 
         models=gpt4_vs_humans, 
-        nrows=2, 
-        ncols=3,
         title="Psychological Depth CDF", 
         save_path=os.path.join(save_path, "cdf_gpt4_vs_humans_smooth.png"),
         sort_order=sort_order,
