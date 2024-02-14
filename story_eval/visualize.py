@@ -128,8 +128,8 @@ def plot_component_corrs(df, title=None, save_path=None):
     correlation_matrix = df[components].corr()
     # Create the heatmap with updated labels
     plt.figure(figsize=(10, 8))
-    heatmap = sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap='coolwarm', cbar=True, square=True,
-                        xticklabels=labels, yticklabels=labels, annot_kws={"size": 14})
+    heatmap = sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap='Blues', cbar=True, square=True,
+                        xticklabels=labels, yticklabels=labels, annot_kws={"size": 14}, linecolor='white', linewidths=1)
 
     # Title and labels
     plt.title(title, pad=20, fontsize=20)
