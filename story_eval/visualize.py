@@ -49,7 +49,7 @@ def plot_spider(df, models, title, sort_order, colors, save_path=None):
     ax.set_yticks(np.arange(1, 6))
     ax.set_yticklabels(np.arange(1, 6), color="grey", size=20)
     plt.title(title, size=24, y=1.1)
-    ax.legend(loc='lower center', ncol=4, fontsize='large', bbox_to_anchor=(0.5, -0.12))
+    ax.legend(loc='lower center', ncol=4, fontsize=16, bbox_to_anchor=(0.5, -0.15))
     plt.tight_layout()
 
     if save_path is not None:
@@ -154,14 +154,14 @@ if __name__ == "__main__":
     human_ratings_df = pd.read_csv(scores_path).drop(columns=["human_likeness_score"])
 
     sort_order = {
-        "Llama-2-7B" : 0, 
-        "Llama-2-13B": 1, 
-        "Vicuna-33B" : 2,
-        "Llama-2-70B": 3,
-        "GPT-4":       4,
-        "Human-Low":   5,
-        "Human-Mid":   6,
-        "Human-High":  7,
+        "Llama-2-7B" :        0, 
+        "Llama-2-13B":        1, 
+        "Vicuna-33B" :        2,
+        "Llama-2-70B":        3,
+        "GPT-4":              4,
+        "Human-Novice":       5,
+        "Human-Intermediate": 6,
+        "Human-Advanced":     7,
     }
 
     gpt4_vs_llms = list(sort_order)[:5]

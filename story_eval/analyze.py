@@ -253,14 +253,14 @@ if __name__ == "__main__":
 
     # Custom Sort Order
     sort_order = {
-        "Llama-2-7B" : 0, 
-        "Llama-2-13B": 1, 
-        "Vicuna-33B" : 2,
-        "Llama-2-70B": 3,
-        "GPT-4":       4,
-        "Human-Low":   5,
-        "Human-Mid":   6,
-        "Human-High":  7,
+        "Llama-2-7B" :        0, 
+        "Llama-2-13B":        1, 
+        "Vicuna-33B" :        2,
+        "Llama-2-70B":        3,
+        "GPT-4":              4,
+        "Human-Novice":       5,
+        "Human-Intermediate": 6,
+        "Human-Advanced":     7,
     }
 
     # Create an instance of the class

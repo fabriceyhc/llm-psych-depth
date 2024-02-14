@@ -30,10 +30,10 @@ participant_id,story_id,human_likeness_score,human_likeness_comments,open_commen
 7,8,5,I think that this was written by a human because emotions are accurately portrayed. It's also a pretty in-depth scene.,,GPT-4,LLM
 3,9,4,"The story appears to be written by a human. It includes emotional elements, character development, and a narrative structure that aligns with standard storytelling styles.",,Llama-2-7B,LLM
 7,9,1,The writing does not answer from the parent's point of view like the prompt asked. The writing style is also very basic and the story is mostly background and not fleshed out.,,Llama-2-7B,LLM
-3,10,5,The comedial and informal structure of this story makes it almost certain this was written by a human.,,Human-Low,Human
-4,10,4,"I think it was probably written by a human because of the use of Gen Z lingo and there was a typo where the word ""at"" was repeated twice.",,Human-Low,Human
-6,10,5,"I've read a lot of stories from people on r/writingprompts, and there's a certain genre of stories that falls into this kind of category; it's marked by aggressive language, a flash fiction kind of length, and usually opens with a sentence that essentially communicates ""Stop f***ing around.""",,Human-Low,Human
-7,10,4,"I think the cursing is characteristic of humans, so I think a human would write this.",,Human-Low,Human
+3,10,5,The comedial and informal structure of this story makes it almost certain this was written by a human.,,Human-Novice,Human
+4,10,4,"I think it was probably written by a human because of the use of Gen Z lingo and there was a typo where the word ""at"" was repeated twice.",,Human-Novice,Human
+6,10,5,"I've read a lot of stories from people on r/writingprompts, and there's a certain genre of stories that falls into this kind of category; it's marked by aggressive language, a flash fiction kind of length, and usually opens with a sentence that essentially communicates ""Stop f***ing around.""",,Human-Novice,Human
+7,10,4,"I think the cursing is characteristic of humans, so I think a human would write this.",,Human-Novice,Human
 3,11,3,The presence of emotional nuances and the nuanced exploration of cosmic consequences leans slightly toward human-like narrative construction.,,Llama-2-70B,LLM
 6,11,1,"Repeated use of rhetorical questions--this is something that is often used in example short stories that are included in online writing resources, but I find that experienced human writers rarely actually utilize them. And, if they do, it's never as much as seen in this story.",,Llama-2-70B,LLM
 7,11,1,There are repetitive elements in the story such as many questions in a row asked. There's also not much action going on.,,Llama-2-70B,LLM
@@ -127,12 +127,12 @@ participant_id,story_id,human_likeness_score,human_likeness_comments,open_commen
 7,50,4,"The story displays creativity, emotional depth, and a compelling plot suggesting a human author.",,Llama-2-70B,LLM
 4,51,1,I think that the whole piece is just kind of a longer version of the prompt. The writing style is also very monotone.,,Llama-2-7B,LLM
 7,51,3,"The story demonstrates creativity in addressing societal issues and the potential for unity between humans and robots. However, the somewhat predictable narrative and lack of detailed exploration might suggest it was written by a Language Model.",,Llama-2-7B,LLM
-4,52,5,I donâ€™t think the conflict was resolved too easily. There is a lot of stylistic variance in the piece. There are also a lot of descriptive factors.,,Human-High,Human
-7,52,4,The story demonstrates creativity in its exploration of depression in both humans and animals suggesting a human author.,,Human-High,Human
+4,52,5,I donâ€™t think the conflict was resolved too easily. There is a lot of stylistic variance in the piece. There are also a lot of descriptive factors.,,Human-Advanced,Human
+7,52,4,The story demonstrates creativity in its exploration of depression in both humans and animals suggesting a human author.,,Human-Advanced,Human
 4,53,1,"The names were very telling and too themed towards the prompt. There was also a kind of pattern to the piece overall, it felt very automated.",,Llama-2-7B,LLM
 7,53,4,The story demonstrates a level of creativity and imaginative storytelling that aligns with human authorship.,,Llama-2-7B,LLM
-4,54,3,"I think there are some aspects that could have been human, but the length of the essay makes me wonder if it was AI generated.",,Human-High,Human
-7,54,4,The story exhibits a level of emotional intelligence and creativity that aligns with human authorship.,,Human-High,Human
+4,54,3,"I think there are some aspects that could have been human, but the length of the essay makes me wonder if it was AI generated.",,Human-Advanced,Human
+7,54,4,The story exhibits a level of emotional intelligence and creativity that aligns with human authorship.,,Human-Advanced,Human
 2,55,5,I mean there was a whole author's note at the beginning lmao,,Llama-2-70B,LLM
 4,55,1,"Thereâ€™s a â€œlesson to be learnedâ€ aspect at the end of the piece. Also, the beginning of the story is a little weird as itâ€™s almost a commentary of the authorâ€™s thoughts while reading the prompt?",,Llama-2-70B,LLM
 7,55,4,The story demonstrates a level of creativity and emotional intelligence that aligns with human authorship.,,Llama-2-70B,LLM
@@ -170,15 +170,15 @@ participant_id,story_id,human_likeness_score,human_likeness_comments,open_commen
 7,73,4,The story is likely written by a human. It demonstrates creativity in crafting a narrative with a unique perspective on the relationship between the beekeeper and the bees.,,Llama-2-13B,LLM
 7,74,4,"The story is likely written by a human. It demonstrates an understanding of emotional nuances, and the portrayal of the bond between the narrator and Max reflects a level of empathy and authenticity that aligns with human experiences.",,Llama-2-70B,LLM
 7,75,4,"The story is likely written by a human. It demonstrates a nuanced understanding of emotional depth, empathy, and the human experience, especially in the context of themes like loneliness, connection, and the search for meaning.",,Llama-2-13B,LLM
-7,76,3,"The story is likely written by a human. It effectively explores a creative concept, blending elements of extraterrestrial curiosity and human dreams.",,Human-Mid,Human
+7,76,3,"The story is likely written by a human. It effectively explores a creative concept, blending elements of extraterrestrial curiosity and human dreams.",,Human-Intermediate,Human
 7,77,4,"The story is likely written by a human. It successfully blends creativity, emotion, and engagement in a way that aligns with human storytelling.",,Llama-2-70B,LLM
 7,78,4,"The story is likely written by a human. It effectively integrates emotional depth, moral exploration, and character development, demonstrating a level of creativity and storytelling that aligns with human narrative styles.",,Llama-2-13B,LLM
 7,79,4,"The story exhibits a good balance of human-like narrative elements and a touch of complexity, making it somewhat likely to be written by a human author.",,Llama-2-7B,LLM
-2,80,4,"The story's style and tone, with its blend of cosmic horror and humor, align with characteristics commonly associated with human writing.",,Human-Low,Human
-7,80,1,"The dialogue was interesting, but there was no background or story.",,Human-Low,Human
-2,81,4,"The story exhibits a blend of humor, character interaction, and a unique perspective that is indicative of human writing.",,Human-High,Human
-4,81,5,"""He gave me an emote"" sounds like a very human thing to write.",,Human-High,Human
-7,81,1,"There's no background, it's just all dialogue.",,Human-High,Human
+2,80,4,"The story's style and tone, with its blend of cosmic horror and humor, align with characteristics commonly associated with human writing.",,Human-Novice,Human
+7,80,1,"The dialogue was interesting, but there was no background or story.",,Human-Novice,Human
+2,81,4,"The story exhibits a blend of humor, character interaction, and a unique perspective that is indicative of human writing.",,Human-Advanced,Human
+4,81,5,"""He gave me an emote"" sounds like a very human thing to write.",,Human-Advanced,Human
+7,81,1,"There's no background, it's just all dialogue.",,Human-Advanced,Human
 2,82,4,"The story exhibits a high level of creativity, emotional depth, and nuanced storytelling that aligns with human-authored fiction.",,Llama-2-70B,LLM
 2,83,1,The story being cut off with the addition of no compelling lines or direction leads me to believe this very likely LLM.,,Vicuna-33B,LLM
 3,83,4,Difficult to decide because it was incomplete but the intro â€œthere I wasâ€ sets up an introspective tone that I feel leans more towards human than LLM.,,Vicuna-33B,LLM
@@ -186,13 +186,13 @@ participant_id,story_id,human_likeness_score,human_likeness_comments,open_commen
 2,84,3,"The story exhibits a high level of creativity, emotional depth, and a nuanced understanding of the symbiotic relationship between BK and the bees.",,Llama-2-70B,LLM
 7,84,1,"The usage of ""QB1"" and etc. made me think that this was written by AI.",,Llama-2-70B,LLM
 2,85,4,"The story demonstrates a high level of creativity, emotional depth, and a skillful blend of societal commentary.",,Llama-2-13B,LLM
-2,86,4,"The story displays a creative and imaginative touch, introducing humor into a classic storytelling concept.",,Human-High,Human
+2,86,4,"The story displays a creative and imaginative touch, introducing humor into a classic storytelling concept.",,Human-Advanced,Human
 2,87,4,"The story exhibits a creative approach to a familiar sci-fi theme, blending elements of hope and struggle.",,Vicuna-33B,LLM
 2,88,4,The story exhibits a creative and emotionally resonant approach to a classic vampire narrative.,,Llama-2-70B,LLM
 2,89,4,The story demonstrates a nuanced understanding of human emotions and relationships.,,Llama-2-70B,LLM
-2,90,3,"The story shows signs of creativity and a unique twist, making it somewhat likely to be written by a human.",,Human-Low,Human
-2,91,3,"The story exhibits creativity with a unique premise and an unexpected twist, making it more likely to be written by a human.",,Human-Mid,Human
-7,91,5,I think this joke is only something that humans would get or would find funny.,,Human-Mid,Human
+2,90,3,"The story shows signs of creativity and a unique twist, making it somewhat likely to be written by a human.",,Human-Novice,Human
+2,91,3,"The story exhibits creativity with a unique premise and an unexpected twist, making it more likely to be written by a human.",,Human-Intermediate,Human
+7,91,5,I think this joke is only something that humans would get or would find funny.,,Human-Intermediate,Human
 2,92,4,"The story exhibits a high level of creativity, emotional depth, and narrative complexity, making it more likely to be written by a human.",,GPT-4,LLM
 2,93,4,"The story demonstrates a level of creativity, emotional depth, and narrative complexity that is more indicative of human writing.",,Llama-2-7B,LLM
 2,94,4,"The story exhibits a high level of creativity, emotional depth, and narrative complexity, making it more likely to be written by a human.",,GPT-4,LLM
@@ -202,4 +202,4 @@ participant_id,story_id,human_likeness_score,human_likeness_comments,open_commen
 7,96,1,"""20 years ago"" is repeated many times.",,Llama-2-70B,LLM
 2,97,3,"The story exhibits creativity, emotional depth, and a narrative structure that aligns with human storytelling.",,Llama-2-70B,LLM
 2,98,4,"The story displays a level of creativity, emotional depth, and societal insight indicative of human storytelling.",,GPT-4,LLM
-2,99,4,"The story exhibits a level of creativity, emotional depth, and a touch of humor indicative of human storytelling.",,Human-Mid,Human
+2,99,4,"The story exhibits a level of creativity, emotional depth, and a touch of humor indicative of human storytelling.",,Human-Intermediate,Human
