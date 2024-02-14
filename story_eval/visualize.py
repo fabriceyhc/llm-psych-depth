@@ -41,15 +41,15 @@ def plot_spider(df, models, title, sort_order, colors, save_path=None):
     # Add models to the radar chart
     for idx, (model_name, row) in enumerate(aggregated_filtered_data_no_ids.iterrows()):
         color = colors[sort_order[model_name]]
-        add_radar_chart_filled_variance(ax, angles, row, model_name, color, variance_fraction=0.1)
+        add_radar_chart_filled_variance(ax, angles, row, model_name, color, variance_fraction=0.25)
 
     # Format the chart
     ax.set_xticks(angles[:-1])
-    ax.set_xticklabels(labels, size=14)
+    ax.set_xticklabels(labels, size=20)
     ax.set_yticks(np.arange(1, 6))
-    ax.set_yticklabels(np.arange(1, 6), color="grey", size=12)
+    ax.set_yticklabels(np.arange(1, 6), color="grey", size=20)
     plt.title(title, size=24, y=1.1)
-    ax.legend(loc='upper right', bbox_to_anchor=(1.2, 1.2), fontsize=12)
+    ax.legend(loc='lower center', ncol=4, fontsize='large', bbox_to_anchor=(0.5, -0.12))
     plt.tight_layout()
 
     if save_path is not None:
@@ -122,6 +122,28 @@ def plot_cdf(df, models, title, nrows, ncols, sort_order, colors, smooth=True, s
         plt.savefig(save_path, bbox_inches='tight')
     else:
         plt.show()
+    
+def plot_component_corrs(df, title=None, save_path=None):
+    components = [
+        'authenticity_score', 'empathy_score', 'engagement_score', 
+        'emotion_provoking_score', 'narrative_complexity_score']
+    
+    labels = ["AUTH", "EMP", "ENG", "PROV", "NCOM"]
+    correlation_matrix = df[components].corr()
+    # Create the heatmap with updated labels
+    plt.figure(figsize=(10, 8))
+    heatmap = sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap='coolwarm', cbar=True, square=True,
+                        xticklabels=labels, yticklabels=labels, annot_kws={"size": 14})
+
+    # Title and labels
+    plt.title(title, pad=20, fontsize=20)
+    plt.xticks(rotation=0, ha="right", fontsize=16)
+    plt.yticks(rotation=0, fontsize=16)
+
+    if save_path:
+        plt.savefig(save_path, bbox_inches='tight')
+    else:
+        plt.show()
 
 
 if __name__ == "__main__":
@@ -129,7 +151,7 @@ if __name__ == "__main__":
     import os
 
     scores_path = "./human_study/data/processed/human_annotations.csv"
-    human_ratings_df = pd.read_csv(scores_path)
+    human_ratings_df = pd.read_csv(scores_path).drop(columns=["human_likeness_score"])
 
     sort_order = {
         "Llama-2-7B" : 0, 
@@ -152,11 +174,17 @@ if __name__ == "__main__":
 
     save_path = "./story_eval/imgs/"
 
+    plot_component_corrs(
+        df=human_ratings_df,
+        title='',
+        save_path=os.path.join(save_path, "component_corrs.png")
+    )
+
     # Spider Plots
     plot_spider(
         df=human_ratings_df, 
         models=gpt4_vs_humans, 
-        title="Mean Psychological Depth Scores", 
+        title="", # Mean Psychological Depth Scores
         save_path=os.path.join(save_path, "mean_scores_gpt4_vs_humans.png"),
         sort_order=sort_order,
         colors=colors
@@ -164,7 +192,7 @@ if __name__ == "__main__":
     plot_spider(
         df=human_ratings_df, 
         models=gpt4_vs_llms, 
-        title="Mean Psychological Depth Scores", 
+        title="", # Mean Psychological Depth Scores
         save_path=os.path.join(save_path, "mean_scores_gpt4_vs_llms.png"),
         sort_order=sort_order,
         colors=colors
@@ -172,7 +200,7 @@ if __name__ == "__main__":
     plot_spider(
         df=human_ratings_df, 
         models=all_models, 
-        title="Mean Psychological Depth Scores", 
+        title="", # Mean Psychological Depth Scores
         save_path=os.path.join(save_path, "mean_scores_all.png"),
         sort_order=sort_order,
         colors=colors
