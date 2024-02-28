@@ -6,3 +6,4 @@ textdiversity
 lexical-diversity
 websockets
 nltk
+transformers

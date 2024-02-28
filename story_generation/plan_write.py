@@ -10,10 +10,14 @@ from langchain.prompts.chat import ChatPromptTemplate
 from langchain.schema import BaseOutputParser
 from langchain.output_parsers import PydanticOutputParser
 from pydantic import BaseModel, Field, validator
+from transformers import GPT2TokenizerFast
 
 
 from utils import *
 from loader import *
+
+
+tokenizer = GPT2TokenizerFast.from_pretrained("gpt2")
 
 
 bad_name_words = ['protagonist', 'Protagonist', 'PROTAGONIST', 'unnamed', 'Unnamed', 'UNNAMED', 'unknown', 'Unknown', 'UNKNOWN', 'None', 'none', 'Mr.', 'Ms.', 'Mrs.', 'Dr.', 'TBA', 'TBD', 'N/A']
@@ -122,7 +126,7 @@ class PlanWritePromptsGenerator:
 
         characters_prompt = "Premise: " + premise.strip() + '\n\nTask: Based on the premise, describe the names and details of 2-3 major characters. Focus on each character\'s emotional states and inner thoughts.'
 
-        logit_bias = get_repetition_logit_bias(self.llm.tokenizer, characters_prompt + ' ' + ' '.join(banned_character_words), bias=-5, bias_common_tokens=False)
+        logit_bias = get_repetition_logit_bias(tokenizer, characters_prompt + ' ' + ' '.join(banned_character_words), bias=-5, bias_common_tokens=False)
 
         found_acceptable_output = False
         
@@ -131,7 +135,7 @@ class PlanWritePromptsGenerator:
             characters_output_lst = self.llm([characters_prompt], modify_prompt=False, logit_bias=logit_bias, stop='\n', num_completions=10, generation_max_length=max_output_length, model_string=model_name)
 
             # not empty, and terminated naturally rather than due to max length
-            characters = [c for c in characters_output_lst if len(c.strip()) > 0 and len(self.llm.tokenizer.encode(c)) < max_output_length]
+            characters = [c for c in characters_output_lst if len(c.strip()) > 0 and len(tokenizer.encode(c)) < max_output_length]
 
             characters = sorted(characters, key=lambda d: calculate_repetition_length_penalty(d, [characters_prompt]))
 
