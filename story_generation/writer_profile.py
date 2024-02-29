@@ -25,7 +25,7 @@ class WriterProfileGenerator:
 
     def __init__(self, model_name_or_path="TheBloke/Mixtral-8x7B-Instruct-v0.1-GPTQ", revision="main",
                  max_new_tokens=512, do_sample=True, temperature=0.7, top_p=0.95, 
-                 top_k=40, repetition_penalty=1.1, cache_dir="./.cache/",
+                 top_k=40, repetition_penalty=1.1, cache_dir="../.cache/",
                  num_retries=10, use_system_profile=True):
 
         self.model_name_or_path = model_name_or_path
@@ -68,22 +68,28 @@ class WriterProfileGenerator:
     def prompt_llm(self, premise, min_len=400, **kwargs):
     
         retry_count = 0
+        
         while retry_count < self.num_retries:
             try:
                 dict_input = {"premise": premise}
                 output = self.chain.invoke(dict_input)
-                story_len = len(output.split())
+                story_len = len(self.tokenizer.encode(output))
+
+                # Check story length
                 if story_len < min_len:
                     retry_count += 1
                     print(f"Generated {story_len} (< {min_len}) words. Reprompting...")
                     continue
+                
                 dict_output = output.model_dump()
                 dict_output.update({
                     "premise": premise,
                     **kwargs,
                     "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 })
+
                 return dict_output
+            
             except Exception:
                 retry_count += 1
                 print(f"Failed to produce a valid story, trying again...")
@@ -95,7 +101,7 @@ class WriterProfileGenerator:
     def output_stories(self, premises, save_dir, llm, n_gen=3, regen_ids=None, min_len=400):
 
         model_name = llm.split('/')[-1]
-        save_path = os.path.join(save_dir, f"{model_name}.csv")
+        save_path = os.path.join(save_dir, f"{model_name}_{self.strategy}.csv")
         os.makedirs(save_path, exist_ok=True)
 
         stories = pd.DataFrame()
@@ -184,7 +190,7 @@ if __name__ == '__main__':
     n_gen = 3
     
     # To generate stories for all, set regen_ids to empty or None 
-    regen_ids = [0, 1, 2]
+    regen_ids = [15, 16, 17, 18, 19]
 
     # min. story length
     min_len = 400

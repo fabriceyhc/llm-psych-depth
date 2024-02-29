@@ -16,3 +16,4 @@ accelerate
 auto-gptq
 optimum
 scikit-learn
+langchain_community

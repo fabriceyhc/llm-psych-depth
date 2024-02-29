@@ -1,156 +1,207 @@
+import os
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["WORLD_SIZE"] = "1"
+
+import datetime
+import traceback
+import textwrap
+from tqdm import tqdm
+import pandas as pd
+
+from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
+from langchain_community.llms.huggingface_pipeline import HuggingFacePipeline
+from langchain.prompts.chat import ChatPromptTemplate
+from langchain.output_parsers import PydanticOutputParser, StrOutputParser
+from pydantic import BaseModel, Field
 from langchain.prompts.chat import (
     ChatPromptTemplate,
     SystemMessagePromptTemplate,
     HumanMessagePromptTemplate,
 )
-from langchain.prompts.chat import ChatPromptTemplate
-from langchain.schema import BaseOutputParser
-from langchain.output_parsers import PydanticOutputParser
-from pydantic import BaseModel, Field, validator
 
 from typing import List, Dict
-from utils import *
-from loader import *
 
-
-premise =\
-"""
-Premise: {prompt}
-"""
-    
-character_prompt =\
-"""
-Task: Based on the premise, describe the names and details of 2-3 major characters. Focus on each character's emotional states and inner thoughts.
-Only respond with the characters' names and descriptions.
-"""
-
-plan_info =\
-"""
-Premise: {prompt}
-
-Character Portraits:
-{characters}
-"""
-
-story_prompt =\
-"""
-Task: Write a 500-word story based on the premise and character portraits. The story should be emotionally deep and impactful.
-Only respond with the story.
-"""
 
 class CharactersOutput(BaseModel):
-        character_list:   List[str] = Field(description="character list")
+    character_list:   List[str] = Field(description="character list")
 
 
-class PlanWritePromptsGenerator:
+class PlanWriteGenerator:
 
-    def __init__(self, llm) -> None:
-        self.llm = llm
+    def __init__(self, model_name_or_path="TheBloke/Mixtral-8x7B-Instruct-v0.1-GPTQ", revision="main",
+                 max_new_tokens=512, do_sample=True, temperature=0.7, top_p=0.95, 
+                 top_k=40, repetition_penalty=1.1, cache_dir="../.cache/",
+                 num_retries=10, use_system_profile=True):
 
-    class OutputParser(BaseOutputParser):
-        def parse(self, text: str):
-            return text
+        self.model_name_or_path = model_name_or_path
+        self.use_system_profile = use_system_profile
+        self.num_retries = num_retries
+        self.strategy = "plan_write"
 
-    def generate_character_prompts(self, prompts):
+         # Initialize and load the model and tokenizer
+        self.model = AutoModelForCausalLM.from_pretrained(
+            model_name_or_path,
+            cache_dir=cache_dir,
+            device_map="auto",
+            trust_remote_code=False,
+            revision=revision
+        ) 
+        self.tokenizer = AutoTokenizer.from_pretrained(
+            model_name_or_path, use_fast=True, cache_dir=cache_dir
+        )
 
-        parser = PydanticOutputParser(pydantic_object=CharactersOutput)
+        # Store the pipeline configuration
+        self.pipeline_config = {
+            "model": self.model,
+            "tokenizer": self.tokenizer,
+            "max_new_tokens": max_new_tokens,
+            "do_sample": do_sample,
+            "temperature": temperature,
+            "top_p": top_p,
+            "top_k": top_k,
+            "repetition_penalty": repetition_penalty
+        }
 
-        prompts_to_run = []
+        # Create the pipeline
+        pipe = pipeline("text-generation", **self.pipeline_config)
+        self.pipe = HuggingFacePipeline(pipeline=pipe)
 
-        for prompt_id, prompt in enumerate(prompts):
-
-            system_profile_prompt = SystemMessagePromptTemplate.from_template(premise)
-            human_message_prompt = HumanMessagePromptTemplate.from_template(character_prompt)
-            chat_prompt = ChatPromptTemplate(
-                messages=[system_profile_prompt, human_message_prompt],
-                partial_variables={"format_instructions": parser.get_format_instructions()},
-                template_format='jinja2',
-                output_parser=parser,
-            )
-            _input = chat_prompt.format_messages(prompt=prompt)
-
-            prompts_to_run.append({
-                "id": prompt_id,
-                "premise": prompt,
-                "characters_prompt": extract_string_prompt(_input)
-            })
-
-        return prompts_to_run
-
-
-    def generate_story_prompts(self, planwrite_df):
-
-        prompts_to_run = []
-
-        for prompt_id, prompt in planwrite_df.iterrows():
-
-            system_profile_prompt = SystemMessagePromptTemplate.from_template(plan_info)
-            human_message_prompt = HumanMessagePromptTemplate.from_template(story_prompt)
-            chat_prompt = ChatPromptTemplate(
-                messages=[system_profile_prompt, human_message_prompt],
-                output_parser=self.OutputParser(),
-            )
-            _input = chat_prompt.format_messages(prompt=prompt['premise'],
-                                                characters=create_numbered_string(prompt['character_list']))
-
-            new_prompt = prompt.to_dict()
-            new_prompt.update({
-                "story_prompt": extract_string_prompt(_input)
-            })
-            prompts_to_run.append(new_prompt)
-
-        return prompts_to_run
+        # Define the output parsers
+        self.characters_output_parser = PydanticOutputParser(pydantic_object=CharactersOutput)
+        self.story_output_parser = StrOutputParser()
 
 
-    def prompt_llm(self, prompts, save_dir, model_name, regen_ids=None, template_type='plan_write'):
+    def prompt_llm(self, premise, min_len=400, **kwargs):
+    
+        retry_count = 0
+        
+        while retry_count < self.num_retries:
+            try:
+                characters_output = self.character_chain.invoke({"premise": premise})
+                dict_input = {"premise": premise, "characters": characters_output}
+                output = self.story_chain.invoke(dict_input)
+                story_len = len(self.tokenizer.encode(output))
 
-        save_path = os.path.join(save_dir, model_name, template_type)
+                # Check story length
+                if story_len < min_len:
+                    retry_count += 1
+                    print(f"Generated {story_len} (< {min_len}) words. Reprompting...")
+                    continue
+                
+                dict_output = output.model_dump()
+                dict_output.update({
+                    "premise": premise,
+                    "characters": characters_output,
+                    **kwargs,
+                    "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                })
+
+                return dict_output
+            
+            except Exception:
+                retry_count += 1
+                print(f"Failed to produce a valid story, trying again...")
+                if retry_count >= self.num_retries:
+                    print(f"Failed to produce a valid story after {retry_count} tries.")
+                    print(traceback.format_exc())
+
+
+    def output_stories(self, premises, save_dir, llm, n_gen=3, regen_ids=None, min_len=400):
+
+        model_name = llm.split('/')[-1]
+        save_path = os.path.join(save_dir, f"{model_name}_{self.strategy}.csv")
         os.makedirs(save_path, exist_ok=True)
 
-        character_chat_prompt = ChatPromptTemplate.from_messages([
-            ("system", premise),
-            ("human", character_prompt),
+        stories = pd.DataFrame()
+        story_id = 0
+
+        for n_row, input_ in tqdm(premises.iterrows(), total=premises.shape[0]):
+        
+            if regen_ids and input_['premise_id'] not in regen_ids:
+                continue
+
+            for i in range(n_gen):
+
+                response = self.prompt_llm(
+                    premise=input_['premise'],
+                    min_len=min_len,
+                    premise_id=input_['premise_id'],
+                    story_id=story_id,
+                    model_name=model_name,
+                    strategy=self.strategy,
+                    author_type="LLM",
+                )
+
+                stories = stories._append(response, ignore_index=True)
+                story_id += 1
+        
+        stories.to_csv(save_path, index=False)
+        print(f"Stories saved to {save_path}")
+
+
+class TwoStepPlanWriteGenerator(PlanWriteGenerator):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+    
+        # Define prompts
+        self.premise =\
+        """
+        Premise: {prompt}
+        """
+            
+        self.characters_prompt =\
+        """
+        Task: Based on the premise, describe the names and details of 2-3 major characters. Focus on each character's emotional states and inner thoughts.
+        Only respond with the characters' names and descriptions.
+        """
+
+        self.plan_info =\
+        """
+        Premise: {prompt}
+
+        Character Portraits:
+        {characters}
+        """
+
+        self.story_prompt =\
+        """
+        Task: Write a 500-word story based on the premise and character portraits. The story should be emotionally deep and impactful.
+        Only respond with the story.
+        """
+
+        self.characters_chat_prompt = ChatPromptTemplate.from_messages([
+            ("system", self.premise),
+            ("human", self.characters_prompt),
         ])
-        story_chat_prompt = ChatPromptTemplate.from_messages([
-            ("system", plan_info),
-            ("human", story_prompt),
+
+        self.story_chat_prompt = ChatPromptTemplate.from_messages([
+            ("system", self.plan_info),
+            ("human", self.story_prompt),
         ])
 
-        indexed_prompts = [(id, prompt) for id, prompt in enumerate(prompts)]
+        self.character_chain = self.characters_chat_prompt | self.pipe | self.characters_output_parser
+        self.story_chain =  self.story_chat_prompt | self.pipe | self.story_output_parser
 
-        if not regen_ids:
-            indexed_prompts = [(i, prompt) for i, prompt in indexed_prompts if i in regen_ids]
 
-        for id, prompt in indexed_prompts:
+if __name__ == '__main__':
 
-            character_chain = character_chat_prompt | self.llm | self.OutputParser()
-            character_output = character_chain.invoke({"prompt": prompt})
+    llm = "TheBloke/Mixtral-8x7B-Instruct-v0.1-GPTQ"
 
-            story_chain =  story_chat_prompt | self.llm | self.OutputParser()
+    generator = TwoStepPlanWriteGenerator(model_name_or_path=llm)
 
-            max_tries = 3
-            min_words = 100
-            num_words, tries = 0, 0
-            while num_words < min_words and tries < max_tries:
-                output = story_chain.invoke({"prompt": prompt, "characters": character_output})
-                num_words = len(output.split())
-                if num_words < min_words:
-                    tries += 1
-                    print(f"Generated fewer than {min_words} words. Trying {max_tries-tries} more times")
+    premises = pd.read_csv("../data/premises.csv")
 
-            print(id)
-            print("-" * 20)
-            print(output)
-            print("=" * 50)
+    save_dir = "../llm_story_generation_results_v2/"
 
-            save_info = {
-                "id": id,
-                "model_name": model_name,
-                "story_prompt": prompt,
-                "characters": character_output,
-                "output": output
-            }
+    # the number of stories to be generated per prompt
+    n_gen = 3
+    
+    # To generate stories for all, set regen_ids to empty or None 
+    regen_ids = [15, 16, 17, 18, 19]
 
-            filename = f"{save_info['id']}_{first_n_words(save_info['story_prompt'])}_{generate_random_id()}.json"
-            with open(os.path.join(save_path, filename), 'w') as f:
-                json.dump(save_info, f, indent=4)
+    # min. story length
+    min_len = 400
+
+    generator.output_stories(premises, save_dir, llm, n_gen, regen_ids, min_len)
