@@ -109,7 +109,6 @@ class PlanWriteGenerator:
 
         model_name = llm.split('/')[-1]
         save_path = os.path.join(save_dir, f"{model_name}_{self.strategy}.csv")
-        os.makedirs(save_path, exist_ok=True)
 
         stories = pd.DataFrame()
         story_id = 0
@@ -191,7 +190,8 @@ if __name__ == '__main__':
 
     premises = pd.read_csv("./data/premises.csv")
 
-    save_dir = "./llm_story_generation_results_v2/"
+    save_dir = "../llm_story_generation_results_v2/"
+    os.makedirs(save_dir, exist_ok=True)
 
     # the number of stories to be generated per prompt
     n_gen = 3
