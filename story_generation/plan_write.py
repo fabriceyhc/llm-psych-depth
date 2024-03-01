@@ -28,7 +28,7 @@ class PlanWriteGenerator:
     def __init__(self, model_name_or_path="TheBloke/Mixtral-8x7B-Instruct-v0.1-GPTQ", revision="main",
                  max_new_tokens=512, do_sample=True, temperature=0.7, top_p=0.95, 
                  top_k=40, repetition_penalty=1.1, cache_dir="/data1/fabricehc/impossibility-watermark/.cache",
-                 num_retries=10, use_system_profile=True):
+                 num_retries=3, use_system_profile=True):
 
         self.model_name_or_path = model_name_or_path
         self.use_system_profile = use_system_profile
@@ -85,13 +85,15 @@ class PlanWriteGenerator:
                     print(f"Generated {story_len} (< {min_len}) words. Reprompting...")
                     continue
                 
-                dict_output = output.model_dump()
-                dict_output.update({
+                dict_output = {
+                    "text": output,
                     "premise": premise,
                     "characters": characters_output,
                     **kwargs,
                     "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                })
+                }
+
+                print(dict_output)
 
                 return dict_output
             
@@ -128,7 +130,7 @@ class PlanWriteGenerator:
                     strategy=self.strategy,
                     author_type="LLM",
                 )
-                
+
                 stories = stories.append(response, ignore_index=True)
                 story_id += 1
         
