@@ -1,8 +1,4 @@
 import os
-
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
-os.environ["WORLD_SIZE"] = "1"
-
 import datetime
 import traceback
 import textwrap
@@ -11,27 +7,33 @@ import pandas as pd
 
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 from langchain_community.llms.huggingface_pipeline import HuggingFacePipeline
-from langchain.prompts.chat import ChatPromptTemplate
-from langchain.prompts import PromptTemplate
 from langchain.schema import StrOutputParser
-from langchain.prompts.chat import (
+from langchain_core.prompts import (
     ChatPromptTemplate,
+    PromptTemplate,
     SystemMessagePromptTemplate,
     HumanMessagePromptTemplate,
 )
-
 
 class WriterProfileGenerator:
 
     def __init__(self, model_name_or_path="TheBloke/Mixtral-8x7B-Instruct-v0.1-GPTQ", revision="main",
                  max_new_tokens=512, do_sample=True, temperature=0.7, top_p=0.95, 
-                 top_k=40, repetition_penalty=1.1, cache_dir="../.cache/",
+                 top_k=40, repetition_penalty=1.1, cache_dir="/data1/fabricehc/impossibility-watermark/.cache",
                  num_retries=10, use_system_profile=True):
 
         self.model_name_or_path = model_name_or_path
         self.use_system_profile = use_system_profile
         self.num_retries = num_retries
         self.strategy = "writer_profile"
+        self.profile = textwrap.dedent(
+        """
+        You are a seasoned writer who has won several accolades for your emotionally rich stories.
+        When you write, you delve deep into the human psyche, pulling from the reservoir of universal experiences that every reader, regardless of their background, can connect to.
+        Your writing is renowned for painting vivid emotional landscapes, making readers not just observe but truly feel the world of your characters.
+        Every piece you produce aims to draw readers in, encouraging them to reflect on their own lives and emotions.
+        Your stories are a complex tapestry of relationships, emotions, and conflicts, each more intricate than the last.
+        """)
 
          # Initialize and load the model and tokenizer
         self.model = AutoModelForCausalLM.from_pretrained(
@@ -71,7 +73,7 @@ class WriterProfileGenerator:
         
         while retry_count < self.num_retries:
             try:
-                dict_input = {"premise": premise}
+                dict_input = {"premise": premise, "profile": self.profile}
                 output = self.chain.invoke(dict_input)
                 story_len = len(self.tokenizer.encode(output))
 
@@ -124,7 +126,7 @@ class WriterProfileGenerator:
                     author_type="LLM",
                 )
 
-                stories = stories._append(response, ignore_index=True)
+                stories = stories.append(response, ignore_index=True)
                 story_id += 1
         
         stories.to_csv(save_path, index=False)
@@ -137,13 +139,8 @@ class ZeroShotWriterProfileGenerator(WriterProfileGenerator):
         super().__init__(**kwargs)
     
         # Define prompts
-        self.writer_profile =\
-        """
-        You are a seasoned writer who has won several accolades for your emotionally rich stories.
-        When you write, you delve deep into the human psyche, pulling from the reservoir of universal experiences that every reader, regardless of their background, can connect to.
-        Your writing is renowned for painting vivid emotional landscapes, making readers not just observe but truly feel the world of your characters.
-        Every piece you produce aims to draw readers in, encouraging them to reflect on their own lives and emotions.
-        Your stories are a complex tapestry of relationships, emotions, and conflicts, each more intricate than the last.
+        self.writer_profile = """
+        {profile}
         """
 
         self.story_prompt =\
@@ -157,12 +154,13 @@ class ZeroShotWriterProfileGenerator(WriterProfileGenerator):
 
         self.system_prompt = PromptTemplate(
             template=self.writer_profile,
+            input_variables=["profile"],
         )
 
         self.user_prompt = PromptTemplate(
             template=self.story_prompt,
             input_variables=["premise"],
-            template_format='jinja2',
+            # template_format='jinja2',
         )
         
         # Format prompt
@@ -182,9 +180,9 @@ if __name__ == '__main__':
 
     generator = ZeroShotWriterProfileGenerator(model_name_or_path=llm)
 
-    premises = pd.read_csv("../data/premises.csv")
+    premises = pd.read_csv("./data/premises.csv")
 
-    save_dir = "../llm_story_generation_results_v2/"
+    save_dir = "./llm_story_generation_results_v2/"
 
     # the number of stories to be generated per prompt
     n_gen = 3

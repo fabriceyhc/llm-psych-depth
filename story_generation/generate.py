@@ -1,8 +1,13 @@
+import os
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "2"
+os.environ["WORLD_SIZE"] = "2"
+
 import pandas as pd
 from tqdm import tqdm
 
-from writer_profile import ZeroShotWriterProfileGenerator
-from plan_write import TwoStepPlanWriteGenerator
+from story_generation.writer_profile import ZeroShotWriterProfileGenerator
+from story_generation.plan_write import TwoStepPlanWriteGenerator
 
 
 if __name__ == '__main__':
@@ -12,9 +17,9 @@ if __name__ == '__main__':
     writer_profile_generator = ZeroShotWriterProfileGenerator(model_name_or_path=llm)
     plan_write_generator = TwoStepPlanWriteGenerator(model_name_or_path=llm)
 
-    premises = pd.read_csv("../data/premises.csv")
+    premises = pd.read_csv("./data/premises.csv")
 
-    save_dir = "../llm_story_generation_results_v2/"
+    save_dir = "./llm_story_generation_results_v2/"
 
     # the number of stories to be generated per prompt
     n_gen = 3
