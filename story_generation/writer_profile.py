@@ -18,7 +18,7 @@ from langchain_core.prompts import (
 class WriterProfileGenerator:
 
     def __init__(self, model_name_or_path="TheBloke/Mixtral-8x7B-Instruct-v0.1-GPTQ", revision="main",
-                 max_new_tokens=512, do_sample=True, temperature=0.7, top_p=0.95, 
+                 max_new_tokens=1024, do_sample=True, temperature=0.7, top_p=0.95, 
                  top_k=40, repetition_penalty=1.1, cache_dir="/data1/fabricehc/impossibility-watermark/.cache",
                  num_retries=3, use_system_profile=True):
 
@@ -67,7 +67,7 @@ class WriterProfileGenerator:
         self.output_parser = StrOutputParser()
 
 
-    def prompt_llm(self, premise, min_len=400, **kwargs):
+    def prompt_llm(self, premise, min_len=500, **kwargs):
     
         retry_count = 0
         
@@ -102,7 +102,7 @@ class WriterProfileGenerator:
                     print(traceback.format_exc())
 
 
-    def output_stories(self, premises, save_dir, llm, n_gen=3, regen_ids=None, min_len=400):
+    def output_stories(self, premises, save_dir, llm, n_gen=3, regen_ids=None, min_len=500):
 
         model_name = llm.split('/')[-1]
         save_path = os.path.join(save_dir, f"{model_name}_{self.strategy}.csv")
@@ -128,10 +128,10 @@ class WriterProfileGenerator:
                 )
 
                 stories = stories.append(response, ignore_index=True)
+                stories.to_csv(save_path, index=False)
                 story_id += 1
         
-        stories.to_csv(save_path, index=False)
-        print(f"Stories saved to {save_path}")
+        print(f"All stories saved to {save_path}")
 
 
 class ZeroShotWriterProfileGenerator(WriterProfileGenerator):
