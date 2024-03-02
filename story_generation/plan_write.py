@@ -7,6 +7,7 @@ from langchain_core.prompts import (
     SystemMessagePromptTemplate,
     HumanMessagePromptTemplate,
 )
+from langchain_core.output_parsers import StrOutputParser
 from langchain.output_parsers import PydanticOutputParser
 from langchain_core.pydantic_v1 import BaseModel, Field
 from typing import List
@@ -19,6 +20,7 @@ class PlanWrite(LLMBase):
     def __init__(self, cfg):
         super().__init__(cfg)
         self.cfg = cfg
+        self.output_parser = StrOutputParser()
         self.characters_output_parser = PydanticOutputParser(pydantic_object=Characters)
         
         # Define prompts
@@ -60,8 +62,8 @@ class PlanWrite(LLMBase):
 
         # Prepare chains
         self.characters_chain = self.characters_chat_prompt | self.pipe | self.characters_output_parser
-        self.characters_chain_no_validation = self.characters_chat_prompt | self.pipe 
-        self.story_chain = self.story_chat_prompt | self.pipe 
+        self.characters_chain_no_validation = self.characters_chat_prompt | self.pipe | self.output_parser
+        self.story_chain = self.story_chat_prompt | self.pipe | self.output_parser
 
 
     def generate_characters(self, premise):

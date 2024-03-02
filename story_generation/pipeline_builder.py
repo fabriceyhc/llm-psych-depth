@@ -10,7 +10,7 @@ class PipeLineBuilder:
         self.cfg = cfg
 
         # NOTE: Using openai is incompatible with watermarking. 
-        if "gpt" in cfg.model_name_or_path:
+        if "gpt-" in cfg.model_name_or_path:
             load_dotenv(find_dotenv()) # load openai api key from ./.env
             self.pipeline = ChatOpenAI(model_name=cfg.model_name_or_path)
         
@@ -48,11 +48,13 @@ class PipeLineBuilder:
         """
         This function expects a formatted prompt and returns the generated text.
         """
-        # if "gpt" in self.cfg.model_name_or_path:
-        #     return self.pipeline(prompt)
-        # return self.pipeline_base(prompt)[0]['generated_text'].replace(prompt, "").strip()
-        prompt = prompt.to_string()
-        return self.pipeline(prompt)
+        if "gpt-" in self.cfg.model_name_or_path:
+            output = self.pipeline.invoke(prompt)
+        else:
+            output = self.pipeline(prompt.to_string())
+        print(prompt.to_string())
+        print(output)
+        return output
         
     def __call__(self, prompt):
         return self.generate_text(prompt)

@@ -1,16 +1,9 @@
 import os
-
-# os.environ['CUDA_VISIBLE_DEVICES'] = "0"
-# os.environ["WORLD_SIZE"] = "1"
-
 import datetime
 import hydra
-
 import logging
 import pandas as pd
 from tqdm import tqdm
-from story_generation.writer_profile import WriterProfile
-from story_generation.plan_write import PlanWrite
 
 log = logging.getLogger(__name__)
 logging.getLogger('optimum.gptq.quantizer').setLevel(logging.WARNING)
@@ -19,6 +12,10 @@ logging.getLogger('accelerate').setLevel(logging.WARNING)
 
 class StoryGenerator:
     def __init__(self, cfg):
+
+        from story_generation.writer_profile import WriterProfile
+        from story_generation.plan_write import PlanWrite
+
         self.cfg = cfg
 
         # Load premises to guide story generation
@@ -47,12 +44,17 @@ class StoryGenerator:
             "strategy", 
             "timestamp",
         ]
-        
+
         os.makedirs(self.cfg.save_dir, exist_ok=True)
         self.save_path = self.cfg.save_path.replace(
             self.cfg.generator_args.model_name_or_path, 
             self.cfg.generator_args.model_name_or_path.replace("/", ".")
         )
+
+    def is_valid_length(self, text):
+        word_count = len(text.split())
+        low, high = self.cfg.generation_args.acceptable_word_count_range
+        return low < word_count < high
 
     def generate(self):        
         try:
@@ -66,7 +68,8 @@ class StoryGenerator:
                 & (df['model_name'] == self.cfg.generator_args.model_name_or_path) 
                 & (df['strategy'] == self.cfg.generation_args.strategy)].empty:
 
-                for _ in range(self.cfg.generation_args.num_stories):
+                story_count = 0
+                while story_count < self.cfg.generation_args.num_stories:
 
                     response = self.generator.generate(
                         premise_id=premise['premise_id'],
@@ -77,13 +80,20 @@ class StoryGenerator:
                         author_type="LLM",
                         profile=self.profile,
                     )
+
+                    if not self.is_valid_length(response["text"]):
+                        log.info(f"Generation length: {len(response['text'].split())}")
+                        log.info(f"Generation is not within acceptable word count range: {self.cfg.generation_args.acceptable_word_count_range}. Trying again...")
+                        continue
+
                     response.update({
                         "story_id": str(hash(response["text"]))
                     })
                     df = df.append(response, ignore_index=True)
                     df.to_csv(self.save_path, index=False)
+                    story_count += 1
             else:
-                print(f"Previously generation found. Skipping premise_id={premise['premise_id']}, model_name={premise['model_name']}, and strategy={self.cfg.generation_args.strategy}")
+                log.info(f"Previously generation found. Skipping premise_id={premise['premise_id']}, model_name={premise['model_name']}, and strategy={self.cfg.generation_args.strategy}")
 
 
 @hydra.main(version_base=None, config_path="../conf", config_name="config")
@@ -95,5 +105,7 @@ def main(cfg):
     g.generate()
                 
 if __name__ == "__main__":
+    # from langchain.globals import set_debug
+    # set_debug(True)
     main()
         
