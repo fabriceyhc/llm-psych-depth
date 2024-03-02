@@ -51,11 +51,6 @@ class StoryGenerator:
             self.cfg.generator_args.model_name_or_path.replace("/", ".")
         )
 
-    def is_valid_length(self, text):
-        word_count = len(text.split())
-        low, high = self.cfg.generation_args.acceptable_word_count_range
-        return low < word_count < high
-
     def generate(self):        
         try:
             df = pd.read_csv(self.save_path)
@@ -80,11 +75,6 @@ class StoryGenerator:
                         author_type="LLM",
                         profile=self.profile,
                     )
-
-                    if not self.is_valid_length(response["text"]):
-                        log.info(f"Generation length: {len(response['text'].split())}")
-                        log.info(f"Generation is not within acceptable word count range: {self.cfg.generation_args.acceptable_word_count_range}. Trying again...")
-                        continue
 
                     response.update({
                         "story_id": str(hash(response["text"]))

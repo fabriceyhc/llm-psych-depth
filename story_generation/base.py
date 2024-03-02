@@ -25,6 +25,11 @@ class LLMBase:
 
         # self.chain = self.prompt | self.pipe | self.output_parser
 
+    def is_valid_length(self, text):
+        word_count = len(text.split())
+        low, high = self.cfg.generation_args.acceptable_word_count_range
+        return low < word_count < high
+
     def generate(self, premise, **kwargs):
         retry_count = 0
         while retry_count < self.cfg.generation_args.num_retries:
@@ -35,10 +40,18 @@ class LLMBase:
                 if "profile" in kwargs:
                     dict_input.update({"profile": kwargs.get("profile")})
                 story_text = self.chain.invoke(dict_input)
+                
+                if not self.is_valid_length(response["text"]):
+                    log.info(f"Generation length: {len(response['text'].split())}")
+                    log.info(f"Generation is not within acceptable word count range: {self.cfg.generation_args.acceptable_word_count_range}. Trying again...")
+                    retry_count += 1
+                    continue
+
                 dict_output = {
                     "premise": premise,
                     "text": story_text,
                     "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    "retry_count": retry_count, 
                     **kwargs
                 }
                 return dict_output

@@ -73,7 +73,11 @@ class PlanWrite(LLMBase):
             try:
                 pydantic_output = self.characters_chain.invoke(dict_input)
                 characters = pydantic_output.dict()["character_list"]
-                return "\n".join(f"- {c}" for c in characters)
+                dict_output = {
+                    "characters": "\n".join(f"- {c}" for c in characters),
+                    "characters_retry_count": retry_count
+                }
+                return dict_output
             except:
                 print(f"Failed to produce valid character portraits, trying again...")
                 retry_count += 1
@@ -81,7 +85,11 @@ class PlanWrite(LLMBase):
                     print(f"Failed to produce valid character portraits {retry_count} tries.")
                     print(f"Dropping format validation and trying one more time...")
         characters = self.characters_chain_no_validation.invoke(dict_input)
-        return characters
+        dict_output = {
+            "characters": characters,
+            "characters_retry_count": retry_count
+        }
+        return dict_output
 
     def generate_stories(self, premise, characters, num_words):
         dict_input = {
@@ -97,13 +105,17 @@ class PlanWrite(LLMBase):
         retry_count = 0
         while retry_count < self.cfg.generation_args.num_retries:
             try:
-                characters = self.generate_characters(premise)
+                characters_dict = self.generate_characters(premise)
+                characters = characters_dict["characters"]
                 story_text = self.generate_stories(premise, characters, num_words=self.cfg.generation_args.num_words)
                 dict_output = {
                     "premise": premise,
                     "text": story_text,
                     "characters": characters,
                     "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    "story_retry_count": retry_count,
+                    "characters_retry_count": characters_dict["characters_retry_count"],
+                    "retry_count": retry_count + characters_dict["characters_retry_count"],
                     **kwargs
                 }
                 return dict_output
