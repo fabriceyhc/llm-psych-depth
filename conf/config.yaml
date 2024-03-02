@@ -1,0 +1,36 @@
+premises_path: "./data/premises.csv"
+save_dir: "./llm_story_generation_results_v2/"
+save_path: "${save_dir}/stories_${generator_args.model_name_or_path}_${generation_args.strategy}.csv"
+cuda_visible_devices: "0"
+
+generator_args:
+    model_name_or_path: "TheBloke/Mixtral-8x7B-Instruct-v0.1-GPTQ" # "gpt-4"
+    revision: "main" 
+    model_cache_dir: "/data1/fabricehc/impossibility-watermark/.cache"
+    device_map: "auto"
+    trust_remote_code: False
+    max_new_tokens: 1024
+    do_sample: True 
+    temperature: 0.7 
+    top_p: 0.95 
+    top_k: 40
+    repetition_penalty: 1.1
+
+generation_args:
+    num_stories: 3
+    num_retries: 3
+    strategy: "writer_profile"
+    premise_ids: None # [15, 16]
+    num_words: 500
+
+writer_profile:
+    profile: "You are a seasoned writer who has won several accolades for your emotionally rich stories. \nWhen you write, you delve deep into the human psyche, pulling from the reservoir of universal experiences that every reader, regardless of their background, can connect to.\nYour writing is renowned for painting vivid emotional landscapes, making readers not just observe but truly feel the world of your characters. \nEvery piece you produce aims to draw readers in, encouraging them to reflect on their own lives and emotions. \nYour stories are a complex tapestry of relationships, emotions, and conflicts, each more intricate than the last."
+
+evaluate:
+    use_mixture_of_personas: False
+    personas:
+        - "You are a renowned literary critic known for your incisive and rigorous analysis."
+        - "You are a literary therapist, someone who uses literature as a medium for healing and introspection."
+        - "You are a professor teaching a course on psychological literature."
+        # - "You are an experienced psychologist with a keen interest in literature."
+        # - "You are a novelist renowned for weaving psychologically profound narratives."

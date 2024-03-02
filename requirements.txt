@@ -17,3 +17,4 @@ auto-gptq
 optimum
 scikit-learn
 langchain_community
+hydra-core

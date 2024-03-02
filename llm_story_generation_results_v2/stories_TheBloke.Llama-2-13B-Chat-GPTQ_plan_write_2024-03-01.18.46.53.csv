@@ -1,0 +1,5 @@
+story_id,premise_id,premise,text,author_type,model_name,strategy,timestamp,characters,num_words,profile
+-6098063625989930396,0,A centuries old vampire gets really into video games because playing a character who can walk around in the sun is the closest thing they have to experiencing the day again in centuries. ,"
+No worries about length or style guidelines. I'm open to any creative direction you take this in.",LLM,TheBloke/Llama-2-13B-Chat-GPTQ,plan_write,2024-03-01 18:47:20,"- Alice: A centuries old vampire who has become increasingly bored with immortality, seeking thrills in video games where she can play characters who walk in the sun.
+- Bob: A human gamer who becomes Alice's partner in online multiplayer games, oblivious to her true nature.
+- Charlie: A reclusive game developer who created the popular game 'Eternal Sunset', which has become a substitute for Alice's lost daytime experiences.",500.0,
