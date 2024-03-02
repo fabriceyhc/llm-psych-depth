@@ -52,8 +52,8 @@ class PipeLineBuilder:
             output = self.pipeline.invoke(prompt)
         else:
             output = self.pipeline(prompt.to_string())
-        print(prompt.to_string())
-        print(output)
+        # print(prompt.to_string())
+        # print(output)
         return output
         
     def __call__(self, prompt):
