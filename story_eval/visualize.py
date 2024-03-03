@@ -126,14 +126,18 @@ def plot_component_corrs(df, title=None, save_path=None):
     
     labels = ["AUTH", "EMP", "ENG", "PROV", "NCOM"]
     correlation_matrix = df[components].corr()
+
+    # # Getting the Upper Triangle of the co-relation matrix
+    # matrix = np.tril(correlation_matrix)
+
     # Create the heatmap with updated labels
     plt.figure(figsize=(10, 8))
-    heatmap = sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap='Blues', cbar=True, square=True,
+    heatmap = sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap='Blues', cbar=True, square=True, # mask=matrix,
                         xticklabels=labels, yticklabels=labels, annot_kws={"size": 14}, linecolor='white', linewidths=1)
 
     # Title and labels
     plt.title(title, pad=20, fontsize=20)
-    plt.xticks(rotation=0, ha="right", fontsize=16)
+    plt.xticks(rotation=0, fontsize=16)
     plt.yticks(rotation=0, fontsize=16)
 
     if save_path:
