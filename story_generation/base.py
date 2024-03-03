@@ -31,7 +31,7 @@ class LLMBase:
         return low < word_count < high
 
     def generate(self, premise, **kwargs):
-        retry_count = 0
+        retry_count, length_retry_count = 0, 0
         while retry_count < self.cfg.generation_args.num_retries:
             try:
                 dict_input = {"premise": premise}
@@ -41,10 +41,10 @@ class LLMBase:
                     dict_input.update({"profile": kwargs.get("profile")})
                 story_text = self.chain.invoke(dict_input)
                 
-                if not self.is_valid_length(response["text"]):
-                    log.info(f"Generation length: {len(response['text'].split())}")
-                    log.info(f"Generation is not within acceptable word count range: {self.cfg.generation_args.acceptable_word_count_range}. Trying again...")
-                    retry_count += 1
+                if not self.is_valid_length(story_text):
+                    print(f"Generation length: {len(story_text.split())}")
+                    print(f"Generation is not within acceptable word count range: {self.cfg.generation_args.acceptable_word_count_range}. Trying again...")
+                    length_retry_count += 1
                     continue
 
                 dict_output = {
@@ -52,6 +52,7 @@ class LLMBase:
                     "text": story_text,
                     "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                     "retry_count": retry_count, 
+                    "length_retry_count": length_retry_count,
                     **kwargs
                 }
                 return dict_output

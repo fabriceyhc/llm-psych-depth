@@ -1,5 +1,5 @@
 premises_path: "./data/premises.csv"
-save_dir: "./llm_story_generation_results_v2/"
+save_dir: "./llm_story_generation_results_retry_count_analysis/"
 save_path: "${save_dir}/stories_${generator_args.model_name_or_path}_${generation_args.strategy}.csv"
 cuda_visible_devices: "0"
 

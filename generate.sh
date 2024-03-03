@@ -8,25 +8,25 @@
 #           generation_args.strategy="plan_write" \
 #           cuda_visible_devices=\'0,1\'
 
-# python -m story_generation.generate \
-#           generator_args.model_name_or_path="TheBloke/Llama-2-7B-chat-GPTQ" \
-#           generation_args.strategy="writer_profile" \
-#           cuda_visible_devices=\'0,1\'
+python -m story_generation.generate \
+          generator_args.model_name_or_path="TheBloke/Llama-2-7B-chat-GPTQ" \
+          generation_args.strategy="writer_profile" \
+          cuda_visible_devices=\'0,1\'
 
-# python -m story_generation.generate \
-#           generator_args.model_name_or_path="TheBloke/Llama-2-7B-chat-GPTQ" \
-#           generation_args.strategy="plan_write" \
-#           cuda_visible_devices=\'0,1\'
+python -m story_generation.generate \
+          generator_args.model_name_or_path="TheBloke/Llama-2-7B-chat-GPTQ" \
+          generation_args.strategy="plan_write" \
+          cuda_visible_devices=\'0,1\'
 
-# python -m story_generation.generate \
-#           generator_args.model_name_or_path="TheBloke/Llama-2-13B-chat-GPTQ" \
-#           generation_args.strategy="writer_profile" \
-#           cuda_visible_devices=\'0,1\'
+python -m story_generation.generate \
+          generator_args.model_name_or_path="TheBloke/Llama-2-13B-chat-GPTQ" \
+          generation_args.strategy="writer_profile" \
+          cuda_visible_devices=\'0,1\'
 
-# python -m story_generation.generate \
-#           generator_args.model_name_or_path="TheBloke/Llama-2-13B-chat-GPTQ" \
-#           generation_args.strategy="plan_write" \
-#           cuda_visible_devices=\'0,1\'
+python -m story_generation.generate \
+          generator_args.model_name_or_path="TheBloke/Llama-2-13B-chat-GPTQ" \
+          generation_args.strategy="plan_write" \
+          cuda_visible_devices=\'6,7\'
 
 # python -m story_generation.generate \
 #           generator_args.model_name_or_path="TheBloke/Llama-2-70B-chat-GPTQ" \

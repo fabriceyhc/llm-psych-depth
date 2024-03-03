@@ -102,12 +102,19 @@ class PlanWrite(LLMBase):
 
     # overwrite BaseLLM.generate
     def generate(self, premise, **kwargs):
-        retry_count = 0
+        retry_count, length_retry_count = 0, 0
         while retry_count < self.cfg.generation_args.num_retries:
             try:
                 characters_dict = self.generate_characters(premise)
                 characters = characters_dict["characters"]
                 story_text = self.generate_stories(premise, characters, num_words=self.cfg.generation_args.num_words)
+                
+                if not self.is_valid_length(story_text):
+                    print(f"Generation length: {len(story_text.split())}")
+                    print(f"Generation is not within acceptable word count range: {self.cfg.generation_args.acceptable_word_count_range}. Trying again...")
+                    length_retry_count += 1
+                    continue
+
                 dict_output = {
                     "premise": premise,
                     "text": story_text,
@@ -115,7 +122,7 @@ class PlanWrite(LLMBase):
                     "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                     "story_retry_count": retry_count,
                     "characters_retry_count": characters_dict["characters_retry_count"],
-                    "retry_count": retry_count + characters_dict["characters_retry_count"],
+                    "length_retry_count": length_retry_count,
                     **kwargs
                 }
                 return dict_output

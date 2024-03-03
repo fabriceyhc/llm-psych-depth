@@ -83,7 +83,7 @@ class StoryGenerator:
                     df.to_csv(self.save_path, index=False)
                     story_count += 1
             else:
-                log.info(f"Previously generation found. Skipping premise_id={premise['premise_id']}, model_name={premise['model_name']}, and strategy={self.cfg.generation_args.strategy}")
+                log.info(f"Previously generation found. Skipping premise_id={premise['premise_id']}, model_name={self.cfg.generator_args.model_name_or_path}, and strategy={self.cfg.generation_args.strategy}")
 
 
 @hydra.main(version_base=None, config_path="../conf", config_name="config")
