@@ -20,7 +20,7 @@ generation_args:
     num_stories: 3
     num_retries: 3
     strategy: "writer_profile"
-    premise_ids: None # [15, 16]
+    premise_ids: None # [15, 16, 17, 18, 19]
     num_words: 500
     acceptable_word_count_range: [400, 600]
 
