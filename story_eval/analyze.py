@@ -1,9 +1,11 @@
 import os
+import numpy as np
 import pandas as pd
 from agreement.utils.transform import pivot_table_frequency
 from agreement.utils.kernels import linear_kernel, ordinal_kernel
 from agreement.metrics import cohens_kappa, krippendorffs_alpha
-from scipy.stats import spearmanr, pearsonr, zscore
+from scipy.stats import spearmanr, pearsonr, zscore, ttest_ind, f_oneway
+
 from crowdkit.aggregation import (
     DawidSkene, 
     OneCoinDawidSkene, 
@@ -11,7 +13,6 @@ from crowdkit.aggregation import (
     MACE,
     Wawa
 )
-
 
 class AnnotationAnalyzer:
 
@@ -185,6 +186,59 @@ class AnnotationAnalyzer:
     def measure_component_corrs(self, ratings_df):
         correlation_matrix = ratings_df[self.components].corr().reset_index().rename(columns={'index': 'component'})
         return correlation_matrix
+
+    def perform_pairwise_ttests(self, ratings_df):
+        """
+        Perform pairwise t-tests for each score type among participants.
+
+        :param ratings_df: pandas DataFrame containing the dataset
+        :return: pandas DataFrame with the t-test results
+        """
+        participant_ids = ratings_df['participant_id'].unique()
+        t_test_results = []
+
+        for score in self.components:
+            for i in range(len(participant_ids)):
+                for j in range(i + 1, len(participant_ids)):
+                    data_i = ratings_df[ratings_df['participant_id'] == participant_ids[i]][score]
+                    data_j = ratings_df[ratings_df['participant_id'] == participant_ids[j]][score]
+
+                    # Perform t-test between the two participants
+                    t_stat, p_val = ttest_ind(data_i, data_j, nan_policy='omit')
+
+                    # Append the result
+                    t_test_results.append({
+                        'score': score,
+                        'participant_1': participant_ids[i],
+                        'participant_2': participant_ids[j],
+                        't_stat': t_stat,
+                        'p_value': p_val
+                    })
+
+        df = pd.DataFrame(t_test_results)
+        df.loc['Average'] = df.mean(numeric_only=True)
+        df.at['Average', 'score'] = 'Average'
+        return df
+
+    def perform_anova(self, ratings_df):
+        """
+        Perform ANOVA to compare all participants against each other for each score type.
+
+        :param ratings_df: pandas DataFrame containing the dataset
+        :return: pandas DataFrame with the ANOVA results
+        """
+        participant_ids = ratings_df['participant_id'].unique()
+        anova_results = []
+
+        for score in self.components:
+            score_data = [ratings_df[ratings_df['participant_id'] == pid][score] for pid in participant_ids]
+            f_stat, p_val = f_oneway(*score_data)
+            anova_results.append({'score': score, 'f_stat': f_stat, 'p_value': p_val})
+
+        df = pd.DataFrame(anova_results)
+        df.loc['Average'] = df.mean(numeric_only=True)
+        df.at['Average', 'score'] = 'Average'
+        return df
     
 class ZScoreAggregator:
 
@@ -270,7 +324,7 @@ if __name__ == "__main__":
     human_ratings_df     = pd.read_csv('./human_study/data/processed/human_annotations.csv', encoding='cp1252')
     llm_ratings_df       = pd.read_csv(f'./human_study/data/processed/{llm_name}_annotations.csv', encoding='cp1252')
     stories_df           = pd.read_csv(f'./human_study/data/stories.csv')
-    benchmark_stories_df = pd.read_csv(f'./data/stories.csv', encoding='cp1252')
+    benchmark_stories_df = pd.read_csv(f'./data/study_stories.csv', encoding='8859')
 
     human_ratings_df.sort_values(['participant_id', 'story_id'], ascending=[True, True])
     llm_ratings_df.sort_values(['participant_id', 'story_id'], ascending=[True, True])
@@ -288,6 +342,8 @@ if __name__ == "__main__":
     analyzer.count_average_words(stories_df).to_csv(f'./story_eval/tables/human_study_count_average_words.csv', index=False)
     analyzer.count_average_words(benchmark_stories_df).to_csv(f'./story_eval/tables/benchmark_count_average_words.csv', index=False)
     analyzer.measure_component_corrs(human_ratings_df).to_csv(f'./story_eval/tables/human_study_component_corrs.csv', index=False)
+    analyzer.perform_pairwise_ttests(human_ratings_df).to_csv(f'./story_eval/tables/human_study_ratings_pairwise_t_tests.csv', index=False)
+    analyzer.perform_anova(human_ratings_df).to_csv(f'./story_eval/tables/human_study_ratings_anova.csv', index=False)
 
     save_path = f"./story_eval/tables/human_vs_{llm_name}_iaa_raw.csv"
 
