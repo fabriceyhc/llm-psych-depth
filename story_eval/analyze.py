@@ -19,7 +19,7 @@ class AnnotationAnalyzer:
     def __init__(self, ):
         self.components = [
             'authenticity_score', 'empathy_score', 'engagement_score', 
-            'emotion_provoking_score', 'narrative_complexity_score']
+            'emotion_provoking_score', 'narrative_complexity_score', 'human_likeness_score']
 
     def regular_iaa(self, ratings_df, component, prefix="human"):
             
