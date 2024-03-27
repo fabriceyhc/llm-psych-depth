@@ -209,8 +209,8 @@ class AnnotationAnalyzer:
                     # Append the result
                     t_test_results.append({
                         'score': score,
-                        'participant_1': unique_vals[i],
-                        'participant_2': unique_vals[j],
+                        f'{col}_1': unique_vals[i],
+                        f'{col}_2': unique_vals[j],
                         't_stat': t_stat,
                         'p_value': p_val
                     })

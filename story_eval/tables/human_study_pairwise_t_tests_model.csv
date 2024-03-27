@@ -1,4 +1,4 @@
-score,participant_1,participant_2,t_stat,p_value
+score,model_short_1,model_short_2,t_stat,p_value
 authenticity_score,Vicuna-33B,Llama-2-70B,-1.6315201694993449,0.10459964140573849
 authenticity_score,Vicuna-33B,GPT-4,-5.992135118394128,1.1714870607228837e-08
 authenticity_score,Vicuna-33B,Llama-2-7B,-0.7812725273036988,0.4356800970084209

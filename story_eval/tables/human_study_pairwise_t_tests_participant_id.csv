@@ -1,4 +1,4 @@
-score,participant_1,participant_2,t_stat,p_value
+score,participant_id_1,participant_id_2,t_stat,p_value
 authenticity_score,2.0,3.0,-1.4826549389901709,0.1397559927229783
 authenticity_score,2.0,4.0,-2.585534109226723,0.010440911449737968
 authenticity_score,2.0,6.0,-0.4429280823153378,0.6583012815379592
