@@ -122,9 +122,9 @@ def plot_cdf(df, models, title, sort_order, colors, smooth=True, save_path=None)
 def plot_component_corrs(df, title=None, save_path=None):
     components = [
         'authenticity_score', 'empathy_score', 'engagement_score', 
-        'emotion_provoking_score', 'narrative_complexity_score']
+        'emotion_provoking_score', 'narrative_complexity_score', 'human_likeness_score']
     
-    labels = ["AUTH", "EMP", "ENG", "PROV", "NCOM"]
+    labels = ["AUTH", "EMP", "ENG", "PROV", "NCOM", "HUM"]
     correlation_matrix = df[components].corr()
 
     # # Getting the Upper Triangle of the co-relation matrix
@@ -151,7 +151,7 @@ if __name__ == "__main__":
     import os
 
     scores_path = "./human_study/data/processed/human_annotations.csv"
-    human_ratings_df = pd.read_csv(scores_path).drop(columns=["human_likeness_score"])
+    human_ratings_df = pd.read_csv(scores_path)# .drop(columns=["human_likeness_score"])
 
     sort_order = {
         "Llama-2-7B" :        0, 

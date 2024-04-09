@@ -239,7 +239,6 @@ class AnnotationAnalyzer:
         df.loc['Average'] = df.mean(numeric_only=True)
         df.at['Average', 'score'] = 'Average'
         return df
-
     
 class ZScoreAggregator:
 
@@ -347,7 +346,7 @@ if __name__ == "__main__":
     analyzer.perform_pairwise_ttests(human_ratings_df, col="model_short").to_csv(f'./story_eval/tables/human_study_pairwise_t_tests_model.csv', index=False)
     analyzer.perform_anova(human_ratings_df, col="participant_id").to_csv(f'./story_eval/tables/human_study_anova_participant_id.csv', index=False)
     analyzer.perform_anova(human_ratings_df, col="model_short").to_csv(f'./story_eval/tables/human_study_anova_model.csv', index=False)
-
+    
     save_path = f"./story_eval/tables/human_vs_{llm_name}_iaa_raw.csv"
 
     if not os.path.exists(save_path):
