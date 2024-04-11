@@ -1,0 +1,12 @@
+model_short,story_len
+Llama-2-7B,464.63157894736844
+Llama-2-13B,507.75
+Vicuna-33B,456.6666666666667
+Llama-2-70B,637.7
+Mixtral-8x7B,473.75
+GPT-3.5,454.55
+GPT-4,515.15
+Human-Novice,431.45
+Human-Intermediate,485.4
+Human-Advanced,464.25
+ALL,489.12982456140344

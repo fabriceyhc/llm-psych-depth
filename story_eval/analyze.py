@@ -131,7 +131,7 @@ class AnnotationAnalyzer:
     
     def story_scores(self, ratings_df):
         scores = ratings_df.groupby(by='story_id', dropna=False).mean(numeric_only=True)
-        stories = ratings_df[["story_id", "model_short", "model_full", "strategy"]].drop_duplicates()
+        stories = ratings_df[["story_id", "model_short", "strategy"]].drop_duplicates()
         # assert (len(stories)) == 100
         return scores.merge(stories, on="story_id")
     
@@ -299,7 +299,9 @@ class MeanAggregator:
 
         return result_series
 
-
+def filter_out_values(df, column, values_to_filter):
+    mask = ~df[column].isin(values_to_filter)
+    return df[mask]
     
 if __name__ == "__main__":
 
@@ -311,10 +313,12 @@ if __name__ == "__main__":
         "Llama-2-13B":        1, 
         "Vicuna-33B" :        2,
         "Llama-2-70B":        3,
-        "GPT-4":              4,
-        "Human-Novice":       5,
-        "Human-Intermediate": 6,
-        "Human-Advanced":     7,
+        "Mixtral-8x7B":       4,
+        "GPT-3.5":            5,
+        "GPT-4":              6,
+        "Human-Novice":       7,
+        "Human-Intermediate": 8,
+        "Human-Advanced":     9,
     }
 
     # Create an instance of the class
@@ -325,6 +329,10 @@ if __name__ == "__main__":
     llm_ratings_df       = pd.read_csv(f'./human_study/data/processed/{llm_name}_annotations.csv', encoding='cp1252')
     stories_df           = pd.read_csv(f'./human_study/data/stories.csv')
     benchmark_stories_df = pd.read_csv(f'./data/study_stories.csv', encoding='8859')
+
+    blacklist = [83, 70, 71] 
+    stories_df = filter_out_values(stories_df, "story_id", blacklist)
+    benchmark_stories_df = filter_out_values(benchmark_stories_df, "study_id", blacklist)
 
     human_ratings_df.sort_values(['participant_id', 'story_id'], ascending=[True, True])
     llm_ratings_df.sort_values(['participant_id', 'story_id'], ascending=[True, True])
@@ -340,7 +348,7 @@ if __name__ == "__main__":
     analyzer.story_scores(human_ratings_df).to_csv(f'./story_eval/tables/human_study_story_scores.csv', index=False)
     analyzer.strategy_scores(human_ratings_df).to_csv(f'./story_eval/tables/human_study_strategy_scores.csv', index=False)
     analyzer.count_average_words(stories_df).to_csv(f'./story_eval/tables/human_study_count_average_words.csv', index=False)
-    analyzer.count_average_words(benchmark_stories_df).to_csv(f'./story_eval/tables/benchmark_count_average_words.csv', index=False)
+    analyzer.count_average_words(benchmark_stories_df).to_csv(f'./story_eval/tables/human_study_count_average_words_benchmark.csv', index=False)
     analyzer.measure_component_corrs(human_ratings_df).to_csv(f'./story_eval/tables/human_study_component_corrs.csv', index=False)
     analyzer.perform_pairwise_ttests(human_ratings_df, col="participant_id").to_csv(f'./story_eval/tables/human_study_pairwise_t_tests_participant_id.csv', index=False)
     analyzer.perform_pairwise_ttests(human_ratings_df, col="model_short").to_csv(f'./story_eval/tables/human_study_pairwise_t_tests_model.csv', index=False)
