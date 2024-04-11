@@ -127,7 +127,9 @@ class AnnotationAnalyzer:
         return result_df
 
     def participant_scores(self, ratings_df):
-        return ratings_df.groupby(by='participant_id', dropna=False).mean(numeric_only=True)[self.components]
+        result_df = ratings_df.groupby(by='participant_id', dropna=False).mean(numeric_only=True)[self.components]
+        result_df = result_df.reset_index().rename(columns={'index': 'participant_id'}).dropna()
+        return result_df
     
     def story_scores(self, ratings_df):
         scores = ratings_df.groupby(by='story_id', dropna=False).mean(numeric_only=True)
@@ -137,7 +139,7 @@ class AnnotationAnalyzer:
     
     def strategy_scores(self, ratings_df):
         result_df = ratings_df.groupby(by=['model_short', 'strategy'], dropna=False).mean(numeric_only=True)[self.components]
-        result_df = result_df.reset_index().rename(columns={'index': 'model-strategy'}).dropna()
+        result_df = result_df.reset_index().rename(columns={'index': 'model_strategy'}).dropna()
         return result_df
     
     def summarize_iaa_and_corr(self, ratings_df):
