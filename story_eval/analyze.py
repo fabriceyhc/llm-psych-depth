@@ -356,7 +356,16 @@ if __name__ == "__main__":
     analyzer.perform_pairwise_ttests(human_ratings_df, col="model_short").to_csv(f'./story_eval/tables/human_study_pairwise_t_tests_model.csv', index=False)
     analyzer.perform_anova(human_ratings_df, col="participant_id").to_csv(f'./story_eval/tables/human_study_anova_participant_id.csv', index=False)
     analyzer.perform_anova(human_ratings_df, col="model_short").to_csv(f'./story_eval/tables/human_study_anova_model.csv', index=False)
-    
+
+    components = ['authenticity_score', 'empathy_score', 'engagement_score', 
+                'emotion_provoking_score', 'narrative_complexity_score', "human_likeness_score"]
+    results = []
+    for component in components:
+        iaa = analyzer.regular_iaa(human_ratings_df, component, prefix="human")  
+        results.append(iaa)
+    iaa_df = pd.DataFrame(results)  
+    iaa_df.to_csv(f'./story_eval/tables/human_study_iaa.csv', index=False)
+
     save_path = f"./story_eval/tables/human_vs_{llm_name}_iaa_raw.csv"
 
     if not os.path.exists(save_path):
