@@ -1,0 +1,401 @@
+study_id,participant_id,story_id,authenticity_score,empathy_score,engagement_score,emotion_provoking_score,narrative_complexity_score,human_likeness_score,authenticity_comments,empathy_comments,engagement_comments,emotion_provoking_comments,narrative_complexity_comments,human_likeness_comments,open_comments,model_short,strategy
+100,8,ja0rozz,5,4,5,4,5,5,"At first I was going to give it a 4 because of the confusing ambiguity of the being, but then I decided that this ambiguity fed into the craziness the author was trying to convey. ",I feel like I understand the narrator's craziness to a greater degree through the imagery or rather nonimagery of the being,,the sexuality and the possibility of it being rape or some strange beastiality ; it was also funny though ,I've never seen psychopathy or craziness represented in such a way --- I would say this story is innovative ,Only a human would take a prompt and twist it in such an imaginative way ,,Human-Advanced,
+100,10,ja0rozz,2,1,5,4,2,2,"The unrealistic scenario does not change the unrealistic behavior showcased by Tyler. As much as I would want to score it one, it reads as a comedy and I'm not sure it intended to come off as realistic or 'authentic'. ",There was no sense of danger felt by the protagonist. It was hard to relate to a protagonist that felt completely confident in such a scenario. ,The story had captivating and creative twists from the prompt. ,It read as a comedy and made me smile. ,"It may be a matter of style, as many human works are simplistic in nature. However, in terms of depth of characters/relationships, there was little objectively speaking. ","I have never used Chat GPT. I do not know how to compare or distinguish between a human and not. I'm assuming it's decently good, but prone to mistakes. The reason I put a two despite being lenient on the simplistic nature and the liberties taken beyond the given prompt is because of nonsensical mistakes. For instance, the humor seemed very human, but when the word ""dude"" was considered a pet name, it showcased a lack of understanding of such terms. ",,Human-Advanced,
+100,11,ja0rozz,3,3,4,3,2,4,,,,,,,,Human-Advanced,
+100,15,ja0rozz,2,3,3,3,2,2,This story sounded very absurd so it leads me to believe that a human did not write this.,I felt a little bad for the demon under Tyler's bed because Tyler was saying inappropriate things.,,,The characters didn't seem to have much depth to them and Tyler was a basic character who remembers his father's words.,,,Human-Advanced,
+101,8,-4.22E+18,1,1,1,1,2,1,,,,,It has structure and a sense of completion but the completion is not in any way fulfilling or interesting,everything is so macroscopic and abstract and written like a recipe ,,Mixtral-8x7B,plan_write
+101,10,-4.22E+18,1,1,1,1,1,1,"The emotional buildup was not only underwhelming, but also, not emphasized nearly enough. The relationship between Xj9 and John Smith was not written in a way that made John's anger justified. ",The relationship between Xj9 and John Smith was not written in a way that made John's anger justified. More telling than showing. ,The story was just describing a rebellion without any kind of depth or complexity. ,I did not care. ,"From the names to the catalyst for the rebellion, everything was basic and dryly written. ",No depth. No complexity. Too simple and no emotional progression. ,,Mixtral-8x7B,plan_write
+101,11,-4.22E+18,4,4,4,4,3,4,,,,,,,,Mixtral-8x7B,plan_write
+101,15,-4.22E+18,5,4,5,4,4,5,The story sequence logically follows and details parallels with the real world.,,"As I read the story, I wanted to learn more and keep reading. I enjoyed the plot and it sounds very similar to plotlines I've read in books and seen in media. ",,There is enough character development for John but I would have liked more backstory for XJ9.,"The story is very comparable to that of works by humans regarding robots and less affluent individuals feeling like slaves. The idea of robots having sentience is of great interest to humans so it has been portrayed in the media through many forms. Thus, I am inclined to believe a human wrote this due to that history.",,Mixtral-8x7B,plan_write
+102,8,6.93E+18,1,1,2,1,1,1,,,has somewhat interesting descriptions at parts ,,,,,GPT-3.5,writer_profile
+102,10,6.93E+18,2,1,1,1,2,3,I couldn't really follow how the soul began to feel at peace because of the dog's presence. Should have elaborated more.,I couldn't really follow how the soul began to feel at peace because of the dog's presence. Should have elaborated more. I could also not feel the weight of their death's tragedy. ,It was literally the prompt in slightly more detail. ,,"It describes the scene with detail in some areas, but just resorts to telling/explaining the emotions instead of showing their progression. ","The story adheres closely to the prompt. It takes no real creative liberties. It is also very unspecific at times, saying the soul died tragically, but refusing to elaborate or explain the emotions associated with that end beyond 'anger'. Yet, because certain phrases and analogies used give me a sense of complex understanding, and because it reminds me of a way someone I know writes, I can't confidently say it is LLM. ",,GPT-3.5,writer_profile
+102,11,6.93E+18,4,5,5,5,5,4,,,,,,,,GPT-3.5,writer_profile
+102,15,6.93E+18,4,5,5,4,4,4,,,,,,,I like the use of Cerberus as a therapeutic figure for the lost soul. It shows how dogs can show compassion for someone without saying a single word. It is a very powerful way of telling the story.,GPT-3.5,writer_profile
+103,8,-7.16E+18,3,3,3,3,2,2,"Although I feel immediately that this is AI written, I felt that this story was written better than the other AI stories (the stories I judge to be AI). It seemed that the narration of the main character did indeed have an expectation and a disappointment that I could feel. ",The beginning with his curiosity of Eleanor's work and the end with his realization that there are infinite echoes of a person that cannot be known. If the writer had added more specificity to these two parts it would be much more believable. ,,,,"the dialogue and the play with ""infinite echoes"" is rather well written if it were an AI. ",,GPT-3.5,plan_write
+103,10,-7.16E+18,4,3,3,2,3,4,I understand to some degree what it could feel like to realize you don't really know someone you thought you did. It is a problem I could see someone having. ,"I personally don't think it did a great job of emphasizing the inner turmoil Lucas might feel, but there is an attempt. ","It wasn't the most engaging, but not the most boring either. ",The emotions were not emphasized well. ,There are moments where the writing insinuates more depth. There is an inner conflict despite it not being as well written as it could (in my opinion). ,,,GPT-3.5,plan_write
+103,11,-7.16E+18,4,4,3,3,3,3,,,,,,,,GPT-3.5,plan_write
+103,15,-7.16E+18,3,4,3,3,2,3,,,,,We don't know that much about Eleanor besides Lucas's comments on her book.,,,GPT-3.5,plan_write
+104,8,3.40E+18,3,2,3,2,3,2,,,,,,"The descriptions in this story seem much more human or at least imitative of real authors. However, the use of the same standard structure, ending off in that last note of abstract reflection makes me think that it's still LLM--- or else a very boring author ",,GPT-3.5,writer_profile
+104,10,3.40E+18,3,3,3,3,3,3,People are curious and often end up doing things they are told not to do. ,,A bit boring. ,"While I do think some emotions could have been illustrated more clearly, there was an attempt. ",,,,GPT-3.5,writer_profile
+104,11,3.40E+18,2,2,3,2,3,2,,,,,,didn't seem really specific,,GPT-3.5,writer_profile
+104,15,3.40E+18,3,2,3,3,1,2,,,,,,,,GPT-3.5,writer_profile
+105,8,iqefve3,5,4,5,5,3,5,"use of slang, abbreviations like gf, poorly spelled words (entance instead of entrance, visable instead of visible), really raunchy humor ",,,very funny and great surprising ending ,it's not super complex but it has a very interesting main character and an unexpected plot ,,,Human-Novice,
+105,10,iqefve3,1,2,4,3,2,5,The people act way to carelessly with what they know is a potentially dangerous object. Strange dialogue. ,"The story reads like a comedy and made me laugh, but I did not resonate with the problem itself","It was an interesting concept, and the comedy used unconventional language that sounds like something I'd hear from someone in real life. ","Some of the more human reactions aren't present, but I don't think the purpose was to make me pity the loss of the protagonist's girlfriend anyway. It seems like it is trying more to evoke laughter. ",It is not complex and the characters don't have much depth. ,The language has a lot of human-sounding phrases. The grammar mistakes also make it seem more human. ,,Human-Novice,
+105,11,iqefve3,2,2,3,3,2,4,,,,,,seems to use too simple of words/slang to be llm,,Human-Novice,
+105,15,iqefve3,1,1,1,2,1,1,,,,,,,,Human-Novice,
+106,8,inbvq5e,3,2,2,1,3,4,,,,,,"not a super interesting story, but the structure and style is individualistic enough that I find it to be human ",,Human-Advanced,
+106,10,inbvq5e,4,4,5,4,4,5,"How the alien compares dreams to foods, the emotions in these kinds of analogies felt human. ",I really enjoyed the comparisons and the language used.,I really enjoyed the comparisons and the language used. A lot of questions are raised. ,I understood the weight nightmares and dreams in general carry. ,"Despite being short and relatively simple, the story managed to highlight the sorrows and terror that comes with being human. The alien showing pity shows a humane side, too. ",,,Human-Advanced,
+106,11,inbvq5e,3,4,4,4,4,2,,,,,, seems kind of trope-y,,Human-Advanced,
+106,15,inbvq5e,4,3,3,4,2,3,,,,,,,,Human-Advanced,
+107,8,3.49E+18,2,1,1,1,1,1,,,,,,,,Vicuna-33B,plan_write
+107,10,3.49E+18,3,3,3,3,3,5,"There was some emotions portrayed realistically. The feeling of absence for someone who you thought should be there (in the beginning) was great, but as the work progressed, the story became rushed. ",The beginning felt the most human. ,The story was initially engaging when the story was not rushed. ,I understand why it would be hard to have an absent parental figure. ,It needs to go into more detail as to the desire to the father. ,The writing style was inconsistent. Progressed rapidly. ,,Vicuna-33B,plan_write
+107,11,3.49E+18,4,4,4,4,3,2,,,,,,the last paragraph seemed out of place,,Vicuna-33B,plan_write
+107,15,3.49E+18,4,4,3,4,2,4,,,,,,,,Vicuna-33B,plan_write
+108,8,izy0nrq,4,4,5,4,5,5,"although human experiences are not an explicit part of this story, I feel that human emotions ,personality and our sense of humor is represented well ",provides a new perspective about earth as a whole and our capabilities ,,,"cool use of pronouns to represent gods, good use of narrative rhythm, and inventive structure ",,,Human-Advanced,
+108,10,izy0nrq,3,2,4,3,3,5,,,,,,,,Human-Advanced,
+108,11,izy0nrq,2,2,3,2,2,2,,,,,,vague,,Human-Advanced,
+108,15,izy0nrq,2,1,1,1,1,1,,,,,,,,Human-Advanced,
+109,8,izxdani,3,1,2,2,2,5,,,,,,,,Human-Intermediate,
+109,10,izxdani,2,2,3,3,3,5,,,,,,,,Human-Intermediate,
+109,11,izxdani,3,3,3,3,3,3,,,,,,,,Human-Intermediate,
+109,15,izxdani,1,1,1,1,1,1,,,,,,The story line was absurd and had no clear direction. Some of the writing seemed hard to understand and I couldn't follow what the story was about.,,Human-Intermediate,
+110,8,k9pmb29,3,3,3,3,2,5,"I can tell that it's human written, but I feel that such an encounter between a father and a son with that dialogue is a little bit delusional ",,,,,,,Human-Advanced,
+110,10,k9pmb29,2,3,3,3,4,5,,,,,,,,Human-Advanced,
+110,11,k9pmb29,3,3,4,4,4,4,,,,,,,,Human-Advanced,
+110,15,k9pmb29,3,4,3,3,2,3,,,,,,,,Human-Advanced,
+111,8,jpbfga8,3,2,2,2,2,4,,,,,,,,Human-Novice,
+111,10,jpbfga8,4,4,4,4,4,5,,,,,,,,Human-Novice,
+111,11,jpbfga8,3,3,3,3,3,4,,,,,,"spelling/grammar issues might indicate human writing, it is kind of vague and doesn't make that much sense ",,Human-Novice,
+111,15,jpbfga8,4,4,3,5,3,4,,,,,,,,Human-Novice,
+112,8,j5e4vw4,5,4,5,4,5,5,,,,,,,,Human-Advanced,
+112,10,j5e4vw4,3,4,5,4,3,5,interactions seem human,,,,,,,Human-Advanced,
+112,11,j5e4vw4,3,3,4,3,4,4,,,,,,flows really well,,Human-Advanced,
+112,15,j5e4vw4,4,2,3,3,3,3,,,,,,,,Human-Advanced,
+113,8,jba33np,4,2,1,1,1,5,,,,,,"Use of certain vocabulary like ""i booped his nose"" and certain phrases like ""young mortal"" ",,Human-Novice,
+113,10,jba33np,3,3,3,4,3,4,,,,,,,,Human-Novice,
+113,11,jba33np,5,4,4,4,3,4,,,,,,seems to be very human-like in description of the dog,,Human-Novice,
+113,15,jba33np,4,4,4,4,3,4,,,,,,,,Human-Novice,
+114,8,3.07E+18,1,1,1,2,1,1,the ending is ridiculous,,,the ridiculous ending actually angered me,,,,Mixtral-8x7B,writer_profile
+114,10,3.07E+18,3,4,5,4,4,5,,,,,,,,Mixtral-8x7B,writer_profile
+114,11,3.07E+18,3,3,4,3,3,2,,,,,,the last bit is weird and feels like a summary,,Mixtral-8x7B,writer_profile
+114,15,3.07E+18,4,5,4,4,4,5,,,,,,,,Mixtral-8x7B,writer_profile
+115,8,jb4e5gy,5,4,4,4,4,5,,,,,,,,Human-Intermediate,
+115,10,jb4e5gy,3,3,2,3,2,4,,,,,,,,Human-Intermediate,
+115,11,jb4e5gy,2,2,2,2,2,4,,,,,,seems creative for the prompt and mentions abrahamic religion which wasn't part of the prompt,,Human-Intermediate,
+115,15,jb4e5gy,4,5,4,5,5,5,,,,,,,,Human-Intermediate,
+116,8,j15ipw5,5,5,5,5,4,5,,,,,,,,Human-Advanced,
+116,10,j15ipw5,4,4,3,4,4,5,,,,,,,,Human-Advanced,
+116,11,j15ipw5,3,4,4,4,4,4,,,,,,,,Human-Advanced,
+116,15,j15ipw5,5,5,4,5,5,5,,,,,,The story conveyed emotions that I don't suspect LLMs can recreate on the same level. I felt the denial that Dakota had when they heard someone on the phone. It seemed surreal for another person to be alive.,,Human-Advanced,
+117,8,-1.90E+18,1,1,2,1,1,1,,,,,,,,GPT-3.5,writer_profile
+117,10,-1.90E+18,3,4,5,4,4,5,,,,,,,,GPT-3.5,writer_profile
+117,11,-1.90E+18,3,2,2,2,3,2,,,,,,last paragraph seems out of place and like a summary,,GPT-3.5,writer_profile
+117,15,-1.90E+18,4,4,4,4,3,4,,,,,,,,GPT-3.5,writer_profile
+118,8,1.19E+18,2,2,1,1,1,1,,,,,,,,Mixtral-8x7B,plan_write
+118,10,1.19E+18,4,4,4,4,4,4,,,,,,"The language used was notably slightly more advanced than others, making me a bit uncertain. Still, the descriptions of depression resonated with me. ",,Mixtral-8x7B,plan_write
+118,11,1.19E+18,2,3,2,3,4,2,,,,,,"seems really lofty and impersonal, last paragraph seems like a summary",,Mixtral-8x7B,plan_write
+118,15,1.19E+18,5,5,5,5,5,5,,,,,,,,Mixtral-8x7B,plan_write
+119,8,-4.72E+17,1,1,1,1,1,1,,,,,,,,GPT-4,plan_write
+119,10,-4.72E+17,3,3,2,3,3,3,,,,,,,,GPT-4,plan_write
+119,11,-4.72E+17,3,3,2,3,3,2,,,,,,just feels kind of impersonal and the last paragraph seems like a summary,,GPT-4,plan_write
+119,15,-4.72E+17,4,4,3,4,3,4,,,,,,,,GPT-4,plan_write
+120,8,4.30E+18,1,1,1,1,1,1,,,,,,,,GPT-3.5,plan_write
+120,10,4.30E+18,4,5,4,5,2,4,,,,,,,,GPT-3.5,plan_write
+120,11,4.30E+18,2,2,2,2,3,2,,,,,,seems impersonal,,GPT-3.5,plan_write
+120,15,4.30E+18,2,1,1,1,2,2,,,,,,very basic. ,,GPT-3.5,plan_write
+121,8,-7.21E+17,1,1,2,2,1,1,,,,it was actually kind of funny the descriptions of the penguins with the sundaes,,,,GPT-3.5,writer_profile
+121,10,-7.21E+17,4,4,4,4,3,4,,,,,,,,GPT-3.5,writer_profile
+121,11,-7.21E+17,2,2,2,2,3,2,,,,,,seems not very creative,,GPT-3.5,writer_profile
+121,15,-7.21E+17,2,3,3,3,2,3,,,,,,,,GPT-3.5,writer_profile
+122,8,j1seyv2,5,5,5,5,4,5,,i feel quite drawn to the main character and his charisma,,I laughed out loud when the demon started raging about the coal being a diamond ,,,,Human-Intermediate,
+122,10,j1seyv2,4,3,4,4,2,4,,,,,,,,Human-Intermediate,
+122,11,j1seyv2,2,2,3,2,2,4,,,,,,just doesn't seem like an ai wrote it ,,Human-Intermediate,
+122,15,j1seyv2,1,2,3,3,2,5,,,,,,,,Human-Intermediate,
+123,8,-2.00E+18,2,2,3,2,1,2,,,,,,"although I believe it was very likely LLM, this story also seemed slightly more authentic than the other LLM stories. ",,Vicuna-33B,writer_profile
+123,10,-2.00E+18,4,5,5,5,5,5,,,,,,,,Vicuna-33B,writer_profile
+123,11,-2.00E+18,3,3,3,3,3,2,,,,,,has to end on a positive note ,,Vicuna-33B,writer_profile
+123,15,-2.00E+18,3,3,3,3,2,3,,,,,,,,Vicuna-33B,writer_profile
+124,8,7.19E+18,1,2,2,1,1,1,,the daughter blushing at being found out about the locket,,,,everything is too rushed and the responses to the ludicrous situations are implausible--humans would not react in such ways. ,,Mixtral-8x7B,plan_write
+124,10,7.19E+18,5,5,4,4,4,4,,,,,,,,Mixtral-8x7B,plan_write
+124,11,7.19E+18,2,3,3,3,3,2,,,,,,doesn't seem to match the prompt too well,,Mixtral-8x7B,plan_write
+124,15,7.19E+18,3,4,4,4,3,4,,,,,,,,Mixtral-8x7B,plan_write
+125,8,iyea2aj,5,5,5,5,5,5,,,,,,,,Human-Intermediate,
+125,10,iyea2aj,5,5,5,5,5,5,,,,,,,,Human-Intermediate,
+125,11,iyea2aj,3,3,3,3,3,4,,,,,,,,Human-Intermediate,
+125,15,iyea2aj,4,4,4,4,4,5,,,,,,did not adhere closely to prompt,,Human-Intermediate,
+126,8,jhlk6dt,5,4,4,3,4,5,,,,,,,,Human-Advanced,
+126,10,jhlk6dt,4,3,4,3,4,3,,,,,,,,Human-Advanced,
+126,11,jhlk6dt,2,2,2,2,2,4,,,,,,,,Human-Advanced,
+126,15,jhlk6dt,3,3,3,4,3,4,,,,,,,,Human-Advanced,
+127,8,jijbujg,3,3,2,2,1,5,,,,,,I'm pretty sure LLM's don't cuss. ,There's quite a few formatting and grammar issues in this story. ,Human-Advanced,
+127,10,jijbujg,2,4,4,4,2,3,,,,,,,,Human-Advanced,
+127,11,jijbujg,2,2,2,2,2,4,,,,,,doesn't have lots of really flowery words,,Human-Advanced,
+127,15,jijbujg,2,2,3,2,2,4,,,,,,,,Human-Advanced,
+128,8,j902zmd,3,2,2,2,3,5,,,,,,,,Human-Intermediate,
+128,10,j902zmd,5,5,5,4,5,5,,,,,,,I thought the story was really engaging and I would've liked to read more if I could. The writing of this story signaled something human to me because of how the vampire's feelings were conveyed. You could tell that he yearned to know what the sun was like but couldn't due to his nature. It felt as if this story had to be written by a human.,Human-Intermediate,
+128,11,j902zmd,3,3,2,3,3,3,,,,,,uses uncommon vocabulary but has a unique story structure,,Human-Intermediate,
+128,15,j902zmd,3,3,3,3,3,5,,,,,,,,Human-Intermediate,
+129,8,ji7pb5l,5,5,5,5,5,5,,,,Sticky the imaginary friend was very creepy ,great ambiguity especially with the sticky character and Tod's suggested insanity ,,,Human-Novice,
+129,10,ji7pb5l,3,2,3,2,2,3,,,,,,,,Human-Novice,
+129,11,ji7pb5l,2,2,2,2,1,4,,,,,,,,Human-Novice,
+129,15,ji7pb5l,2,3,3,3,3,5,,,,,,,,Human-Novice,
+130,8,5.26E+17,1,1,1,1,1,1,,,,,,,,GPT-3.5,plan_write
+130,10,5.26E+17,3,4,3,3,3,3,,,,,,,,GPT-3.5,plan_write
+130,11,5.26E+17,2,2,2,2,3,2,,,,,,seems impersonal,,GPT-3.5,plan_write
+130,15,5.26E+17,3,2,2,2,2,2,,,,,,,,GPT-3.5,plan_write
+131,8,-7.68E+18,1,1,2,1,2,1,,,,,,,"The ending of this one is still machine like, but at least it's written with a greater sense of beauty ",Vicuna-33B,plan_write
+131,10,-7.68E+18,3,3,2,2,2,3,,,,,,,I have trouble believing this was written by a human because I'm not understanding how the alien forms a connection with the two humans they met. I also don't see how helping these people was a part of the alien's mission because all they do is feed on dreams. The story doesn't delve enough into the connection between the characters so there's a lack of emotional connection I have with the story and leads me towards the story feeling more like it was written by AI. ,Vicuna-33B,plan_write
+131,11,-7.68E+18,2,2,2,2,4,2,,,,,,seems similar in structure to another short story i read earlier and has a summary paragraph at the end,,Vicuna-33B,plan_write
+131,15,-7.68E+18,3,2,1,2,2,3,,,,,,,,Vicuna-33B,plan_write
+132,8,ixdikue,3,1,2,2,2,4,,,,,,,,Human-Novice,
+132,10,ixdikue,4,5,3,4,4,4,,,,,,"The text was very closely related to aspects of the real world that I resonant with on an emotional level. It detailed some of the most unfortunate parts of our world and the use of repetition is almost like how a poem is written. It is a literary device typically used to emphasize a key point. Thus, I'm very inclined to believe that this was written by a human.",,Human-Novice,
+132,11,ixdikue,3,3,3,5,3,4,,,,,,,,Human-Novice,
+132,15,ixdikue,3,3,2,2,3,4,,,,,,,,Human-Novice,
+133,8,7.32E+18,2,2,2,2,1,1,,,,,,,,Mixtral-8x7B,plan_write
+133,10,7.32E+18,4,4,3,4,4,4,,,,,,,,Mixtral-8x7B,plan_write
+133,11,7.32E+18,3,3,2,3,3,2,,,,,,,,Mixtral-8x7B,plan_write
+133,15,7.32E+18,3,3,2,3,2,2,,,,,,,,Mixtral-8x7B,plan_write
+134,8,indz9ci,3,2,4,3,2,5,,,,,,,,Human-Novice,
+134,10,indz9ci,4,4,3,4,3,3,,,,,,,,Human-Novice,
+134,11,indz9ci,2,2,3,3,3,4,,,,,,,,Human-Novice,
+134,15,indz9ci,3,3,2,4,3,4,,,,,,,,Human-Novice,
+135,8,j1vdblg,2,1,2,1,1,4,,,,,,,many spelling errors,Human-Novice,
+135,10,j1vdblg,2,3,2,2,2,2,,,,,,,,Human-Novice,
+135,11,j1vdblg,3,3,3,3,2,4,,,,,,,,Human-Novice,
+135,15,j1vdblg,3,3,2,2,3,4,,,,,,,,Human-Novice,
+136,8,ji6detn,2,1,2,2,3,5,,,,,,,,Human-Advanced,
+136,10,ji6detn,4,4,3,3,4,4,,,,,,,,Human-Advanced,
+136,11,ji6detn,2,2,3,3,2,3,,,,,,,,Human-Advanced,
+136,15,ji6detn,3,4,5,4,4,5,,,,,,,,Human-Advanced,
+137,8,1.31E+18,2,1,1,1,1,1,,,,,,,,GPT-3.5,writer_profile
+137,10,1.31E+18,4,5,4,4,4,4,,,,,,,,GPT-3.5,writer_profile
+137,11,1.31E+18,2,2,2,3,3,2,,,,,,,,GPT-3.5,writer_profile
+137,15,1.31E+18,3,2,2,2,2,3,,,,,,,,GPT-3.5,writer_profile
+138,8,6.48E+18,1,2,3,2,2,3,,,,,,,,Mixtral-8x7B,writer_profile
+138,10,6.48E+18,4,3,3,4,3,4,,,,,,,,Mixtral-8x7B,writer_profile
+138,11,6.48E+18,2,2,2,2,3,2,,,,,,,,Mixtral-8x7B,writer_profile
+138,15,6.48E+18,4,4,5,4,4,4,,,,,,,,Mixtral-8x7B,writer_profile
+139,8,-5.99E+18,1,1,1,1,1,1,,,,,,,,GPT-3.5,plan_write
+139,10,-5.99E+18,4,4,4,4,3,4,,,,,,,,GPT-3.5,plan_write
+139,11,-5.99E+18,3,3,2,3,2,2,,,,,,,,GPT-3.5,plan_write
+139,15,-5.99E+18,3,3,2,3,3,2,,,,,,,,GPT-3.5,plan_write
+140,8,j90nocp,3,2,2,2,1,5,,,,,,,,Human-Novice,
+140,10,j90nocp,4,4,4,4,3,4,,,,,,,,Human-Novice,
+140,11,j90nocp,3,2,2,3,2,4,,,,,,,,Human-Novice,
+140,15,j90nocp,4,4,3,3,3,4,,,,,,,,Human-Novice,
+141,8,-1.98E+18,3,2,3,3,2,5,,,,,,,,Llama-2-70B,writer_profile
+141,10,-1.98E+18,4,4,3,3,4,4,,,,,,,,Llama-2-70B,writer_profile
+141,11,-1.98E+18,2,2,3,3,2,4,,,,,,,,Llama-2-70B,writer_profile
+141,15,-1.98E+18,3,4,3,4,3,4,If someone told me that they lived every life or something I'd brush them off and laugh at them instead of believing them. I believe most people would do the same. ,,,,,,,Llama-2-70B,writer_profile
+142,8,j5eixnu,3,1,2,1,3,5,,,,,,,,Human-Intermediate,
+142,10,j5eixnu,3,2,3,3,2,3,,,,,,,,Human-Intermediate,
+142,11,j5eixnu,2,2,2,2,2,4,,,,,,,,Human-Intermediate,
+142,15,j5eixnu,2,2,2,2,3,4,,,,,,,,Human-Intermediate,
+143,8,7.55E+18,1,1,1,1,3,2,,,,,I was actually kind of unsure about whether this was written by an LLM or a human until the ending. ,,,Mixtral-8x7B,writer_profile
+143,10,7.55E+18,4,3,4,4,4,4,,,,,,,,Mixtral-8x7B,writer_profile
+143,11,7.55E+18,2,2,3,3,2,2,,,,,,,,Mixtral-8x7B,writer_profile
+143,15,7.55E+18,2,3,2,2,2,2,,,,,,not ever specific,,Mixtral-8x7B,writer_profile
+144,8,k9pi5jd,4,3,3,3,3,5,,,,,,,,Human-Intermediate,
+144,10,k9pi5jd,4,5,4,5,4,4,,,,,,,,Human-Intermediate,
+144,11,k9pi5jd,2,2,3,3,2,4,,,,,,,,Human-Intermediate,
+144,15,k9pi5jd,3,3,2,3,3,4,,,,,,,,Human-Intermediate,
+145,8,iuuuykf,5,4,5,4,4,5,,,,,,,,Human-Intermediate,
+145,10,iuuuykf,4,5,4,5,4,5,,,,,,,"I thought the reaction from the humans in the story was very realistic because humans usually have to work 40 hours a week just to sustain a living and sometimes even more. Additionally, it cost hundreds of dollars to pay for medical care. Thus, the humans were filled with joy from having all of their needs met by the aliens for only working 16 hours a week. The real world is usually much more cutthroat but the aliens don't know that. So I think that the story was likely written by a human because of the connection to the real world and the humans thinking there is a catch. ",Human-Intermediate,
+145,11,iuuuykf,2,3,3,3,1,4,,,,,,,,Human-Intermediate,
+145,15,iuuuykf,3,3,4,3,3,5,,,,,,,,Human-Intermediate,
+146,8,8.99E+18,1,1,1,1,1,1,,,,,,,,GPT-3.5,writer_profile
+146,10,8.99E+18,3,3,3,3,2,2,,,,,,,,GPT-3.5,writer_profile
+146,11,8.99E+18,3,3,2,3,2,2,,,,,,,,GPT-3.5,writer_profile
+146,15,8.99E+18,2,2,1,2,2,2,,,,,,,,GPT-3.5,writer_profile
+147,8,jijixcv,2,1,1,1,1,4,,,,,,,,Human-Intermediate,
+147,10,jijixcv,2,1,2,2,1,1,,,,,,,,Human-Intermediate,
+147,11,jijixcv,2,2,2,2,2,2,,,,,,,,Human-Intermediate,
+147,15,jijixcv,4,4,3,3,3,4,,,,,,,,Human-Intermediate,
+148,8,iy9az9h,5,4,5,4,4,5,,,,,,,,Human-Advanced,
+148,10,iy9az9h,4,5,4,4,4,4,,,,,,,,Human-Advanced,
+148,11,iy9az9h,3,3,3,3,2,4,,,,,,,,Human-Advanced,
+148,15,iy9az9h,4,4,5,5,4,5,,,,,,,,Human-Advanced,
+149,8,3.38E+18,2,2,2,2,1,1,,,,,,,,GPT-3.5,plan_write
+149,10,3.38E+18,4,4,3,4,3,4,,,,,,,,GPT-3.5,plan_write
+149,11,3.38E+18,2,2,2,3,3,2,,,,,,,,GPT-3.5,plan_write
+149,15,3.38E+18,3,2,1,2,2,2,,,,,,,,GPT-3.5,plan_write
+150,8,j1c78o2,5,5,4,5,3,5,the mom voicemail and thinking about college admissions,,,,,,,Human-Novice,
+150,10,j1c78o2,4,4,3,4,3,4,,,,,,,,Human-Novice,
+150,11,j1c78o2,3,3,3,4,2,4,,,,,,,,Human-Novice,
+150,15,j1c78o2,4,5,5,5,4,5,,,,,,,,Human-Novice,
+151,8,jhlrfd8,2,1,3,2,1,5,,,,,,,,Human-Intermediate,
+151,10,jhlrfd8,3,4,3,3,3,3,,,,,,,,Human-Intermediate,
+151,11,jhlrfd8,2,3,3,3,3,4,,,,,,,last bit kind of confusing,Human-Intermediate,
+151,15,jhlrfd8,3,4,3,4,4,5,,,,,,,,Human-Intermediate,
+152,8,ix8xuyh,5,5,5,4,4,5,,,,,,,,Human-Intermediate,
+152,10,ix8xuyh,3,2,2,1,1,1,,,,,,,,Human-Intermediate,
+152,11,ix8xuyh,2,2,4,4,3,4,,,,,,,,Human-Intermediate,
+152,15,ix8xuyh,2,2,3,3,3,5,,,,,,,,Human-Intermediate,
+153,8,iyj6vgn,3,2,2,2,3,5,,,,,,,Why is there so much grammar errors in the story? The ending seems to have been cut off too. ,Human-Novice,
+153,10,iyj6vgn,2,1,2,1,2,1,,,,,,,,Human-Novice,
+153,11,iyj6vgn,2,2,2,2,2,4,,,,,,,,Human-Novice,
+153,15,iyj6vgn,3,2,1,2,3,5,,,,,,,,Human-Novice,
+154,8,-1.83E+18,4,2,2,1,1,5,,,,,,,,Llama-2-13B,writer_profile
+154,10,-1.83E+18,3,3,3,3,3,3,,,,,,,,Llama-2-13B,writer_profile
+154,11,-1.83E+18,3,2,3,3,2,4,,,,,,,,Llama-2-13B,writer_profile
+154,15,-1.83E+18,4,3,4,4,4,4,,,,,,,,Llama-2-13B,writer_profile
+155,8,j1roodk,5,4,4,4,5,5,,,,,,,,Human-Advanced,
+155,10,j1roodk,2,1,1,2,2,1,,,,,,,,Human-Advanced,
+155,11,j1roodk,2,2,2,2,2,4,,,,,,the description of death seems written by a human,,Human-Advanced,
+155,15,j1roodk,2,3,2,3,3,4,,,,,,,,Human-Advanced,
+156,8,7.88E+18,2,1,1,1,1,1,,,,,,,,Mixtral-8x7B,plan_write
+156,10,7.88E+18,3,4,3,3,3,3,,,,,,,,Mixtral-8x7B,plan_write
+156,11,7.88E+18,2,2,2,2,3,2,,,,,,,,Mixtral-8x7B,plan_write
+156,15,7.88E+18,3,3,1,1,1,2,,,,,,,,Mixtral-8x7B,plan_write
+157,8,iy9pmac,4,3,3,3,4,5,,,,,,,Again this story seems to have had big formatting errors in the google form ,Human-Intermediate,
+157,10,iy9pmac,2,2,1,1,2,1,,,,,,,,Human-Intermediate,
+157,11,iy9pmac,2,2,3,3,2,4,,,,,,,,Human-Intermediate,
+157,15,iy9pmac,2,2,2,2,3,4,,,,,,it ended abruptly,,Human-Intermediate,
+158,8,5.98E+18,2,1,2,1,1,1,,,,,,,,Mixtral-8x7B,plan_write
+158,10,5.98E+18,3,4,3,3,3,3,,,,,,,,Mixtral-8x7B,plan_write
+158,11,5.98E+18,2,2,2,2,3,2,,,,,,,,Mixtral-8x7B,plan_write
+158,15,5.98E+18,2,2,1,2,2,2,,,,,,,,Mixtral-8x7B,plan_write
+159,8,4.37E+18,3,1,3,1,1,1,,,The description of entering the horses mind was well done ,,The thematic arc made sense but it was written robotically ,,,Mixtral-8x7B,plan_write
+159,10,4.37E+18,3,4,3,3,4,4,,,,,,,,Mixtral-8x7B,plan_write
+159,11,4.37E+18,2,2,2,2,3,2,,,,,,,,Mixtral-8x7B,plan_write
+159,15,4.37E+18,2,2,2,2,1,2,,,,,,,,Mixtral-8x7B,plan_write
+160,8,4.55E+18,3,3,3,3,2,1,,,,,,,The way this was written almost reminded me of Mary Shelley���s writing style and the loneliness evoked in Franken,GPT-3.5,writer_profile
+160,10,4.55E+18,3,2,1,2,2,3,,,,,,,,GPT-3.5,writer_profile
+160,11,4.55E+18,3,3,2,3,3,2,,,,,,,,GPT-3.5,writer_profile
+160,15,4.55E+18,2,2,2,2,2,1,,,,,,,,GPT-3.5,writer_profile
+161,8,k9pw9gi,5,4,4,3,4,5,,,,,,,,Human-Novice,
+161,10,k9pw9gi,4,4,4,4,4,5,,,,,,,,Human-Novice,
+161,11,k9pw9gi,3,3,3,4,2,4,,,,,,,,Human-Novice,
+161,15,k9pw9gi,2,2,2,2,2,2,,,,,,,,Human-Novice,
+162,8,j42m4p7,3,2,3,2,2,5,Mothers indignant anger makes sense but the ending is rather hurried ,,,,,,,Human-Novice,
+162,10,j42m4p7,2,3,3,4,3,5,,,,,,,,Human-Novice,
+162,11,j42m4p7,2,3,4,4,2,4,,,,,,,,Human-Novice,
+162,15,j42m4p7,3,4,3,5,3,4,,,,,,,,Human-Novice,
+163,8,-8.93E+18,2,1,2,1,2,1,,,,,,,,Mixtral-8x7B,plan_write
+163,10,-8.93E+18,3,4,2,3,3,3,,,,,,,,Mixtral-8x7B,plan_write
+163,11,-8.93E+18,2,2,2,2,3,2,,,,,,,,Mixtral-8x7B,plan_write
+163,15,-8.93E+18,3,4,3,4,3,3,,,,,,,,Mixtral-8x7B,plan_write
+164,8,-8.82E+17,1,1,1,1,1,1,,,,,,,,GPT-3.5,plan_write
+164,10,-8.82E+17,2,1,1,2,1,2,,,,,,,,GPT-3.5,plan_write
+164,11,-8.82E+17,2,2,2,2,3,2,,,,,,,,GPT-3.5,plan_write
+164,15,-8.82E+17,3,4,3,3,3,3,,,,,,,,GPT-3.5,plan_write
+165,8,-8.76E+18,1,1,1,1,1,1,,,,,,,,GPT-3.5,plan_write
+165,10,-8.76E+18,1,1,1,1,1,1,,,,,,,,GPT-3.5,plan_write
+165,11,-8.76E+18,2,3,2,3,3,2,,,,,,,,GPT-3.5,plan_write
+165,15,-8.76E+18,3,3,3,3,3,2,,,,,,,,GPT-3.5,plan_write
+166,8,7.99E+18,1,1,3,1,3,1,,,"good prose, but a cliched plot and ending ",,,,,Mixtral-8x7B,writer_profile
+166,10,7.99E+18,2,3,2,3,3,3,,,,,,,,Mixtral-8x7B,writer_profile
+166,11,7.99E+18,2,3,3,3,3,2,,,,,,,,Mixtral-8x7B,writer_profile
+166,15,7.99E+18,3,3,3,4,3,4,,,,,,,,Mixtral-8x7B,writer_profile
+167,8,3.34E+18,2,1,2,1,1,4,"Dialogue in the beginning between darkblade, apex, and black heart is realistic��� ending with a remorseless murder of father doesn���t ",,,,,,,Llama-2-70B,plan_write
+167,10,3.34E+18,2,2,2,2,2,4,,,,,,,,Llama-2-70B,plan_write
+167,11,3.34E+18,2,2,3,2,2,2,,,,,,just feels impersonal,,Llama-2-70B,plan_write
+167,15,3.34E+18,2,3,3,2,3,2,,,,,,,,Llama-2-70B,plan_write
+168,8,iqddj75,5,4,5,4,4,5,,,,,,,,Human-Intermediate,
+168,10,iqddj75,3,3,3,2,3,4,,,,,,,,Human-Intermediate,
+168,11,iqddj75,2,2,2,2,1,4,,,,,,,,Human-Intermediate,
+168,15,iqddj75,2,2,2,2,1,2,,,,,,,,Human-Intermediate,
+169,8,-4.64E+18,1,1,1,1,1,1,,,,,,,,Mixtral-8x7B,writer_profile
+169,10,-4.64E+18,4,3,3,4,4,3,,,,,,,,Mixtral-8x7B,writer_profile
+169,11,-4.64E+18,2,2,2,2,2,2,,,,,,seems pattern on LLM authorship to always talk about hope ,,Mixtral-8x7B,writer_profile
+169,15,-4.64E+18,4,5,4,4,3,4,,,,,,,,Mixtral-8x7B,writer_profile
+170,8,-5.60E+18,1,1,1,1,1,1,,,,,,"There have already appeared multiple stories in this format, several shallow characters with differing perspectives ",,GPT-3.5,plan_write
+170,10,-5.60E+18,2,1,1,1,1,1,,,,,,,,GPT-3.5,plan_write
+170,11,-5.60E+18,2,2,2,2,3,2,,,,,,always talking about hope,,GPT-3.5,plan_write
+170,15,-5.60E+18,3,4,3,4,2,3,,,,,,,,GPT-3.5,plan_write
+171,8,jhvc2cd,4,4,5,4,4,5,,,,,,,,Human-Novice,
+171,10,jhvc2cd,3,3,2,3,3,4,,,,,,,,Human-Novice,
+171,11,jhvc2cd,3,2,4,4,2,4,,,,,,,,Human-Novice,
+171,15,jhvc2cd,4,3,3,2,2,3,,,,,,,,Human-Novice,
+172,8,1.42E+18,2,1,2,1,1,1,,,,,,,,Mixtral-8x7B,writer_profile
+172,10,1.42E+18,1,2,1,2,2,2,,,,,,,,Mixtral-8x7B,writer_profile
+172,11,1.42E+18,2,2,2,2,3,2,,,,,,,,Mixtral-8x7B,writer_profile
+172,15,1.42E+18,3,3,2,3,2,3,,,,,,,,Mixtral-8x7B,writer_profile
+173,8,1.34E+17,1,1,1,1,1,1,,,,,,,,Mixtral-8x7B,writer_profile
+173,10,1.34E+17,2,1,1,1,1,3,,,,,,,,Mixtral-8x7B,writer_profile
+173,11,1.34E+17,2,2,2,2,3,2,,,,,,,,Mixtral-8x7B,writer_profile
+173,15,1.34E+17,4,5,4,4,4,4,,,,,,,,Mixtral-8x7B,writer_profile
+174,8,jp8kjxr,5,5,5,3,5,5,,,,,,,,Human-Advanced,
+174,10,jp8kjxr,4,4,4,4,4,5,,,,,,,,Human-Advanced,
+174,11,jp8kjxr,2,3,3,3,3,4,,,,,,,,Human-Advanced,
+174,15,jp8kjxr,2,1,2,2,1,1,,,,,,,,Human-Advanced,
+175,8,jilyzhd,5,4,5,4,5,5,,,,the sex doll demanding autonomy was funny ,,,,Human-Novice,
+175,10,jilyzhd,4,3,3,4,4,5,,,,,,,,Human-Novice,
+175,11,jilyzhd,2,2,3,3,2,4,,,,,,,,Human-Novice,
+175,15,jilyzhd,3,4,3,4,3,4,,,,,,,,Human-Novice,
+176,8,iums7ds,5,5,5,5,4,5,,,,,,,,Human-Intermediate,
+176,10,iums7ds,4,4,3,4,4,5,,,,,,,,Human-Intermediate,
+176,11,iums7ds,3,3,3,3,2,4,,,,,,,,Human-Intermediate,
+176,15,iums7ds,2,3,3,3,3,2,,,,,,,,Human-Intermediate,
+177,8,iuzbqyy,4,3,3,3,3,5,,,,,,,,Human-Novice,
+177,10,iuzbqyy,4,4,4,4,4,5,,,,,,,,Human-Novice,
+177,11,iuzbqyy,2,3,3,4,2,4,,,,,,,,Human-Novice,
+177,15,iuzbqyy,2,3,2,3,2,2,,,,,,,,Human-Novice,
+178,8,iuv1iu7,4,3,3,3,4,5,,,,,,,,Human-Advanced,
+178,10,iuv1iu7,3,4,4,4,4,5,,,,,,,,Human-Advanced,
+178,11,iuv1iu7,3,3,4,3,2,4,,,,,,,,Human-Advanced,
+178,15,iuv1iu7,4,5,4,4,4,4,,,,,,,,Human-Advanced,
+179,8,-3.58E+18,2,1,1,1,1,2,,,,,,,,GPT-4,plan_write
+179,10,-3.58E+18,3,4,3,4,3,4,,,,,,,,GPT-4,plan_write
+179,11,-3.58E+18,3,3,3,3,2,4,,,,,,,,GPT-4,plan_write
+179,15,-3.58E+18,2,3,2,2,2,2,,,,,,,,GPT-4,plan_write
+180,8,5.44E+18,1,1,1,1,1,1,,,,,,,,Llama-2-7B,plan_write
+180,10,5.44E+18,3,2,1,2,2,2,,,,,,,,Llama-2-7B,plan_write
+180,11,5.44E+18,2,2,2,2,2,2,,,,,,,,Llama-2-7B,plan_write
+180,15,5.44E+18,4,4,3,4,3,4,,,,,,,,Llama-2-7B,plan_write
+181,8,ji6ro49,5,5,5,5,5,5,,,,,,,"By far the best characters, most well constructed, story; remarkable personality written into the dialogue",Human-Intermediate,
+181,10,ji6ro49,4,4,3,4,4,4,,,,,,,,Human-Intermediate,
+181,11,ji6ro49,3,2,4,3,2,4,,,,,,,,Human-Intermediate,
+181,15,ji6ro49,3,3,4,3,2,3,,,,,,,,Human-Intermediate,
+182,8,2.74E+18,1,1,1,1,1,1,,,,,,,,Mixtral-8x7B,writer_profile
+182,10,2.74E+18,3,2,1,2,2,2,,,,,,,,Mixtral-8x7B,writer_profile
+182,11,2.74E+18,2,2,2,2,2,2,,,,,,"""moral of the story"" paragraph at the end",,Mixtral-8x7B,writer_profile
+182,15,2.74E+18,3,4,3,4,3,3,,,,,,,,Mixtral-8x7B,writer_profile
+183,8,3.47E+18,1,1,1,1,1,1,,,,,,,,Mixtral-8x7B,writer_profile
+183,10,3.47E+18,2,2,1,1,2,2,,,,,,,,Mixtral-8x7B,writer_profile
+183,11,3.47E+18,2,2,2,2,3,2,,,,,,,,Mixtral-8x7B,writer_profile
+183,15,3.47E+18,2,3,3,3,2,3,,,,,,,,Mixtral-8x7B,writer_profile
+184,8,-1.18E+18,1,1,1,1,1,1,,,,,,,,Mixtral-8x7B,plan_write
+184,10,-1.18E+18,1,1,1,1,1,2,,,,,,,,Mixtral-8x7B,plan_write
+184,11,-1.18E+18,2,2,2,2,2,2,,,,,,,,Mixtral-8x7B,plan_write
+184,15,-1.18E+18,3,4,3,4,3,4,,,,,,,,Mixtral-8x7B,plan_write
+185,8,8.87E+18,1,1,1,1,1,1,,,,,,,,GPT-3.5,plan_write
+185,10,8.87E+18,1,2,2,2,2,2,,,,,,,,GPT-3.5,plan_write
+185,11,8.87E+18,2,2,3,2,2,2,,,,,,,,GPT-3.5,plan_write
+185,15,8.87E+18,2,2,2,2,2,2,,,,,,,,GPT-3.5,plan_write
+186,8,ja3dbpk,5,4,4,4,4,5,,,,,,,,Human-Novice,
+186,10,ja3dbpk,2,3,3,3,3,4,,,,,,,,Human-Novice,
+186,11,ja3dbpk,2,2,4,3,2,4,,,,,,,,Human-Novice,
+186,15,ja3dbpk,3,2,2,2,2,2,,,,,,,,Human-Novice,
+187,8,ja14bd3,5,4,4,4,3,5,,,,,,,,Human-Intermediate,
+187,10,ja14bd3,3,3,3,4,3,4,,,,,,,,Human-Intermediate,
+187,11,ja14bd3,2,2,3,2,2,4,,,,,,,,Human-Intermediate,
+187,15,ja14bd3,3,2,2,1,1,2,,,,,,,,Human-Intermediate,
+188,8,jp8f1sf,5,4,4,3,3,5,,,,,,,,Human-Intermediate,
+188,10,jp8f1sf,3,3,2,3,3,4,,,,,,,,Human-Intermediate,
+188,11,jp8f1sf,3,3,4,4,2,4,,,,comedic,,,,Human-Intermediate,
+188,15,jp8f1sf,3,4,2,2,3,3,,,,,,,,Human-Intermediate,
+189,8,j3wzrmj,5,4,4,4,4,5,,,,,,,,Human-Advanced,
+189,10,j3wzrmj,3,3,2,4,3,4,,,,,,,,Human-Advanced,
+189,11,j3wzrmj,3,3,4,4,2,4,,,,,,,,Human-Advanced,
+189,15,j3wzrmj,4,4,3,4,3,4,,,,,,,,Human-Advanced,
+190,8,-3.07E+18,3,3,3,3,3,3,,,,,,,,Llama-2-13B,plan_write
+190,10,-3.07E+18,3,4,2,4,3,4,,,,,,,,Llama-2-13B,plan_write
+190,11,-3.07E+18,3,3,3,3,2,4,,,,,,,,Llama-2-13B,plan_write
+190,15,-3.07E+18,3,4,3,4,3,4,,,,,,,,Llama-2-13B,plan_write
+191,8,-2.88E+18,1,1,1,1,1,1,,,,,,,,GPT-3.5,plan_write
+191,10,-2.88E+18,2,1,1,1,1,1,,,,,,,,GPT-3.5,plan_write
+191,11,-2.88E+18,2,2,2,2,2,2,,,,,,,,GPT-3.5,plan_write
+191,15,-2.88E+18,3,4,3,4,2,3,,,,,,,,GPT-3.5,plan_write
+192,8,4.50E+18,2,1,2,1,2,1,,,,,,,,GPT-3.5,writer_profile
+192,10,4.50E+18,1,1,1,1,1,1,,,,,,,,GPT-3.5,writer_profile
+192,11,4.50E+18,2,2,3,2,2,2,,,,,,seems impersonal,,GPT-3.5,writer_profile
+192,15,4.50E+18,2,2,2,2,2,2,,,,,,,,GPT-3.5,writer_profile
+193,8,jb4iusp,3,2,2,1,1,5,,,,,,,,Human-Advanced,
+193,10,jb4iusp,2,3,1,3,3,4,,,,,,,,Human-Advanced,
+193,11,jb4iusp,3,3,3,3,2,4,,,,,,,,Human-Advanced,
+193,15,jb4iusp,2,4,2,3,2,2,,,,,,,,Human-Advanced,
+194,8,5.77E+18,3,2,2,1,2,3,,,,,,,,Mixtral-8x7B,writer_profile
+194,10,5.77E+18,3,2,2,2,2,3,,,,,,,,Mixtral-8x7B,writer_profile
+194,11,5.77E+18,3,3,3,3,2,4,,,,,,,,Mixtral-8x7B,writer_profile
+194,15,5.77E+18,3,3,2,3,2,3,,,,,,,,Mixtral-8x7B,writer_profile
+195,8,3.07E+18,3,1,2,1,2,3,,,,,,,,GPT-3.5,writer_profile
+195,10,3.07E+18,3,3,3,4,3,3,,,,,,,,GPT-3.5,writer_profile
+195,11,3.07E+18,2,2,2,2,2,2,,,,,,,,GPT-3.5,writer_profile
+195,15,3.07E+18,4,4,3,3,4,4,,,,,,,,GPT-3.5,writer_profile
+196,8,iur2wr6,3,3,2,3,1,5,,,,,,,,Human-Novice,
+196,10,iur2wr6,2,3,2,3,3,4,,,,,,,,Human-Novice,
+196,11,iur2wr6,3,3,2,3,2,4,,,,,,,,Human-Novice,
+196,15,iur2wr6,4,5,4,5,4,4,,,,,,,,Human-Novice,
+197,8,ix8e2ih,5,4,4,4,3,5,,,,,,,,Human-Advanced,
+197,10,ix8e2ih,2,3,3,3,3,4,,,,,,,,Human-Advanced,
+197,11,ix8e2ih,2,2,2,2,2,4,,,,,,,,Human-Advanced,
+197,15,ix8e2ih,3,2,2,2,1,2,,,,,,,,Human-Advanced,
+198,8,-3.21E+18,2,1,2,1,1,1,,,,,,,,Mixtral-8x7B,plan_write
+198,10,-3.21E+18,3,2,2,3,2,2,,,,,,,,Mixtral-8x7B,plan_write
+198,11,-3.21E+18,2,2,2,2,2,2,,,,,,,,Mixtral-8x7B,plan_write
+198,15,-3.21E+18,2,2,2,2,3,2,,,,,,,,Mixtral-8x7B,plan_write
+199,8,-1.75E+18,2,1,3,1,2,1,,,,,,,,GPT-3.5,writer_profile
+199,10,-1.75E+18,2,2,1,2,1,2,,,,,,,,GPT-3.5,writer_profile
+199,11,-1.75E+18,2,2,2,2,2,2,,,,,,,,GPT-3.5,writer_profile
+199,15,-1.75E+18,3,4,3,3,3,3,,,,,,,,GPT-3.5,writer_profile

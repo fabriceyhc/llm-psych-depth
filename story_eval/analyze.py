@@ -352,12 +352,15 @@ if __name__ == "__main__":
     analyzer = AnnotationAnalyzer()
 
     # Read data from a CSV file 
-    human_ratings_df     = pd.read_csv('./human_study/data/processed/human_annotations.csv', encoding='cp1252')
-    llm_ratings_df       = pd.read_csv(f'./human_study/data/processed/{llm_name}_annotations.csv', encoding='cp1252')
+    human_ratings_df     = pd.read_csv('./human_study/data/processed/round1/human_annotations.csv', encoding='cp1252')
+    llm_ratings_df       = pd.read_csv(f'./human_study/data/processed/round1/{llm_name}_annotations.csv', encoding='cp1252')
     stories_df           = pd.read_csv(f'./human_study/data/stories.csv')
     benchmark_stories_df = pd.read_csv(f'./data/study_stories.csv', encoding='8859')
+    benchmark_stories_df = benchmark_stories_df[benchmark_stories_df["round"]==1]
 
     blacklist = [83, 70, 71] 
+    human_ratings_df = filter_out_values(human_ratings_df, "story_id", blacklist)
+    llm_ratings_df = filter_out_values(llm_ratings_df, "story_id", blacklist)
     stories_df = filter_out_values(stories_df, "story_id", blacklist)
     benchmark_stories_df = filter_out_values(benchmark_stories_df, "study_id", blacklist)
 
