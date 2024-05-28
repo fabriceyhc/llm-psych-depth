@@ -412,14 +412,14 @@ if __name__ == "__main__":
             for component in components:
                 human_iaa = analyzer.regular_iaa(filtered_human_ratings_df, component, prefix="human")
                 llm_iaa   = analyzer.regular_iaa(llm_ratings_df, component, prefix="llm")
-                # print(f"Component: {component}")
-                # print(f"human_iaa:\n{human_iaa}")
-                # print(f"llm_iaa:\n{llm_iaa}")
+                print(f"Component: {component}")
+                print(f"human_iaa:\n{human_iaa}")
+                print(f"llm_iaa:\n{llm_iaa}")
 
                 for aggregator in aggregators:   
                     human_vs_llm_corr = analyzer.comparative_correlation(filtered_human_ratings_df, llm_ratings_df, component, aggregator)
-                    # print(f"Aggregator: {aggregator.__class__.__name__}")
-                    # print(f"human_vs_llm:\n{human_vs_llm_corr}")
+                    print(f"Aggregator: {aggregator.__class__.__name__}")
+                    print(f"human_vs_llm:\n{human_vs_llm_corr}")
                     results.append({
                         "excluded_participant_id": participant_id,
                         "component": component,
