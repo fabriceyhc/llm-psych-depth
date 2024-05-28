@@ -2,9 +2,10 @@ import os
 import numpy as np
 import pandas as pd
 from agreement.utils.transform import pivot_table_frequency
-from agreement.utils.kernels import linear_kernel, ordinal_kernel
-from agreement.metrics import cohens_kappa, krippendorffs_alpha
+from agreement.utils.kernels import identity_kernel, linear_kernel, ordinal_kernel
+from agreement.metrics import cohens_kappa, krippendorffs_alpha, _compute_observed_agreement
 from scipy.stats import spearmanr, pearsonr, zscore, ttest_ind, f_oneway
+from statsmodels.stats.inter_rater import fleiss_kappa
 
 from crowdkit.aggregation import (
     DawidSkene, 
@@ -22,37 +23,42 @@ class AnnotationAnalyzer:
             'emotion_provoking_score', 'narrative_complexity_score', 'human_likeness_score']
 
     def regular_iaa(self, ratings_df, component, prefix="human"):
-            
         questions_answers_table = pivot_table_frequency(ratings_df["story_id"], ratings_df[component])
         users_answers_table = pivot_table_frequency(ratings_df["participant_id"], ratings_df[component])
 
-        # unweighted
+        # Unweighted
         unweighted_cohens_kappa = cohens_kappa(questions_answers_table, users_answers_table)
         unweighted_krippendorffs_alpha = krippendorffs_alpha(questions_answers_table)
-        # linear weighted
+        unweighted_fleiss_kappa = fleiss_kappa(questions_answers_table)
+        # Linear weighted
         linear_weighted_cohens_kappa = cohens_kappa(questions_answers_table, users_answers_table, weights_kernel=linear_kernel)
         linear_weighted_krippendorffs_alpha = krippendorffs_alpha(questions_answers_table, weights_kernel=linear_kernel)
-        # ordinal weighted
+        linear_weighted_fleiss_kappa = fleiss_kappa(questions_answers_table, weights_kernel=linear_kernel)
+        # Ordinal weighted
         ordinal_weighted_cohens_kappa = cohens_kappa(questions_answers_table, users_answers_table, weights_kernel=ordinal_kernel)
         ordinal_weighted_krippendorffs_alpha = krippendorffs_alpha(questions_answers_table, weights_kernel=ordinal_kernel)
-        
-        # spearman
+        ordinal_weighted_fleiss_kappa = fleiss_kappa(questions_answers_table, weights_kernel=ordinal_kernel)
+
+        # Spearman
         spearman = self.pairwise_iaa(ratings_df, component, reduce=True)
 
         results = {
-            f"component": component,
+            "component": component,
             f"{prefix}_unweighted_cohens_kappa": unweighted_cohens_kappa,
             f"{prefix}_unweighted_krippendorffs_alpha": unweighted_krippendorffs_alpha,
+            f"{prefix}_unweighted_fleiss_kappa": unweighted_fleiss_kappa,
             f"{prefix}_linear_weighted_cohens_kappa": linear_weighted_cohens_kappa,
             f"{prefix}_linear_weighted_krippendorffs_alpha": linear_weighted_krippendorffs_alpha,
+            f"{prefix}_linear_weighted_fleiss_kappa": linear_weighted_fleiss_kappa,
             f"{prefix}_ordinal_weighted_cohens_kappa": ordinal_weighted_cohens_kappa,
             f"{prefix}_ordinal_weighted_krippendorffs_alpha": ordinal_weighted_krippendorffs_alpha,
+            f"{prefix}_ordinal_weighted_fleiss_kappa": ordinal_weighted_fleiss_kappa,
         }
 
         results.update(spearman)
 
         return results
-    
+   
     def pairwise_iaa(self, ratings_df, component, reduce=False):
 
         cols = ['story_id', 'participant_id', component]
@@ -304,6 +310,29 @@ class MeanAggregator:
 def filter_out_values(df, column, values_to_filter):
     mask = ~df[column].isin(values_to_filter)
     return df[mask]
+
+# CUSTOM IMPLEMENTED TO WORK WITH THE AGREEMENT PYTHON PACKAGE
+def fleiss_kappa(answers_matrix, weights_kernel=identity_kernel):
+    """
+    Compute Fleiss' kappa for assessing the reliability of agreement between a fixed number of raters
+    when assigning categorical ratings to a number of items.
+    """
+    answers_matrix = answers_matrix[answers_matrix.sum(axis=1) > 1]
+    N, q = answers_matrix.shape
+
+    # Calculate observed agreement using weights kernel
+    po, w = _compute_observed_agreement(answers_matrix, weights_kernel)
+
+    # Calculate proportion of ratings in each category
+    p_j = answers_matrix.sum(axis=0) / (N * answers_matrix.sum(axis=1).mean())
+
+    # Calculate the extent of agreement that is expected by chance
+    P_e = np.sum(p_j ** 2)
+
+    # Compute Fleiss' kappa
+    kappa = (po - P_e) / (1 - P_e)
+
+    return kappa
     
 if __name__ == "__main__":
 
@@ -327,12 +356,15 @@ if __name__ == "__main__":
     analyzer = AnnotationAnalyzer()
 
     # Read data from a CSV file 
-    human_ratings_df     = pd.read_csv('./human_study/data/processed/human_annotations.csv', encoding='cp1252')
-    llm_ratings_df       = pd.read_csv(f'./human_study/data/processed/{llm_name}_annotations.csv', encoding='cp1252')
+    human_ratings_df     = pd.read_csv('./human_study/data/processed/round1/human_annotations.csv', encoding='cp1252')
+    llm_ratings_df       = pd.read_csv(f'./human_study/data/processed/round1/{llm_name}_annotations.csv', encoding='cp1252')
     stories_df           = pd.read_csv(f'./human_study/data/stories.csv')
     benchmark_stories_df = pd.read_csv(f'./data/study_stories.csv', encoding='8859')
+    benchmark_stories_df = benchmark_stories_df[benchmark_stories_df["round"]==1]
 
     blacklist = [83, 70, 71] 
+    human_ratings_df = filter_out_values(human_ratings_df, "story_id", blacklist)
+    llm_ratings_df = filter_out_values(llm_ratings_df, "story_id", blacklist)
     stories_df = filter_out_values(stories_df, "story_id", blacklist)
     benchmark_stories_df = filter_out_values(benchmark_stories_df, "study_id", blacklist)
 
@@ -384,14 +416,14 @@ if __name__ == "__main__":
             for component in components:
                 human_iaa = analyzer.regular_iaa(filtered_human_ratings_df, component, prefix="human")
                 llm_iaa   = analyzer.regular_iaa(llm_ratings_df, component, prefix="llm")
-                # print(f"Component: {component}")
-                # print(f"human_iaa:\n{human_iaa}")
-                # print(f"llm_iaa:\n{llm_iaa}")
+                print(f"Component: {component}")
+                print(f"human_iaa:\n{human_iaa}")
+                print(f"llm_iaa:\n{llm_iaa}")
 
                 for aggregator in aggregators:   
                     human_vs_llm_corr = analyzer.comparative_correlation(filtered_human_ratings_df, llm_ratings_df, component, aggregator)
-                    # print(f"Aggregator: {aggregator.__class__.__name__}")
-                    # print(f"human_vs_llm:\n{human_vs_llm_corr}")
+                    print(f"Aggregator: {aggregator.__class__.__name__}")
+                    print(f"human_vs_llm:\n{human_vs_llm_corr}")
                     results.append({
                         "excluded_participant_id": participant_id,
                         "component": component,

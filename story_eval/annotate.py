@@ -31,7 +31,7 @@ class PsychDepthEval(BaseModel):
     human_likeness_score:             float = Field(description="likelihood that the story is human or LLM written  (1 is Very Likely LLM - 5 is Very Likely Human)")
 
 class StoryEvaluator:
-    def __init__(self, openai_model="gpt-4", test_mode=True, num_retries=10):
+    def __init__(self, openai_model="gpt-4o-2024-05-13", test_mode=True, num_retries=10):
 
         self.openai_model = openai_model
         self.num_retries=num_retries
