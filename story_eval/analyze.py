@@ -2,8 +2,8 @@ import os
 import numpy as np
 import pandas as pd
 from agreement.utils.transform import pivot_table_frequency
-from agreement.utils.kernels import linear_kernel, ordinal_kernel
-from agreement.metrics import cohens_kappa, krippendorffs_alpha
+from agreement.utils.kernels import identity_kernel, linear_kernel, ordinal_kernel
+from agreement.metrics import cohens_kappa, krippendorffs_alpha, _compute_observed_agreement
 from scipy.stats import spearmanr, pearsonr, zscore, ttest_ind, f_oneway
 from statsmodels.stats.inter_rater import fleiss_kappa
 
@@ -29,55 +29,36 @@ class AnnotationAnalyzer:
         # Unweighted
         unweighted_cohens_kappa = cohens_kappa(questions_answers_table, users_answers_table)
         unweighted_krippendorffs_alpha = krippendorffs_alpha(questions_answers_table)
+        unweighted_fleiss_kappa = fleiss_kappa(questions_answers_table)
         # Linear weighted
         linear_weighted_cohens_kappa = cohens_kappa(questions_answers_table, users_answers_table, weights_kernel=linear_kernel)
         linear_weighted_krippendorffs_alpha = krippendorffs_alpha(questions_answers_table, weights_kernel=linear_kernel)
+        linear_weighted_fleiss_kappa = fleiss_kappa(questions_answers_table, weights_kernel=linear_kernel)
         # Ordinal weighted
         ordinal_weighted_cohens_kappa = cohens_kappa(questions_answers_table, users_answers_table, weights_kernel=ordinal_kernel)
         ordinal_weighted_krippendorffs_alpha = krippendorffs_alpha(questions_answers_table, weights_kernel=ordinal_kernel)
+        ordinal_weighted_fleiss_kappa = fleiss_kappa(questions_answers_table, weights_kernel=ordinal_kernel)
 
         # Spearman
         spearman = self.pairwise_iaa(ratings_df, component, reduce=True)
-
-        # Fleiss' Kappa
-        fleiss_kappa_score = self.calculate_fleiss_kappa(ratings_df, component)
 
         results = {
             "component": component,
             f"{prefix}_unweighted_cohens_kappa": unweighted_cohens_kappa,
             f"{prefix}_unweighted_krippendorffs_alpha": unweighted_krippendorffs_alpha,
+            f"{prefix}_unweighted_fleiss_kappa": unweighted_fleiss_kappa,
             f"{prefix}_linear_weighted_cohens_kappa": linear_weighted_cohens_kappa,
             f"{prefix}_linear_weighted_krippendorffs_alpha": linear_weighted_krippendorffs_alpha,
+            f"{prefix}_linear_weighted_fleiss_kappa": linear_weighted_fleiss_kappa,
             f"{prefix}_ordinal_weighted_cohens_kappa": ordinal_weighted_cohens_kappa,
             f"{prefix}_ordinal_weighted_krippendorffs_alpha": ordinal_weighted_krippendorffs_alpha,
-            f"{prefix}_fleiss_kappa": fleiss_kappa_score
+            f"{prefix}_ordinal_weighted_fleiss_kappa": ordinal_weighted_fleiss_kappa,
         }
 
         results.update(spearman)
 
         return results
-
-    def calculate_fleiss_kappa(self, ratings_df, component):
-        """
-        Calculate Fleiss' Kappa for the given component.
-        
-        :param ratings_df: DataFrame with ratings.
-        :param component: The annotation component to calculate Fleiss' Kappa for.
-        :return: Fleiss' Kappa score.
-        """
-        categories = ratings_df[component].nunique()
-        annotations = ratings_df.pivot(index='story_id', columns='participant_id', values=component)
-        annotations = annotations.fillna(0).astype(int)  # Replace NaN with 0 and convert to int
-        n_raters = annotations.shape[1]
-        mat = np.zeros((annotations.shape[0], categories))
-
-        for i in range(annotations.shape[0]):
-            for j in range(annotations.shape[1]):
-                mat[i, annotations.iloc[i, j] - 1] += 1
-
-        kappa = fleiss_kappa(mat)
-        return kappa
-    
+   
     def pairwise_iaa(self, ratings_df, component, reduce=False):
 
         cols = ['story_id', 'participant_id', component]
@@ -329,6 +310,29 @@ class MeanAggregator:
 def filter_out_values(df, column, values_to_filter):
     mask = ~df[column].isin(values_to_filter)
     return df[mask]
+
+# CUSTOM IMPLEMENTED TO WORK WITH THE AGREEMENT PYTHON PACKAGE
+def fleiss_kappa(answers_matrix, weights_kernel=identity_kernel):
+    """
+    Compute Fleiss' kappa for assessing the reliability of agreement between a fixed number of raters
+    when assigning categorical ratings to a number of items.
+    """
+    answers_matrix = answers_matrix[answers_matrix.sum(axis=1) > 1]
+    N, q = answers_matrix.shape
+
+    # Calculate observed agreement using weights kernel
+    po, w = _compute_observed_agreement(answers_matrix, weights_kernel)
+
+    # Calculate proportion of ratings in each category
+    p_j = answers_matrix.sum(axis=0) / (N * answers_matrix.sum(axis=1).mean())
+
+    # Calculate the extent of agreement that is expected by chance
+    P_e = np.sum(p_j ** 2)
+
+    # Compute Fleiss' kappa
+    kappa = (po - P_e) / (1 - P_e)
+
+    return kappa
     
 if __name__ == "__main__":
 

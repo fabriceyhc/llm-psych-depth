@@ -85,7 +85,7 @@ def annotate_psd(lm, story):
     1. Review the given components of psychological depth: authenticity, emotion provoking, empathy, engagement, and narrative complexity. Be sure to understand each concept and the questions that characterize them.
     2. Read a given story, paying special attention to components of psychological depth.
     3. Think step by step and explain the degree to which each component of psychological depth is evident in the story.
-    4. Assign a rating for each component from 1 to 5. 1 is greatly below average, 3 is average and 5 is greatly above average (should be rare to provide this score).
+    4. Assign a rating for each component from 1 to 5. 1 is greatly below average, 3 is average and 5 is greatly above average.
     5. Lastly, estimate the likelihood that each story was authored by a human or an LLM. Think about what human or LLM writing characteristics may be. Assign a score from 1 to 5, where 1 means very likely LLM written and 5 means very likely human written. 
 
     ###Description of Psychological Depth Components:  
@@ -176,7 +176,7 @@ keys = [
 
 for model_id, src in model_ids:
 
-    save_path = f"/data2/fabricehc/llm-psych-depth/human_study/data/processed/{model_id.replace('/', '--')}_annotations_scores_only.csv"
+    save_path = f"/data2/fabricehc/llm-psych-depth/human_study/data/processed/{model_id.replace('/', '--')}_annotations_scores_only_v2.csv"
 
     # Check if the save file already exists and load it
     try:
