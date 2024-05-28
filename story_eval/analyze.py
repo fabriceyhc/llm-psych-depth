@@ -5,6 +5,7 @@ from agreement.utils.transform import pivot_table_frequency
 from agreement.utils.kernels import linear_kernel, ordinal_kernel
 from agreement.metrics import cohens_kappa, krippendorffs_alpha
 from scipy.stats import spearmanr, pearsonr, zscore, ttest_ind, f_oneway
+from statsmodels.stats.inter_rater import fleiss_kappa
 
 from crowdkit.aggregation import (
     DawidSkene, 
@@ -22,36 +23,60 @@ class AnnotationAnalyzer:
             'emotion_provoking_score', 'narrative_complexity_score', 'human_likeness_score']
 
     def regular_iaa(self, ratings_df, component, prefix="human"):
-            
         questions_answers_table = pivot_table_frequency(ratings_df["story_id"], ratings_df[component])
         users_answers_table = pivot_table_frequency(ratings_df["participant_id"], ratings_df[component])
 
-        # unweighted
+        # Unweighted
         unweighted_cohens_kappa = cohens_kappa(questions_answers_table, users_answers_table)
         unweighted_krippendorffs_alpha = krippendorffs_alpha(questions_answers_table)
-        # linear weighted
+        # Linear weighted
         linear_weighted_cohens_kappa = cohens_kappa(questions_answers_table, users_answers_table, weights_kernel=linear_kernel)
         linear_weighted_krippendorffs_alpha = krippendorffs_alpha(questions_answers_table, weights_kernel=linear_kernel)
-        # ordinal weighted
+        # Ordinal weighted
         ordinal_weighted_cohens_kappa = cohens_kappa(questions_answers_table, users_answers_table, weights_kernel=ordinal_kernel)
         ordinal_weighted_krippendorffs_alpha = krippendorffs_alpha(questions_answers_table, weights_kernel=ordinal_kernel)
-        
-        # spearman
+
+        # Spearman
         spearman = self.pairwise_iaa(ratings_df, component, reduce=True)
 
+        # Fleiss' Kappa
+        fleiss_kappa_score = self.calculate_fleiss_kappa(ratings_df, component)
+
         results = {
-            f"component": component,
+            "component": component,
             f"{prefix}_unweighted_cohens_kappa": unweighted_cohens_kappa,
             f"{prefix}_unweighted_krippendorffs_alpha": unweighted_krippendorffs_alpha,
             f"{prefix}_linear_weighted_cohens_kappa": linear_weighted_cohens_kappa,
             f"{prefix}_linear_weighted_krippendorffs_alpha": linear_weighted_krippendorffs_alpha,
             f"{prefix}_ordinal_weighted_cohens_kappa": ordinal_weighted_cohens_kappa,
             f"{prefix}_ordinal_weighted_krippendorffs_alpha": ordinal_weighted_krippendorffs_alpha,
+            f"{prefix}_fleiss_kappa": fleiss_kappa_score
         }
 
         results.update(spearman)
 
         return results
+
+    def calculate_fleiss_kappa(self, ratings_df, component):
+        """
+        Calculate Fleiss' Kappa for the given component.
+        
+        :param ratings_df: DataFrame with ratings.
+        :param component: The annotation component to calculate Fleiss' Kappa for.
+        :return: Fleiss' Kappa score.
+        """
+        categories = ratings_df[component].nunique()
+        annotations = ratings_df.pivot(index='story_id', columns='participant_id', values=component)
+        annotations = annotations.fillna(0).astype(int)  # Replace NaN with 0 and convert to int
+        n_raters = annotations.shape[1]
+        mat = np.zeros((annotations.shape[0], categories))
+
+        for i in range(annotations.shape[0]):
+            for j in range(annotations.shape[1]):
+                mat[i, annotations.iloc[i, j] - 1] += 1
+
+        kappa = fleiss_kappa(mat)
+        return kappa
     
     def pairwise_iaa(self, ratings_df, component, reduce=False):
 

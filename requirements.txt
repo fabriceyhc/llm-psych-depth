@@ -18,3 +18,5 @@ optimum
 scikit-learn
 langchain_community
 hydra-core
+guidance
+statsmodels
