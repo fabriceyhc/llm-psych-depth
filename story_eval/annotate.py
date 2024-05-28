@@ -6,7 +6,7 @@ import textwrap
 import traceback
 from dotenv import load_dotenv, find_dotenv
 from langchain_openai import ChatOpenAI
-from langchain.llms.fake import FakeListLLM # just for testing...
+from langchain_community.llms import FakeListLLM  # just for testing...
 from langchain_core.prompts import (
     ChatPromptTemplate,
     PromptTemplate,
@@ -166,7 +166,13 @@ class StoryEvaluator:
 
 if __name__ == "__main__":
 
-    se = StoryEvaluator(test_mode=False)
+    stories = pd.read_csv("./data/human_stories.csv", encoding='unicode_escape')
+
+    # se = StoryEvaluator(openai_model="gpt-4o-2024-05-13", test_mode=False)   
+    # save_path = './data/processed/gpt-4o_annotations.csv'
+
+    se = StoryEvaluator(openai_model="gpt-3.5-turbo-0125", test_mode=False)
+    save_path = './data/processed/gpt-3.5-turbo_annotations.csv'
 
     system_profiles = [
             "You are a renowned literary critic known for your incisive and rigorous analysis.",
@@ -175,15 +181,19 @@ if __name__ == "__main__":
             # "You are an experienced psychologist with a keen interest in literature.",
             "You are a professor teaching a course on psychological literature.",
         ]
-    stories = pd.read_csv("./human_study/data/stories.csv")
-
-    save_path = './human_study/data/processed/gpt-4_annotations.csv'
 
     try:
         df = pd.read_csv(save_path)
     except FileNotFoundError:
+        # df = pd.DataFrame(
+        #     columns=["participant_id","story_id","profile","timestamp","model","strategy","human_quality","llm_annotator",
+        #              "authenticity_explanation","authenticity_score","emotion_provoking_explanation","emotion_provoking_score",
+        #              "empathy_explanation","empathy_score","engagement_explanation","engagement_score",
+        #              "narrative_complexity_explanation","narrative_complexity_score", 
+        #              "human_likeness_explanation", "human_likeness_score"])
         df = pd.DataFrame(
-            columns=["participant_id","story_id","profile","timestamp","model","strategy","human_quality","llm_annotator",
+            columns=["participant_id","story_id","premise_id","premise","profile","timestamp","llm_annotator",
+                     "author_type","author_short","author_full","net_upvotes",
                      "authenticity_explanation","authenticity_score","emotion_provoking_explanation","emotion_provoking_score",
                      "empathy_explanation","empathy_score","engagement_explanation","engagement_score",
                      "narrative_complexity_explanation","narrative_complexity_score", 
@@ -196,11 +206,14 @@ if __name__ == "__main__":
                 response = se.evaluate(
                     profile=profile, 
                     story=story_data['text'],
-                    model=story_data['model'],
-                    strategy=story_data['strategy'],
-                    human_quality=story_data['human_quality'],
+                    author_type=story_data['author_type'],
+                    author_short=story_data['author_short'],
+                    author_full=story_data['author_full'],
+                    net_upvotes=story_data['net_upvotes'],
                     participant_id=participant_id,
                     story_id=story_data['story_id'],
+                    premise_id=story_data['premise_id'],
+                    premise=story_data['premise'],
                     llm_annotator=se.openai_model
                 )
                 df = df._append(response, ignore_index=True)
