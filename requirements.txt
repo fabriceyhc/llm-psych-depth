@@ -20,3 +20,4 @@ langchain_community
 hydra-core
 guidance
 statsmodels
+praw
