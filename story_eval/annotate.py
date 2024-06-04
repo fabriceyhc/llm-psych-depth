@@ -3,6 +3,8 @@ import traceback
 import pandas as pd
 import guidance
 from guidance import models, gen, select
+from auto_gptq import exllama_set_max_input_length
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
 def extract_dict(output, keys):
     return {k: output[k] for k in keys}
@@ -71,7 +73,10 @@ model_ids = [
     "TechxGenus/Meta-Llama-3-70B-Instruct-GPTQ",
 ]
 
-dataset = pd.read_csv("/data2/fabricehc/llm-psych-depth/data/study_stories.csv", encoding='8859')
+cache_dir = "/data2/.shared_models/"
+
+# dataset = pd.read_csv("/data2/fabricehc/llm-psych-depth/data/study_stories.csv", encoding='8859')
+dataset = pd.read_csv("/data2/fabricehc/llm-psych-depth/data/human_stories_extended.csv")
 
 keys = [
     "Authenticity Score",
@@ -84,7 +89,8 @@ keys = [
 
 for model_id in model_ids:
 
-    save_path = f"/data2/fabricehc/llm-psych-depth/human_study/data/processed/{model_id.replace('/', '--')}_study_annotations.csv"
+    # save_path = f"/data2/fabricehc/llm-psych-depth/human_study/data/processed/{model_id.replace('/', '--')}_study_annotations.csv"
+    save_path = f"/data2/fabricehc/llm-psych-depth/human_study/data/processed/{model_id.replace('/', '--')}_annotations.csv"
 
     # Check if the save file already exists and load it
     try:
@@ -92,24 +98,39 @@ for model_id in model_ids:
     except FileNotFoundError:
         existing_annotations = pd.DataFrame()
 
+
+    # Load the tokenizer
+    tokenizer = AutoTokenizer.from_pretrained(
+        model_id, 
+        cache_dir=cache_dir
+    )
+
+    # Load the model
+    model = AutoModelForCausalLM.from_pretrained(
+        model_id,
+        cache_dir=cache_dir,
+        device_map='auto'
+    )
+    model = exllama_set_max_input_length(model, 4096)
+
     # Load the model
     llm = models.Transformers(
-        model_id, 
+        model=model,
+        tokenizer=tokenizer, 
         echo=False,
-        cache_dir="/data2/.shared_models/", 
         device_map='auto'
     )
 
     results = []
     for index, row in dataset.iterrows():
-        # story_id,premise_id,premise,text,author_type,model_short,net_upvotes,strategy,characters,round,study_id
+        # comment_id,premise_id,premise,text,author_type,model_short,net_upvotes,strategy,characters,round,study_id
 
         # Skip rows that have already been annotated
-        if not existing_annotations.empty and ((existing_annotations["story_id"] == row["story_id"]) & (existing_annotations["premise_id"] == row["premise_id"])).any():
-            print(f"Skipping already annotated row: story_id={row['story_id']}, premise_id={row['premise_id']}")
+        if not existing_annotations.empty and ((existing_annotations["comment_id"] == row["comment_id"]) & (existing_annotations["premise_id"] == row["premise_id"])).any():
+            print(f"Skipping already annotated row: comment_id={row['comment_id']}, premise_id={row['premise_id']}")
             continue
 
-        story = row["text"]
+        story = row["comment_body"]
         try:
             start_time = time.time()
             output = llm + annotate_psd(story=story)
@@ -119,15 +140,15 @@ for model_id in model_ids:
                 "time_taken": time_taken,
                 **row,
             })
-            print(f"Results for story_id={row['story_id']}, premise_id={row['premise_id']}': {output_dict}")
+            print(f"Results for comment_id={row['comment_id']}, premise_id={row['premise_id']}': {output_dict}")
             results.append(output_dict)
         except Exception:
             print(traceback.format_exc())
-            print(f"Error on: story_id={row['story_id']}, premise_id={row['premise_id']}, story={story}")
+            print(f"Error on: comment_id={row['comment_id']}, premise_id={row['premise_id']}, story={story}")
 
         # Append new results to existing annotations and save to CSV
         df = pd.DataFrame(results)
-        combined_df = pd.concat([existing_annotations, df]).drop_duplicates(subset=["story_id", "premise_id"])
+        combined_df = pd.concat([existing_annotations, df]).drop_duplicates(subset=["comment_id", "premise_id"])
         combined_df.to_csv(save_path, index=False)
 
     # Delete previous llm to free up memory asap
