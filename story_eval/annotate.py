@@ -65,8 +65,10 @@ def annotate_psd(lm, story):
     return lm
 
 model_ids = [
-    "meta-llama/Meta-Llama-3-8B-Instruct",
-    "meta-llama/Meta-Llama-3-70B-Instruct",
+    # "meta-llama/Meta-Llama-3-8B-Instruct",
+    # "meta-llama/Meta-Llama-3-70B-Instruct",
+    # "TechxGenus/Meta-Llama-3-8B-Instruct-GPTQ",
+    "TechxGenus/Meta-Llama-3-70B-Instruct-GPTQ",
 ]
 
 dataset = pd.read_csv("/data2/fabricehc/llm-psych-depth/data/study_stories.csv", encoding='8859')
