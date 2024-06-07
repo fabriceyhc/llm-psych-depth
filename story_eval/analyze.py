@@ -98,6 +98,8 @@ class AnnotationAnalyzer:
     def comparative_correlation(self, human_annotations, llm_annotations, component, aggregator=MACE()):
         human_consensus_labels = self.aggregate_consensus_labels(human_annotations, component, aggregator)
         llm_consensus_labels   = self.aggregate_consensus_labels(llm_annotations, component, aggregator)
+        print(f"len(human_consensus_labels): {len(human_consensus_labels)}")
+        print(f"len(llm_consensus_labels): {len(llm_consensus_labels)}")
         spearman_corr, spearman_p_value = spearmanr(human_consensus_labels, llm_consensus_labels)
         pearson_corr, pearson_p_value = pearsonr(human_consensus_labels, llm_consensus_labels)
         return {
@@ -149,7 +151,7 @@ class AnnotationAnalyzer:
         return result_df
     
     def summarize_iaa_and_corr(self, ratings_df):
-        cols = ["human_ordinal_weighted_krippendorffs_alpha", "llm_ordinal_weighted_krippendorffs_alpha", 
+        cols = ["human_ordinal_weighted_krippendorffs_alpha", # "llm_ordinal_weighted_krippendorffs_alpha", 
                 "human_vs_llm_spearman_corr", "human_vs_llm_spearman_p_value"]
         ratings_df = ratings_df[ratings_df["excluded_participant_id"] == -1] # all raters
         ratings_df = ratings_df[ratings_df["aggregator"] == "MeanAggregator"] # only Wawa aggregation
@@ -336,7 +338,7 @@ def fleiss_kappa(answers_matrix, weights_kernel=identity_kernel):
     
 if __name__ == "__main__":
 
-    llm_name = "gpt-4"
+    llm_name = "TechxGenus--Meta-Llama-3-70B-Instruct-GPTQ"
 
     # Custom Sort Order
     sort_order = {
@@ -357,16 +359,21 @@ if __name__ == "__main__":
 
     # Read data from a CSV file 
     human_ratings_df     = pd.read_csv('./human_study/data/processed/round1/human_annotations.csv', encoding='cp1252')
-    llm_ratings_df       = pd.read_csv(f'./human_study/data/processed/round1/{llm_name}_annotations.csv', encoding='cp1252')
+    llm_ratings_df       = pd.read_csv(f'./human_study/data/processed/{llm_name}_study_annotations.csv')
+    llm_ratings_df       = llm_ratings_df[llm_ratings_df["round"] == 1]
+    llm_ratings_df['participant_id'] = 0
     stories_df           = pd.read_csv(f'./human_study/data/stories.csv')
     benchmark_stories_df = pd.read_csv(f'./data/study_stories.csv', encoding='8859')
     benchmark_stories_df = benchmark_stories_df[benchmark_stories_df["round"]==1]
 
-    blacklist = [83, 70, 71] 
-    human_ratings_df = filter_out_values(human_ratings_df, "story_id", blacklist)
-    llm_ratings_df = filter_out_values(llm_ratings_df, "story_id", blacklist)
-    stories_df = filter_out_values(stories_df, "story_id", blacklist)
-    benchmark_stories_df = filter_out_values(benchmark_stories_df, "study_id", blacklist)
+    print(f"len(human_ratings_df['story_id'].unique()): {len(human_ratings_df['story_id'].unique())}")
+    print(f"len(llm_ratings_df['story_id'].unique()): {len(llm_ratings_df['story_id'].unique())}")
+
+    # blacklist = [83, 70, 71] 
+    # human_ratings_df = filter_out_values(human_ratings_df, "story_id", blacklist)
+    # llm_ratings_df = filter_out_values(llm_ratings_df, "story_id", blacklist)
+    # stories_df = filter_out_values(stories_df, "story_id", blacklist)
+    # benchmark_stories_df = filter_out_values(benchmark_stories_df, "study_id", blacklist)
 
     human_ratings_df.sort_values(['participant_id', 'story_id'], ascending=[True, True])
     llm_ratings_df.sort_values(['participant_id', 'story_id'], ascending=[True, True])
@@ -415,12 +422,14 @@ if __name__ == "__main__":
             # Calculate regular and comparative IAA for each category
             for component in components:
                 human_iaa = analyzer.regular_iaa(filtered_human_ratings_df, component, prefix="human")
-                llm_iaa   = analyzer.regular_iaa(llm_ratings_df, component, prefix="llm")
+                # llm_iaa   = analyzer.regular_iaa(llm_ratings_df, component, prefix="llm")
                 print(f"Component: {component}")
                 print(f"human_iaa:\n{human_iaa}")
-                print(f"llm_iaa:\n{llm_iaa}")
+                # print(f"llm_iaa:\n{llm_iaa}")
 
                 for aggregator in aggregators:   
+                    print(len(filtered_human_ratings_df))
+                    print(len(llm_ratings_df))
                     human_vs_llm_corr = analyzer.comparative_correlation(filtered_human_ratings_df, llm_ratings_df, component, aggregator)
                     print(f"Aggregator: {aggregator.__class__.__name__}")
                     print(f"human_vs_llm:\n{human_vs_llm_corr}")
@@ -428,7 +437,7 @@ if __name__ == "__main__":
                         "excluded_participant_id": participant_id,
                         "component": component,
                         **human_iaa,
-                        **llm_iaa,
+                        # **llm_iaa,
                         "aggregator": aggregator.__class__.__name__,
                         **human_vs_llm_corr
                     })
