@@ -103,11 +103,11 @@ personas = [
     "You are a helpful AI who analyzes the structural and thematic intricacy of the plot, character development, and the use of literary devices.",
 ]
 
-# personas = [""]
+personas = [""]
 
 for model_id in model_ids:
 
-    save_path = f"/data2/fabricehc/llm-psych-depth/human_study/data/processed/{model_id.replace('/', '--')}_only_mop_annotations.csv"
+    save_path = f"/data2/fabricehc/llm-psych-depth/human_study/data/processed/{model_id.replace('/', '--')}_no_mop_annotations.csv"
 
     # Check if the save file already exists and load it
     try:

@@ -63,7 +63,7 @@ engagement_score,Vicuna-33B,Human-Novice,-1.3924785927105814,0.1672860998304512
 engagement_score,Vicuna-33B,Human-Advanced,-3.3728640998080084,0.0010856830867652537
 engagement_score,Vicuna-33B,Human-Intermediate,-2.7331118509455696,0.007583069924882328
 engagement_score,Llama-2-70B,GPT-4,-5.086319247438011,9.203236848289126e-07
-engagement_score,Llama-2-70B,Llama-2-7B,1.1812372980344965,0.23908431512050796
+engagement_score,Llama-2-70B,Llama-2-7B,1.1812372980344965,0.23908431512050798
 engagement_score,Llama-2-70B,Llama-2-13B,2.4958057651959726,0.013476883322854747
 engagement_score,Llama-2-70B,Human-Novice,-0.6678245559092162,0.5057392363846984
 engagement_score,Llama-2-70B,Human-Advanced,-2.7053454320558616,0.007930791359791361
@@ -110,14 +110,14 @@ emotion_provoking_score,Llama-2-13B,Human-Advanced,-3.4706365260708014,0.0007474
 emotion_provoking_score,Llama-2-13B,Human-Intermediate,-2.0039970799518207,0.0476958138497557
 emotion_provoking_score,Human-Novice,Human-Advanced,-2.441500715409464,0.02015446217728905
 emotion_provoking_score,Human-Novice,Human-Intermediate,-1.3702129191146206,0.18150752553671437
-emotion_provoking_score,Human-Advanced,Human-Intermediate,0.9776845368551407,0.3353436614565478
+emotion_provoking_score,Human-Advanced,Human-Intermediate,0.9776845368551407,0.3353436614565479
 narrative_complexity_score,Vicuna-33B,Llama-2-70B,-0.668079918614591,0.5050274645238508
 narrative_complexity_score,Vicuna-33B,GPT-4,-6.483909026331395,1.0182407193350224e-09
 narrative_complexity_score,Vicuna-33B,Llama-2-7B,0.6621236637517598,0.5088270056209236
 narrative_complexity_score,Vicuna-33B,Llama-2-13B,0.893336123810395,0.37299424343769294
 narrative_complexity_score,Vicuna-33B,Human-Novice,1.104009313863317,0.27259878765738005
 narrative_complexity_score,Vicuna-33B,Human-Advanced,-1.1217633988954905,0.26485106210668025
-narrative_complexity_score,Vicuna-33B,Human-Intermediate,-1.1055415967851328,0.2719383362159325
+narrative_complexity_score,Vicuna-33B,Human-Intermediate,-1.1055415967851328,0.27193833621593255
 narrative_complexity_score,Llama-2-70B,GPT-4,-5.990017943264437,1.134248149663661e-08
 narrative_complexity_score,Llama-2-70B,Llama-2-7B,1.3872001745690212,0.1671151940909631
 narrative_complexity_score,Llama-2-70B,Llama-2-13B,1.6725545977400635,0.09617174316725302
@@ -146,10 +146,10 @@ human_likeness_score,Vicuna-33B,Llama-2-13B,-0.2727881357659065,0.78536136361029
 human_likeness_score,Vicuna-33B,Human-Novice,-3.7374127372092527,0.0003299848444612595
 human_likeness_score,Vicuna-33B,Human-Advanced,-5.111069744121595,1.7047949100860983e-06
 human_likeness_score,Vicuna-33B,Human-Intermediate,-4.969187939525212,3.282034034892424e-06
-human_likeness_score,Llama-2-70B,GPT-4,-5.697729931441004,4.945178527696633e-08
+human_likeness_score,Llama-2-70B,GPT-4,-5.697729931441004,4.9451785276966326e-08
 human_likeness_score,Llama-2-70B,Llama-2-7B,-0.8590381631027246,0.3914748307051076
 human_likeness_score,Llama-2-70B,Llama-2-13B,1.2341552740665707,0.2187719834620347
-human_likeness_score,Llama-2-70B,Human-Novice,-2.909774731972508,0.004432340262070323
+human_likeness_score,Llama-2-70B,Human-Novice,-2.909774731972508,0.004432340262070322
 human_likeness_score,Llama-2-70B,Human-Advanced,-4.130882255397529,7.149469153529112e-05
 human_likeness_score,Llama-2-70B,Human-Intermediate,-4.0979583639474395,8.32692926733264e-05
 human_likeness_score,GPT-4,Llama-2-7B,4.7679620484653595,3.8558686284384055e-06
@@ -161,7 +161,7 @@ human_likeness_score,Llama-2-7B,Llama-2-13B,2.089522868494306,0.0380822793195254
 human_likeness_score,Llama-2-7B,Human-Novice,-2.4441513047679,0.016218135644381935
 human_likeness_score,Llama-2-7B,Human-Advanced,-3.587182824078325,0.0005037877578973097
 human_likeness_score,Llama-2-7B,Human-Intermediate,-3.622115117148762,0.0004554529920494102
-human_likeness_score,Llama-2-13B,Human-Novice,-3.5537723182374763,0.0005747935594154774
+human_likeness_score,Llama-2-13B,Human-Novice,-3.5537723182374763,0.0005747935594154772
 human_likeness_score,Llama-2-13B,Human-Advanced,-4.8763632715029495,3.739820653398202e-06
 human_likeness_score,Llama-2-13B,Human-Intermediate,-4.745720797646321,6.719950339368182e-06
 human_likeness_score,Human-Novice,Human-Advanced,-0.6751012967679103,0.504314481684363
