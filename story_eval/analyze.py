@@ -363,7 +363,8 @@ def fleiss_kappa(answers_matrix, weights_kernel=identity_kernel):
     
 if __name__ == "__main__":
 
-    llm_name = "gpt-4o-2024-05-13" # "gpt-3.5-turbo-0125" # "TechxGenus--Meta-Llama-3-70B-Instruct-GPTQ" # "meta-llama--Meta-Llama-3-8B-Instruct" # "TechxGenus--Meta-Llama-3-8B-GPTQ"
+    llm_name = "TechxGenus--Meta-Llama-3-8B-Instruct-GPTQ" # "gpt-3.5-turbo-0125" # "TechxGenus--Meta-Llama-3-70B-Instruct-GPTQ" # "meta-llama--Meta-Llama-3-8B-Instruct" # "TechxGenus--Meta-Llama-3-8B-GPTQ"
+    use_mop = True
 
     # Custom Sort Order
     sort_order = {
@@ -384,7 +385,10 @@ if __name__ == "__main__":
 
     # Read data from a CSV file 
     human_ratings_df     = pd.read_csv('./human_study/data/processed/round1/human_annotations.csv', encoding='cp1252')
-    llm_ratings_df       = pd.read_csv(f'./human_study/data/processed/{llm_name}_no_mop_annotations.csv', encoding='8859')
+    if use_mop:
+        llm_ratings_df       = pd.read_csv(f'./human_study/data/processed/{llm_name}_only_mop_annotations.csv', encoding='8859')
+    else:
+        llm_ratings_df       = pd.read_csv(f'./human_study/data/processed/{llm_name}_no_mop_annotations.csv', encoding='8859')
     llm_ratings_df       = llm_ratings_df[llm_ratings_df["round"] == 1]
 
     # print(llm_ratings_df)
