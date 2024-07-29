@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import pandas as pd
+import itertools
 from agreement.utils.transform import pivot_table_frequency
 from agreement.utils.kernels import identity_kernel, linear_kernel, ordinal_kernel
 from agreement.metrics import cohens_kappa, krippendorffs_alpha, _compute_observed_agreement
@@ -221,35 +222,35 @@ class AnnotationAnalyzer:
         correlation_matrix = ratings_df[self.components].corr().reset_index().rename(columns={'index': 'component'})
         return correlation_matrix
 
-    def perform_pairwise_ttests(self, ratings_df, col="participant_id"):
+    def perform_pairwise_ttests(self, ratings_df, col="model_short"):
         """
-        Perform pairwise t-tests for each score type among participants.
+        Perform pairwise t-tests for each score type among models.
 
         :param ratings_df: pandas DataFrame containing the dataset
         :return: pandas DataFrame with the t-test results
         """
-        unique_vals = ratings_df[col].unique()
-        t_test_results = []
+        unique_vals = ratings_df[col].sort_values().unique()
+        t_test_results = {}
+        for component in self.components:
+            for val1, val2 in itertools.combinations(unique_vals, 2):
+                # Sort model names to ensure consistency
+                model1, model2 = sorted([val1, val2])
+                data_i = ratings_df[ratings_df[col] == model1][component]
+                data_j = ratings_df[ratings_df[col] == model2][component]
 
-        for score in self.components:
-            for i in range(len(unique_vals)):
-                for j in range(i + 1, len(unique_vals)):
-                    data_i = ratings_df[ratings_df[col] == unique_vals[i]][score]
-                    data_j = ratings_df[ratings_df[col] == unique_vals[j]][score]
+                # Perform t-test between the two models
+                t_stat, p_val = ttest_ind(data_i, data_j, nan_policy='omit')
 
-                    # Perform t-test between the two participants
-                    t_stat, p_val = ttest_ind(data_i, data_j, nan_policy='omit')
+                # Append the result
+                t_test_results[(component,model1,model2)]= {
+                    'component': component,
+                    f'{col}_1': model1,
+                    f'{col}_2': model2,
+                    't_stat': t_stat,
+                    'p_value': p_val
+                }
 
-                    # Append the result
-                    t_test_results.append({
-                        'score': score,
-                        f'{col}_1': unique_vals[i],
-                        f'{col}_2': unique_vals[j],
-                        't_stat': t_stat,
-                        'p_value': p_val
-                    })
-
-        df = pd.DataFrame(t_test_results)
+        df = pd.DataFrame.from_dict(t_test_results, orient='index')
         df.loc['Average'] = df.mean(numeric_only=True)
         df.at['Average', 'score'] = 'Average'
         return df
@@ -364,7 +365,8 @@ def fleiss_kappa(answers_matrix, weights_kernel=identity_kernel):
 if __name__ == "__main__":
 
     llm_name = "TechxGenus--Meta-Llama-3-8B-Instruct-GPTQ" # "gpt-3.5-turbo-0125" # "TechxGenus--Meta-Llama-3-70B-Instruct-GPTQ" # "meta-llama--Meta-Llama-3-8B-Instruct" # "TechxGenus--Meta-Llama-3-8B-GPTQ"
-    use_mop = True
+    use_mop = False
+    use_separate = True
 
     # Custom Sort Order
     sort_order = {
@@ -384,12 +386,14 @@ if __name__ == "__main__":
     analyzer = AnnotationAnalyzer()
 
     # Read data from a CSV file 
-    human_ratings_df     = pd.read_csv('./human_study/data/processed/round1/human_annotations.csv', encoding='cp1252')
-    if use_mop:
-        llm_ratings_df       = pd.read_csv(f'./human_study/data/processed/{llm_name}_only_mop_annotations.csv', encoding='8859')
+    human_ratings_df = pd.read_csv('./human_study/data/processed/round1/human_annotations.csv', encoding='cp1252')
+    if use_separate:
+        llm_ratings_df = pd.read_csv(f'./human_study/data/processed/{llm_name}_separate_annotations.csv', encoding='8859')
+    elif use_mop:
+        llm_ratings_df = pd.read_csv(f'./human_study/data/processed/{llm_name}_only_mop_annotations.csv', encoding='8859')
     else:
-        llm_ratings_df       = pd.read_csv(f'./human_study/data/processed/{llm_name}_no_mop_annotations.csv', encoding='8859')
-    llm_ratings_df       = llm_ratings_df[llm_ratings_df["round"] == 1]
+        llm_ratings_df = pd.read_csv(f'./human_study/data/processed/{llm_name}_no_mop_annotations.csv', encoding='8859')
+    llm_ratings_df = llm_ratings_df[llm_ratings_df["round"] == 1]
 
     # print(llm_ratings_df)
 

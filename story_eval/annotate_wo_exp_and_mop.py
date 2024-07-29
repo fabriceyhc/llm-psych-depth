@@ -1,3 +1,5 @@
+# RUN: CUDA_VISIBLE_DEVICES=0,1,2,3,4,5 python -m story_eval.annotate_wo_exp_and_mop
+
 import time
 import traceback
 import pandas as pd
@@ -61,8 +63,10 @@ def annotate_psd(lm, persona, story):
 model_ids = [
     # "meta-llama/Meta-Llama-3-8B-Instruct",
     # "meta-llama/Meta-Llama-3-70B-Instruct", 
-    "TechxGenus/Meta-Llama-3-8B-Instruct-GPTQ", 
-    "TechxGenus/Meta-Llama-3-70B-Instruct-GPTQ",
+    # "TechxGenus/Meta-Llama-3-8B-Instruct-GPTQ", 
+    # "TechxGenus/Meta-Llama-3-70B-Instruct-GPTQ",
+    "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-f16.gguf",
+    "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-f16.gguf",
 ]
 
 # dataset = pd.read_csv("/data2/fabricehc/llm-psych-depth/data/study_stories.csv")
@@ -95,19 +99,25 @@ keys = [
 #     "You are a professor teaching a course on psychological literature.",
 # ]
 
+# personas = [
+#     "You are a helpful AI who specializes in evaluating the genuineness and believability of characters, dialogue, and scenarios in stories.",
+#     "You are a helpful AI who focuses on identifying and assessing moments in the narrative that effectively evoke empathetic connections with the characters.",
+#     "You are a helpful AI who evaluates how well a story captures and maintains the reader's interest through pacing, suspense, and narrative flow.",
+#     "You are a helpful AI who examines the text for its ability to provoke a wide range of intense emotional responses in the reader.",
+#     "You are a helpful AI who analyzes the structural and thematic intricacy of the plot, character development, and the use of literary devices.",
+# ]
+
 personas = [
-    "You are a helpful AI who specializes in evaluating the genuineness and believability of characters, dialogue, and scenarios in stories.",
-    "You are a helpful AI who focuses on identifying and assessing moments in the narrative that effectively evoke empathetic connections with the characters.",
-    "You are a helpful AI who evaluates how well a story captures and maintains the reader's interest through pacing, suspense, and narrative flow.",
-    "You are a helpful AI who examines the text for its ability to provoke a wide range of intense emotional responses in the reader.",
-    "You are a helpful AI who analyzes the structural and thematic intricacy of the plot, character development, and the use of literary devices.",
+    "You are a helpful AI who specializes in evaluating the psychological depth present in stories.",
+    "You are a helpful AI who specializes in evaluating the psychological depth present in stories.",
+    "You are a helpful AI who specializes in evaluating the psychological depth present in stories.",
+    "You are a helpful AI who specializes in evaluating the psychological depth present in stories.",
+    "You are a helpful AI who specializes in evaluating the psychological depth present in stories.",
 ]
 
 personas = [""]
 
 for model_id in model_ids:
-
-    save_path = f"/data2/fabricehc/llm-psych-depth/human_study/data/processed/{model_id.replace('/', '--')}_no_mop_annotations.csv"
 
     # Check if the save file already exists and load it
     try:
@@ -116,12 +126,27 @@ for model_id in model_ids:
         existing_annotations = pd.DataFrame()
 
     # Load the model
-    llm = models.Transformers(
-        model_id, 
-        echo=False,
-        cache_dir="/data2/.shared_models/", 
-        device_map='auto'
-    )
+    if "llama.cpp" in model_id.lower():
+        # Assume Llama.cpp
+        print("Using Llama.cpp!")
+        llm = models.LlamaCpp(
+            model=model_id,
+            echo=False,
+            n_gpu_layers=-1,
+            n_ctx=3072
+        )
+        model_id = model_id.split("/")[-1].replace(".gguf", "")
+    else:
+        # Assume Transformers
+        print("Using Transformers!")
+        llm = models.Transformers(
+            model_id, 
+            echo=False,
+            cache_dir="/data2/.shared_models/", 
+            device_map='auto'
+        )
+
+    save_path = f"/data2/fabricehc/llm-psych-depth/human_study/data/processed/{model_id.replace('/', '--')}_no_mop_annotations_v2.csv"
 
     results = []
 

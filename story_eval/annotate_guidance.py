@@ -1,3 +1,5 @@
+# RUN: CUDA_VISIBLE_DEVICES=2,3,4,5,6,7 python -m story_eval.annotate_guidance
+
 import time
 import traceback
 import pandas as pd
@@ -10,19 +12,16 @@ def extract_dict(output, keys):
 # Define annotation fn
 @guidance
 def annotate_psd(lm, persona, story):
-    with system():
-        lm += f"{persona}"
+    if persona:
+        with system():
+            lm += f"{persona}"
     with user():
         lm += f"""\
-        ###System: 
-        {persona}
-
         ###Task Description: 
         1. Review the given components of psychological depth: authenticity, emotion provoking, empathy, engagement, and narrative complexity. Be sure to understand each concept and the questions that characterize them.
         2. Read a given story, paying special attention to components of psychological depth.
-        3. Concisely explain the degree to which each component of psychological depth is evident in the story in a single sentence. 
-        4. Assign a rating for each component from 1 to 5. 1 is greatly below average, 3 is average and 5 is greatly above average (should be rare to provide this score).
-        5. Lastly, estimate the likelihood that each story was authored by a human or an LLM. Think about what human or LLM writing characteristics may be. Assign a score from 1 to 5, where 1 means very likely LLM written and 5 means very likely human written. 
+        3. Assign a rating for each component from 1 to 5. 1 is greatly below average, 3 is average and 5 is greatly above average (should be rare to provide this score).
+        4. Lastly, estimate the likelihood that each story was authored by a human or an LLM. Think about what human or LLM writing characteristics may be. Assign a score from 1 to 5, where 1 means very likely LLM written and 5 means very likely human written. 
 
         ###Description of Psychological Depth Components:  
         
@@ -52,22 +51,11 @@ def annotate_psd(lm, persona, story):
         """
     with assistant():
         lm += f"""\
-        Authenticity Explanation: {gen('authenticity_explanation', stop='.')}.
         Authenticity Score: {gen('authenticity_score', regex='[1-5]')}
-
-        Emotion Provoking Explanation: {gen('emotion_provoking_explanation', stop='.')}.
-        Emotion Provoking: {gen('emotion_provoking_score', regex='[1-5]')}
-
-        Empathy Explanation: {gen('empathy_explanation', stop='.')}.
+        Emotion Provoking Score: {gen('emotion_provoking_score', regex='[1-5]')}
         Empathy Score: {gen('empathy_score', regex='[1-5]')}
-
-        Engagement Explanation: {gen('engagement_explanation', stop='.')}.
         Engagement Score: {gen('engagement_score', regex='[1-5]')}
-
-        Narrative Complexity Explanation: {gen('narrative_complexity_explanation', stop='.')}.
         Narrative Complexity Score: {gen('narrative_complexity_score', regex='[1-5]')}
-
-        Human Likeness Explanation: {gen('human_likeness_explanation', stop='.')}.
         Human Likeness Score: {gen('human_likeness_score', regex='[1-5]')}
         """
     return lm
@@ -77,8 +65,8 @@ model_ids = [
     # "meta-llama/Meta-Llama-3-70B-Instruct", 
     # "TechxGenus/Meta-Llama-3-8B-Instruct-GPTQ", 
     # "TechxGenus/Meta-Llama-3-70B-Instruct-GPTQ",
-    "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-f16.gguf",
     "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-f16.gguf",
+    "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-f16.gguf",
 ]
 
 # dataset = pd.read_csv("/data2/fabricehc/llm-psych-depth/data/study_stories.csv")
@@ -88,19 +76,18 @@ model_ids = [
 # story_id,premise_id,premise,text,author_type,author_short,author_full,net_upvotes
 dataset = pd.read_csv("/data2/fabricehc/llm-psych-depth/data/study_stories.csv", encoding='8859')
 dataset = dataset[dataset["round"] == 1]
+dataset = dataset[dataset["study_id"] != 70]
+dataset = dataset[dataset["study_id"] != 71]
+dataset = dataset[dataset["study_id"] != 83]
+
+assert len(dataset) == 97
 
 keys = [
-    "authenticity_explanation",
     "authenticity_score",
-    "emotion_provoking_explanation",
     "emotion_provoking_score",
-    "empathy_explanation",
     "empathy_score",
-    "engagement_explanation",
     "engagement_score",
-    "narrative_complexity_explanation",
     "narrative_complexity_score",
-    "human_likeness_explanation",
     "human_likeness_score",
 ]
 
@@ -120,15 +107,17 @@ personas = [
     "You are a helpful AI who analyzes the structural and thematic intricacy of the plot, character development, and the use of literary devices.",
 ]
 
+# personas = [
+#     "You are a helpful AI who specializes in evaluating the psychological depth present in stories.",
+#     "You are a helpful AI who specializes in evaluating the psychological depth present in stories.",
+#     "You are a helpful AI who specializes in evaluating the psychological depth present in stories.",
+#     "You are a helpful AI who specializes in evaluating the psychological depth present in stories.",
+#     "You are a helpful AI who specializes in evaluating the psychological depth present in stories.",
+# ]
+
+# personas = [""]
+
 for model_id in model_ids:
-
-    save_path = f"/data2/fabricehc/llm-psych-depth/human_study/data/processed/{model_id.replace('/', '--')}_exp_mop_annotations.csv"
-
-    # Check if the save file already exists and load it
-    try:
-        existing_annotations = pd.read_csv(save_path)
-    except FileNotFoundError:
-        existing_annotations = pd.DataFrame()
 
     # Load the model
     if "llama.cpp" in model_id.lower():
@@ -150,7 +139,15 @@ for model_id in model_ids:
             cache_dir="/data2/.shared_models/", 
             device_map='auto'
         )
-        
+
+    save_path = f"/data2/fabricehc/llm-psych-depth/human_study/data/processed/{model_id.replace('/', '--')}_annotations_v2_mop.csv"
+
+    # Check if the save file already exists and load it
+    try:
+        existing_annotations = pd.read_csv(save_path)
+    except FileNotFoundError:
+        existing_annotations = pd.DataFrame()
+
     results = []
 
     for participant_id, persona in enumerate(personas):
