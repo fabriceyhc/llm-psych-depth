@@ -364,9 +364,12 @@ def fleiss_kappa(answers_matrix, weights_kernel=identity_kernel):
     
 if __name__ == "__main__":
 
-    llm_name = "TechxGenus--Meta-Llama-3-8B-Instruct-GPTQ" # "gpt-3.5-turbo-0125" # "TechxGenus--Meta-Llama-3-70B-Instruct-GPTQ" # "meta-llama--Meta-Llama-3-8B-Instruct" # "TechxGenus--Meta-Llama-3-8B-GPTQ"
+    llm_name = "Meta-Llama-3-70B-Instruct-f16" # "TechxGenus--Meta-Llama-3-8B-Instruct-GPTQ" # "gpt-3.5-turbo-0125" # "TechxGenus--Meta-Llama-3-70B-Instruct-GPTQ" # "meta-llama--Meta-Llama-3-8B-Instruct" # "TechxGenus--Meta-Llama-3-8B-GPTQ"
     use_mop = False
-    use_separate = True
+    use_separate = False
+    temp = 1
+    
+    mop = "mop" if use_mop else "mop_all_same"
 
     # Custom Sort Order
     sort_order = {
@@ -390,9 +393,9 @@ if __name__ == "__main__":
     if use_separate:
         llm_ratings_df = pd.read_csv(f'./human_study/data/processed/{llm_name}_separate_annotations.csv', encoding='8859')
     elif use_mop:
-        llm_ratings_df = pd.read_csv(f'./human_study/data/processed/{llm_name}_only_mop_annotations.csv', encoding='8859')
+        llm_ratings_df = pd.read_csv(f'./human_study/data/processed/{llm_name}_annotations_mop_t={temp}.csv', encoding='8859')
     else:
-        llm_ratings_df = pd.read_csv(f'./human_study/data/processed/{llm_name}_no_mop_annotations.csv', encoding='8859')
+        llm_ratings_df = pd.read_csv(f'./human_study/data/processed/{llm_name}_annotations_mop_all_same_t={temp}.csv', encoding='8859')
     llm_ratings_df = llm_ratings_df[llm_ratings_df["round"] == 1]
 
     # print(llm_ratings_df)
@@ -440,7 +443,7 @@ if __name__ == "__main__":
     iaa_df = pd.DataFrame(results)  
     iaa_df.to_csv(f'./story_eval/tables/human_study_iaa.csv', index=False)
 
-    save_path = f"./story_eval/tables/human_vs_{llm_name}_iaa_raw.csv"
+    save_path = f"./story_eval/tables/human_vs_{llm_name}_iaa_raw_{mop}_t={temp}.csv"
 
     if not os.path.exists(save_path):
 
@@ -483,7 +486,7 @@ if __name__ == "__main__":
         results_df = pd.read_csv(save_path)
 
     # Compute average kripp alpha and correlation (with p-value)
-    analyzer.summarize_iaa_and_corr(results_df).to_csv(f'./story_eval/tables/human_vs_{llm_name}_iaa_corrs.csv')
+    analyzer.summarize_iaa_and_corr(results_df).to_csv(f'./story_eval/tables/human_vs_{llm_name}_iaa_corrs_{mop}_t={temp}.csv')
 
     # Calculate accuracies
     save_path = f"./story_eval/tables/human_vs_llm_prediction_accuracies.csv"

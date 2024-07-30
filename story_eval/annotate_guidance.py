@@ -1,4 +1,4 @@
-# RUN: CUDA_VISIBLE_DEVICES=2,3,4,5,6,7 python -m story_eval.annotate_guidance
+# RUN: CUDA_VISIBLE_DEVICES=2,3,4 python -m story_eval.annotate_guidance
 
 import time
 import traceback
@@ -11,7 +11,7 @@ def extract_dict(output, keys):
 
 # Define annotation fn
 @guidance
-def annotate_psd(lm, persona, story):
+def annotate_psd(lm, persona, story, temperature=1):
     if persona:
         with system():
             lm += f"{persona}"
@@ -51,12 +51,12 @@ def annotate_psd(lm, persona, story):
         """
     with assistant():
         lm += f"""\
-        Authenticity Score: {gen('authenticity_score', regex='[1-5]')}
-        Emotion Provoking Score: {gen('emotion_provoking_score', regex='[1-5]')}
-        Empathy Score: {gen('empathy_score', regex='[1-5]')}
-        Engagement Score: {gen('engagement_score', regex='[1-5]')}
-        Narrative Complexity Score: {gen('narrative_complexity_score', regex='[1-5]')}
-        Human Likeness Score: {gen('human_likeness_score', regex='[1-5]')}
+        Authenticity Score: {gen('authenticity_score', regex='[1-5]', temperature=temperature)}
+        Emotion Provoking Score: {gen('emotion_provoking_score', regex='[1-5]', temperature=temperature)}
+        Empathy Score: {gen('empathy_score', regex='[1-5]', temperature=temperature)}
+        Engagement Score: {gen('engagement_score', regex='[1-5]', temperature=temperature)}
+        Narrative Complexity Score: {gen('narrative_complexity_score', regex='[1-5]', temperature=temperature)}
+        Human Likeness Score: {gen('human_likeness_score', regex='[1-5]', temperature=temperature)}
         """
     return lm
 
@@ -65,7 +65,7 @@ model_ids = [
     # "meta-llama/Meta-Llama-3-70B-Instruct", 
     # "TechxGenus/Meta-Llama-3-8B-Instruct-GPTQ", 
     # "TechxGenus/Meta-Llama-3-70B-Instruct-GPTQ",
-    "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-f16.gguf",
+    # "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-70B-Instruct-f16.gguf",
     "/data2/.shared_models/llama.cpp_models/Meta-Llama-3-8B-Instruct-f16.gguf",
 ]
 
@@ -100,11 +100,11 @@ keys = [
 # ]
 
 personas = [
-    "You are a helpful AI who specializes in evaluating the genuineness and believability of characters, dialogue, and scenarios in stories.",
-    "You are a helpful AI who focuses on identifying and assessing moments in the narrative that effectively evoke empathetic connections with the characters.",
-    "You are a helpful AI who evaluates how well a story captures and maintains the reader's interest through pacing, suspense, and narrative flow.",
-    "You are a helpful AI who examines the text for its ability to provoke a wide range of intense emotional responses in the reader.",
-    "You are a helpful AI who analyzes the structural and thematic intricacy of the plot, character development, and the use of literary devices.",
+    "You are a helpful AI who specializes in evaluating the psychological depth present in stories. In particular, you specialize in evaluating the genuineness and believability of characters, dialogue, and scenarios in stories.",
+    "You are a helpful AI who specializes in evaluating the psychological depth present in stories. In particular, you focus on identifying and assessing moments in the narrative that effectively evoke empathetic connections with the characters.",
+    "You are a helpful AI who specializes in evaluating the psychological depth present in stories. In particular, you evaluate how well a story captures and maintains the reader's interest through pacing, suspense, and narrative flow.",
+    "You are a helpful AI who specializes in evaluating the psychological depth present in stories. In particular, you examine the text for its ability to provoke a wide range of intense emotional responses in the reader.",
+    "You are a helpful AI who specializes in evaluating the psychological depth present in stories. In particular, you analyze the structural and thematic intricacy of the plot, character development, and the use of literary devices.",
 ]
 
 # personas = [
@@ -115,7 +115,9 @@ personas = [
 #     "You are a helpful AI who specializes in evaluating the psychological depth present in stories.",
 # ]
 
-# personas = [""]
+# personas = ["", "", "", "", ""]
+
+temps = [0, 1]
 
 for model_id in model_ids:
 
@@ -140,46 +142,49 @@ for model_id in model_ids:
             device_map='auto'
         )
 
-    save_path = f"/data2/fabricehc/llm-psych-depth/human_study/data/processed/{model_id.replace('/', '--')}_annotations_v2_mop.csv"
 
-    # Check if the save file already exists and load it
-    try:
-        existing_annotations = pd.read_csv(save_path)
-    except FileNotFoundError:
-        existing_annotations = pd.DataFrame()
+    for t in temps:
 
-    results = []
+        save_path = f"/data2/fabricehc/llm-psych-depth/human_study/data/processed/{model_id.replace('/', '--')}_annotations_mop_t={t}.csv"
 
-    for participant_id, persona in enumerate(personas):
+        # Check if the save file already exists and load it
+        try:
+            existing_annotations = pd.read_csv(save_path)
+        except FileNotFoundError:
+            existing_annotations = pd.DataFrame()
 
-        for index, row in dataset.iterrows():
-            # Skip rows that have already been annotated
-            if not existing_annotations.empty and ((existing_annotations["participant_id"] == participant_id) & (existing_annotations["story_id"] == row["story_id"]) & (existing_annotations["premise_id"] == row["premise_id"])).any():
-                print(f"Skipping already annotated row: participant_id={participant_id}, story_id={row['story_id']}, premise_id={row['premise_id']}")
-                continue
+        results = []
 
-            story = row["text"]
-            try:
-                start_time = time.time()
-                output = llm + annotate_psd(persona=persona, story=story)
-                time_taken = time.time() - start_time
-                output_dict = extract_dict(output, keys)
-                output_dict.update({
-                    "participant_id": participant_id, 
-                    "persona": persona, 
-                    "time_taken": time_taken,
-                    **row,
-                })
-                print(f"Results for participant_id={participant_id}, story_id={row['story_id']}, premise_id={row['premise_id']}': {output_dict}")
-                results.append(output_dict)
-            except Exception:
-                print(traceback.format_exc())
-                print(f"Error on: participant_id={participant_id}, story_id={row['story_id']}, premise_id={row['premise_id']}, story={story}")
+        for participant_id, persona in enumerate(personas):
 
-            # Append new results to existing annotations and save to CSV
-            df = pd.DataFrame(results)
-            combined_df = pd.concat([existing_annotations, df]).drop_duplicates(subset=["participant_id", "story_id", "premise_id"])
-            combined_df.to_csv(save_path, index=False)
+            for index, row in dataset.iterrows():
+                # Skip rows that have already been annotated
+                if not existing_annotations.empty and ((existing_annotations["participant_id"] == participant_id) & (existing_annotations["story_id"] == row["story_id"]) & (existing_annotations["premise_id"] == row["premise_id"])).any():
+                    print(f"Skipping already annotated row: participant_id={participant_id}, story_id={row['story_id']}, premise_id={row['premise_id']}")
+                    continue
+
+                story = row["text"]
+                try:
+                    start_time = time.time()
+                    output = llm + annotate_psd(persona=persona, story=story, temperature=t)
+                    time_taken = time.time() - start_time
+                    output_dict = extract_dict(output, keys)
+                    output_dict.update({
+                        "participant_id": participant_id, 
+                        "persona": persona, 
+                        "time_taken": time_taken,
+                        **row,
+                    })
+                    print(f"Results for participant_id={participant_id}, story_id={row['story_id']}, premise_id={row['premise_id']}': {output_dict}")
+                    results.append(output_dict)
+                except Exception:
+                    print(traceback.format_exc())
+                    print(f"Error on: participant_id={participant_id}, story_id={row['story_id']}, premise_id={row['premise_id']}, story={story}")
+
+                # Append new results to existing annotations and save to CSV
+                df = pd.DataFrame(results)
+                combined_df = pd.concat([existing_annotations, df]).drop_duplicates(subset=["participant_id", "story_id", "premise_id"])
+                combined_df.to_csv(save_path, index=False)
 
     # Delete previous llm to free up memory asap
     del llm
